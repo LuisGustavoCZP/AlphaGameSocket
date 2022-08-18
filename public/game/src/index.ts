@@ -1,4 +1,4 @@
-import { GameObject } from "./gameobject";
+import { AnimatedObject, GameObject } from "./gameobject";
 import { ICharacterData } from "./models";
 import { AnimatedSprite, SpriteSheet, GameSprite } from "./sprites";
 
@@ -10,7 +10,7 @@ document.body.appendChild(canvas);
 GameObject.context = canvasContext;
 const gameObjects : GameObject[] = [];
 
-let player : GameObject;
+let player : AnimatedObject;
 let movingX : number = 0;
 let movingY : number = 0;
 let isControlling : boolean = false;
@@ -79,7 +79,7 @@ async function loadCharacters ()
     {
         const createdSheet = await SpriteSheet.getSpriteSheet(characterData.sprite.frame, characterData.sprite.src);
         const animatedSprite = new AnimatedSprite (createdSheet, characterData.sprite.id, characterData.sprite.animations);
-        const gameObject = new GameObject(animatedSprite, (Math.random()*150)+75, (Math.random()*150)+75, 32);
+        const gameObject = new AnimatedObject(animatedSprite, (Math.random()*150)+75, (Math.random()*150)+75, 32);
         if(!player) player = gameObject;
         gameObjects.push(gameObject);
     };
