@@ -178,7 +178,7 @@ export class AnimatedSprite extends GameSprite
         super(spriteSheet, spriteIndex);
         this.frame = 0;
         this.frameTime = 0;
-        this.animation = "walk down";
+        this.animation = "idle down";
         this.animationSequence = spriteSheet.getSpriteSequence(spriteIndex, animationMap);
     }
 
