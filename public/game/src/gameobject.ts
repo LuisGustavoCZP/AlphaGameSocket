@@ -18,7 +18,13 @@ export class GameObject
 
     set animation (name : string)
     {
-        (this.sprite as AnimatedSprite).animation = name;
+        const sa = (this.sprite as AnimatedSprite);
+        sa.animation = name;
+    }
+
+    get animation ()
+    {
+        return (this.sprite as AnimatedSprite).animation;
     }
 
     public draw ()

@@ -184,7 +184,7 @@ export class AnimatedSprite extends GameSprite
 
     draw(context : CanvasRenderingContext2D, posX : number, posY : number, size : number, rotation : number = 0) 
     {
-        let sequence : SpriteRect[];
+        let sequence : SpriteRect[] | null = null;
         if(this.animation)
         {
             sequence = this.animationSequence.get(this.animation)!;
@@ -193,9 +193,11 @@ export class AnimatedSprite extends GameSprite
             {
                 this.frameTime = 0;
                 this.frame += 1;
-                if(this.frame >= sequence.length) this.frame = 0;
             }
-        } else {
+            if(this.frame >= sequence.length) this.frame = 0;
+        }
+        if(!sequence)
+        {
             this.frame = 0;
             sequence = this.animationSequence.get("idle down")!;
         }
