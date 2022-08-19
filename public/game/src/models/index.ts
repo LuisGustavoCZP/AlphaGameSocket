@@ -1,3 +1,3 @@
-export { ISpriteData, IFrameData } from "./spritedata";
+export { ISpriteData, IFrameData, ISpriteSheetData } from "./spritedata";
 export { ICharacterData } from "./characterData";
-export { IAnimationsData, IAnimationData, IAnimationFrameData, IAnimationSequenceData } from "./animationdata";
+export { IAnimationSetsData, IAnimationData, IAnimationFrameData, IAnimationSequenceData } from "./animationdata";

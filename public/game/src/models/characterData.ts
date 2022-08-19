@@ -4,4 +4,5 @@ export interface ICharacterData
 {
     name : string,
     sprite : ISpriteData,
+    size : number
 }

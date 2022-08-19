@@ -34,12 +34,12 @@ export class AnimatedObject extends GameObject
     set animation (name : string)
     {
         const sa = (this.sprite as AnimatedSprite);
-        sa.animation = name;
+        sa.animationName = name;
     }
 
     get animation ()
     {
-        return (this.sprite as AnimatedSprite).animation;
+        return (this.sprite as AnimatedSprite).animationName;
     }
 
     public draw ()

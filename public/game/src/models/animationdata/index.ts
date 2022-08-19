@@ -1,4 +1,4 @@
 export { IAnimationData } from "./animationData";
-export { IAnimationsData } from "./animationsData";
+export { IAnimationSetsData } from "./animationSetsData";
 export { IAnimationSequenceData } from "./animationSequenceData";
 export { IAnimationFrameData } from "./animationFrameData";
