@@ -1,0 +1,24 @@
+{
+  "name": "alphagamesocket",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "install:game":   "cd public/game && npm i",
+    "install:react":  "cd public/react && npm i",
+    "install:server": "cd server && npm i",
+    "install":        "npm run install:game && npm run install:react && npm run install:server",
+    "dev:game":       "cd public/game && npm run dev",
+    "dev:react":      "cd public/react && npm run dev",
+    "dev:server":     "cd server && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisGustavoCZP/AlphaGameSocket.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisGustavoCZP/AlphaGameSocket/issues"
+  },
+  "homepage": "https://github.com/LuisGustavoCZP/AlphaGameSocket#readme"
+}
