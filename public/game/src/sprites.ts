@@ -1,4 +1,4 @@
-import { IAnimationSetsData, IAnimationSequenceData, IFrameData, ISpriteSheetData, ISpriteData } from "./models";
+import { IAnimationSetsData, IFrameData, ISpriteSheetData, ISpriteData } from "./models";
 import { ISpriteAnimatedData } from "./models/spritedata";
 
 const listSpriteSheets = new Map<string, SpriteSheet>();

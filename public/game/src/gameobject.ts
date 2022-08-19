@@ -1,5 +1,4 @@
 import { ICharacterData, IGameObjectData } from "./models";
-import { ISpriteAnimatedData } from "./models/spritedata";
 import { AnimatedSprite, GameSprite } from "./sprites";
 
 export class GameObject 
