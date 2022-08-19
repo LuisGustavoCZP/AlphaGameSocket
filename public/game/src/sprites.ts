@@ -157,11 +157,8 @@ export class GameSprite
 
     public draw(context : CanvasRenderingContext2D, positionX : number, positionY : number, size : number, rotation : number = 0) 
     {
-        positionX = positionX - (size/2); //- this.spriteRect.offsetX;
-        positionY = positionY - (size/2); //- this.spriteRect.offsetY;
-
         if(!this.spriteSheet) return;
-        
+
         //console.log(rotation);
         const cx = positionX + (context.canvas.width/2), cy = positionY + (context.canvas.height/2);
         if(rotation != 0)
@@ -169,7 +166,10 @@ export class GameSprite
             context.translate(cx, cy);
             context.rotate((Math.PI / 180) * rotation);     
             context.translate(-cx, -cy);
+            
             this.drawImage(context, cx, cy, size);
+            
+
             context.translate(cx, cy);
             context.rotate((Math.PI / 180) * -rotation);
             context.translate(-cx, -cy);
@@ -183,6 +183,12 @@ export class GameSprite
 
     private drawImage(context : CanvasRenderingContext2D, positionX : number, positionY : number, size : number)
     {
+        positionX = positionX - (size/2);
+        positionY = positionY - (size/2);
+
+        //context.fillStyle = "red";
+        //context.fillRect(positionX, positionY, size, size);
+
         context.drawImage(
             this.spriteSheet.image!,
             this.spriteRect.x,
