@@ -16,7 +16,7 @@ async function loadAssets ()
     const charactersData : ICharacterData[] = await fetch("/data/characters.json").then(resp => resp.json());
     for(const characterData of charactersData)
     {
-        const gameObject = new AnimatedObject("test123", characterData, (Math.random()*150)-75, (Math.random()*150)-75, 180);
+        const gameObject = new AnimatedObject("test123", characterData, (Math.random()*150)-75, (Math.random()*150)-75, 0);
         console.log(gameObject)
         if(!playerController.player) playerController.player = gameObject;
         GameData.addGameObject(gameObject);
