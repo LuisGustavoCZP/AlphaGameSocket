@@ -25,7 +25,7 @@ export class GameObject
 
     public draw ()
     {
-        this.sprite.draw(GameObject.context, this.x, this.y, this.size);
+        this.sprite.draw(GameObject.context, this.x, this.y, this.size, this.rotation);
     }
 }
 
@@ -49,6 +49,6 @@ export class AnimatedObject extends GameObject
 
     public draw ()
     {
-        this.sprite.draw(GameObject.context, this.x, this.y, this.size);
+        super.draw();
     }
 }

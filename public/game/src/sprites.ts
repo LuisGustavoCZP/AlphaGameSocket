@@ -155,21 +155,42 @@ export class GameSprite
         return SpriteRect.create(this.spriteSheet.spriteFrame.width, this.spriteSheet.spriteFrame.height, this.spriteSheet.spriteFrame.space, this.spriteSheet.rows, this.spriteSheet.columns, this.index);
     }
 
-    draw(context : CanvasRenderingContext2D, posX : number, posY : number, size : number, rotation : number = 0) 
+    public draw(context : CanvasRenderingContext2D, positionX : number, positionY : number, size : number, rotation : number = 0) 
     {
-        posX = posX - (size/2); //- this.spriteRect.offsetX;
-        posY = posY - (size/2); //- this.spriteRect.offsetY;
+        positionX = positionX - (size/2); //- this.spriteRect.offsetX;
+        positionY = positionY - (size/2); //- this.spriteRect.offsetY;
 
         if(!this.spriteSheet) return;
+        
+        //console.log(rotation);
+        const cx = positionX + (context.canvas.width/2), cy = positionY + (context.canvas.height/2);
+        if(rotation != 0)
+        {
+            context.translate(cx, cy);
+            context.rotate((Math.PI / 180) * rotation);     
+            context.translate(-cx, -cy);
+            this.drawImage(context, cx, cy, size);
+            context.translate(cx, cy);
+            context.rotate((Math.PI / 180) * -rotation);
+            context.translate(-cx, -cy);
+        }
+        else 
+        {
+            this.drawImage(context, cx, cy, size);
+        }
+        
+    }
 
+    private drawImage(context : CanvasRenderingContext2D, positionX : number, positionY : number, size : number)
+    {
         context.drawImage(
             this.spriteSheet.image!,
             this.spriteRect.x,
             this.spriteRect.y,
             this.spriteRect.width,
             this.spriteRect.height,
-            posX, 
-            posY,
+            positionX, 
+            positionY,
             size,
             size
         );
@@ -233,7 +254,7 @@ export class AnimatedSprite extends GameSprite
         return animSeq;
     }
 
-    draw(context : CanvasRenderingContext2D, posX : number, posY : number, size : number, rotation : number = 0) 
+    public draw(context : CanvasRenderingContext2D, posX : number, posY : number, size : number, rotation : number = 0) 
     {
         let sequence : SpriteRect[] | null = null;
         if(this.animationName)
@@ -255,7 +276,7 @@ export class AnimatedSprite extends GameSprite
 
         this.spriteRect = sequence[this.frame];
 
-        super.draw(context, posX, posY, size);
+        super.draw(context, posX, posY, size, rotation);
     }
     
 }
