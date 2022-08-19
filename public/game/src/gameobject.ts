@@ -1,20 +1,26 @@
+import { ICharacterData, IGameObjectData } from "./models";
+import { ISpriteAnimatedData } from "./models/spritedata";
 import { AnimatedSprite, GameSprite } from "./sprites";
 
 export class GameObject 
 {
     public static context : CanvasRenderingContext2D;
+    public id : string;
+    public name : string;
     public x : number;
     public y : number;
     public size : number;
     public rotation : number;
     public sprite : GameSprite;
 
-    constructor (sprite : GameSprite, x : number, y : number, size : number, rotation : number = 0)
+    constructor (id : string, gameObjectData : IGameObjectData, x : number, y : number, rotation : number = 0)
     {
+        this.id = id;
+        this.name = gameObjectData.name;
         this.x = x;
         this.y = y;
-        this.size = size;
-        this.sprite = sprite;
+        this.size = gameObjectData.size;
+        this.sprite = GameSprite.create(gameObjectData.sprite);
         this.rotation = rotation;
     }
 
@@ -26,9 +32,9 @@ export class GameObject
 
 export class AnimatedObject extends GameObject
 {
-    constructor (sprite : AnimatedSprite, x : number, y : number, size : number, rotation : number = 0)
+    constructor (id : string, characterData : ICharacterData, x : number, y : number, rotation : number = 0)
     {
-        super(sprite, x, y, size, rotation);
+        super(id, characterData, x, y, rotation);
     }
 
     set animation (name : string)

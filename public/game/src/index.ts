@@ -1,13 +1,14 @@
+import { GameData } from "./gamedata";
 import { AnimatedObject, GameObject } from "./gameobject";
 import { GameRender } from "./gamerender";
 import { IAnimationSetsData, ICharacterData, ISpriteSheetData } from "./models";
 import { PlayerController } from "./playercontroller";
 import { AnimatedSprite, SpriteSheet, GameSprite, loadAnimationSets, loadSpriteSheets } from "./sprites";
 
-const gameRender = new GameRender(300, 300, []);
+const gameRender = new GameRender(300, 300);
 const playerController = new PlayerController();
 
-async function loadCharacters ()
+async function loadAssets ()
 {
     await loadSpriteSheets(await fetch("/data/spritesheets.json").then(resp => resp.json()));
     await loadAnimationSets(await fetch("/data/animationsets.json").then(resp => resp.json()));   
@@ -15,16 +16,15 @@ async function loadCharacters ()
     const charactersData : ICharacterData[] = await fetch("/data/characters.json").then(resp => resp.json());
     for(const characterData of charactersData)
     {
-        const animatedSprite = new AnimatedSprite (characterData.sprite);
-        const gameObject = new AnimatedObject(animatedSprite, (Math.random()*150)+75, (Math.random()*150)+75, characterData.size);
+        const gameObject = new AnimatedObject("test123", characterData, (Math.random()*150)+75, (Math.random()*150)+75);
         if(!playerController.player) playerController.player = gameObject;
-        gameRender.gameObjects.push(gameObject);
+        GameData.addGameObject(gameObject);
     };
 }
 
 async function start () 
 {
-    await loadCharacters ();
+    await loadAssets ();
     gameRender.draw ();
 } 
 

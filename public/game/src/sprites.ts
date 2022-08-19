@@ -1,4 +1,5 @@
 import { IAnimationSetsData, IAnimationSequenceData, IFrameData, ISpriteSheetData, ISpriteData } from "./models";
+import { ISpriteAnimatedData } from "./models/spritedata";
 
 const listSpriteSheets = new Map<string, SpriteSheet>();
 const listSpriteRects = new Map<string, SpriteRect>();
@@ -174,6 +175,17 @@ export class GameSprite
         );
     }
     
+    static create (spriteData : ISpriteData)
+    {
+        if((spriteData as any).animationSet)
+        {
+            return new AnimatedSprite(spriteData as ISpriteAnimatedData);
+        }
+        else
+        {
+            return new GameSprite(spriteData);
+        }
+    }
 }
 
 export type AnimationSet = Map<string, SpriteRect[]>;
@@ -185,7 +197,7 @@ export class AnimatedSprite extends GameSprite
     public animationName : string;
     protected animations : AnimationSet
 
-    constructor (spriteData : ISpriteData)
+    constructor (spriteData : ISpriteAnimatedData)
     {
         super(spriteData);
         this.frame = 0;

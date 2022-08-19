@@ -1,8 +1,9 @@
-import { ISpriteData } from "./spritedata";
+import { IGameObjectData } from "./gameObjectData";
+import { ISpriteAnimatedData } from "./spritedata";
 
-export interface ICharacterData 
+export interface ICharacterData extends IGameObjectData
 {
     name : string,
-    sprite : ISpriteData,
+    sprite : ISpriteAnimatedData,
     size : number
 }
