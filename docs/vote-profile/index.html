@@ -16,13 +16,26 @@
         </span>
     </header>
     <main>
-        <form action="https://script.google.com/macros/s/AKfycbwY9qA7q4IYdEKEglbL0MfDZ_V1Smyizf5-96qTOfcyRuDYEYI-PgbA2zEk9aTRT0sn/exec?sheet=Perfil%20do%20Usuario" method="get">
-            <div>
-                <label for="publico-alvo">Publico Alvo</label>
-                <input type="radio" name="Publico Alvo" id="publico-alvo">
-            </div>
-            <input type="submit" value="Submeter">
-        </form>
+        <!-- <form>
+            <fieldset>
+                <legend>Publico Alvo</legend>
+                <div>
+                    <label for="publico-alvo-1">Publico Geral</label>
+                    <input type="radio" name="Publico Alvo" id="publico-alvo-1" value="publico geral" checked>
+                </div>
+                <div>
+                    <label for="publico-alvo-2">Aspirante Alpha</label>
+                    <input type="radio" name="Publico Alvo" id="publico-alvo-2" value="aspirantes alpha">
+                </div>
+                <div>
+                    <label for="publico-alvo-3">Aspirante DM</label>
+                    <input type="radio" name="Publico Alvo" id="publico-alvo-3" value="aspirantes dm">
+                </div>
+            </fieldset>
+            <button type="button" onclick="sendForms(event)">Finalizar</button>
+        </form> -->
+        <form-object src="vote-profile.json" />
     </main>
+    <script src="../forms.js"></script>
 </body>
 </html>
