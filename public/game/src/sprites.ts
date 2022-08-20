@@ -93,33 +93,28 @@ export class SpriteRect
     public y : number;
     public width : number;
     public height : number;
-    public offsetX : number;
-    public offsetY : number;
 
-    private constructor (x : number, y : number, width : number, height : number, offsetX : number = 0, offsetY : number = 0)
+    private constructor (x : number, y : number, width : number, height : number)
     {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
     }
 
-    public static create (spriteWidth : number, spriteHeight : number, spriteSpace : number, rows : number, columns : number, index : number, anim : boolean = false)
+    public static create (spriteWidth : number, spriteHeight : number, spriteSpace : number, rows : number, columns : number, index : number)
     {
-        const spriteRectKey = `${spriteWidth}:${spriteHeight}:${spriteSpace}:${rows}:${columns}:${index}:${anim}`;
+        const spriteRectKey = `${spriteWidth}:${spriteHeight}:${spriteSpace}:${rows}:${columns}:${index}`;
         if(listSpriteRects.has(spriteRectKey))
             return listSpriteRects.get(spriteRectKey)!;
 
-        const w = spriteWidth, h = spriteHeight;
         const x = index % rows;
-        const y = (index - x) / (anim ? rows : columns);
+        const y = (index - x) / rows;//(anim ? rows : columns);
 
         const fx = ((spriteWidth + spriteSpace) * x);
         const fy = ((spriteHeight + spriteSpace) * y);
 
-        const spriteRect = new SpriteRect(fx, fy, spriteWidth, spriteHeight, -w/2, -h/2);
+        const spriteRect = new SpriteRect(fx, fy, spriteWidth, spriteHeight);
         listSpriteRects.set(spriteRectKey, spriteRect);
 
         return spriteRect;
@@ -204,12 +199,14 @@ export class GameSprite
     
     static create (spriteData : ISpriteData)
     {
+        
         if((spriteData as any).animationSet)
         {
             return new AnimatedSprite(spriteData as ISpriteAnimatedData);
         }
         else
         {
+            console.log(spriteData);
             return new GameSprite(spriteData);
         }
     }
@@ -250,7 +247,7 @@ export class AnimatedSprite extends GameSprite
             const seqRects = sequence.map(frame => 
             {
                 const frameIndex = spriteIndex + frame[0] + (frame[1]*this.spriteSheet.rows);
-                return SpriteRect.create(sframe.width, sframe.height, sframe.space, this.spriteSheet.rows, this.spriteSheet.columns, frameIndex, true);
+                return SpriteRect.create(sframe.width, sframe.height, sframe.space, this.spriteSheet.rows, this.spriteSheet.columns, frameIndex);
             });
             
             animSeq.set(name, seqRects);
