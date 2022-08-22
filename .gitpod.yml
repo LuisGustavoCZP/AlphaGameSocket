@@ -43,17 +43,28 @@ tasks:
     
   - name: Start GameFront Stack
     init: | 
-     npm run install
-    command: npm run dev
+     npm run install:game
+    command: npm run dev:game
     openMode: tab-after
 
   - name: Start Server Stack
     init: | 
-     npm run install
-    command: npm run dev
+     npm run install:server
+    command: npm run dev:server
     openMode: tab-after
     env:
       PORT: 8000
+      POSTGRES: postgres://gitpod@localhost/alphagamesocket
+      URL: gp url
+      SSL: false
+
+  - name: Start GameServer Stack
+    init: | 
+     npm run install:gameserver
+    command: npm run dev:gameserver
+    openMode: tab-after
+    env:
+      PORT: 5000
       POSTGRES: postgres://gitpod@localhost/alphagamesocket
       URL: gp url
       SSL: false
