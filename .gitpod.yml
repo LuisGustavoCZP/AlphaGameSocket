@@ -58,9 +58,6 @@ tasks:
       URL: gp url
       SSL: false
 
-# Sub domain
-domain: "luis-app"
-
 github: 
   prebuilds:
     master: true
