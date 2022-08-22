@@ -46,7 +46,11 @@ tasks:
     env:
       PORT: 8000
       POSTGRES: postgres://gitpod@localhost/alphagamesocket
+      URL: gp url
       SSL: false
+
+# Sub domain
+domain: "luis-app"
 
 github: 
   prebuilds:

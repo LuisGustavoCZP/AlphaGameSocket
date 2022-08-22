@@ -17,7 +17,7 @@ export class Server
         this.instance.listen(port, () =>
         {
             const a = this.instance.address() as AddressInfo;
-            console.log(`> Server listening on http${isSsl?'s':''}://${a.address=='::'?'localhost':a.address}:${port}`);
+            console.log(`> Server listening on http${isSsl?'s':''}://${process.env.URL || a.address=='::'?'localhost':a.address}:${port}`);
         });
     }
 }
