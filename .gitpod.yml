@@ -16,11 +16,14 @@ ports:
     port: 8000
     visibility: public
     onOpen: open-browser
+  - name: GameServer
+    port: 6000
+    visibility: public
+    onOpen: open-browser
   - name: React
     port: 3000
     visibility: public
     onOpen: open-browser
-
 
 tasks:
   - name: Start Redis Stack
@@ -38,10 +41,16 @@ tasks:
      psql -h localhost -U gitpod -f sql/start.sql
     openMode: tab-after
     
+  - name: Start GameFront Stack
+    init: | 
+     npm run install
+    command: npm run dev
+    openMode: tab-after
+
   - name: Start Server Stack
     init: | 
      npm run install
-    command: npm run start
+    command: npm run dev
     openMode: tab-after
     env:
       PORT: 8000
@@ -49,8 +58,16 @@ tasks:
       URL: gp url
       SSL: false
 
-# Sub domain
-domain: "luis-app"
+  - name: Start GameServer Stack
+    init: | 
+     npm run install
+    command: npm run dev
+    openMode: tab-after
+    env:
+      PORT: 6000
+      POSTGRES: postgres://gitpod@localhost/alphagamesocket
+      URL: gp url
+      SSL: false
 
 github: 
   prebuilds:
