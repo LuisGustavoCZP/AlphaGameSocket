@@ -58,16 +58,8 @@ tasks:
       URL: gp url
       SSL: false
 
-  - name: Start GameServer Stack
-    init: | 
-     npm run install
-    command: npm run dev
-    openMode: tab-after
-    env:
-      PORT: 6000
-      POSTGRES: postgres://gitpod@localhost/alphagamesocket
-      URL: gp url
-      SSL: false
+# Sub domain
+domain: "luis-app"
 
 github: 
   prebuilds:
