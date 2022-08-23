@@ -8,6 +8,8 @@ const port = parseInt(process.env.PORT || "8000");
 const isSsl = process.env.SSL ? process.env.SSL == "true" : false;
 
 const postgres = process.env.POSTGRES;
+const serverUrl = process.env.URL;
+console.log(serverUrl);
 
 const cripto = {
     saltRounds:10,

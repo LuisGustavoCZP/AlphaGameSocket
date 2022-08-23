@@ -7,6 +7,7 @@ import { loadAnimationSets, loadSpriteSheets } from "./sprites";
 
 const gameRender = new GameRender(512, 512);
 const playerController = new PlayerController();
+const connection = new Connection(window.location.host.replace("8000", "5000")); //window.location.host
 
 async function loadAssets ()
 {
