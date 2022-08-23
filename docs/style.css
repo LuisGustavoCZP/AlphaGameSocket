@@ -33,3 +33,11 @@ main {
     height: 100%;
 }
 
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+ list-style: none;
+}
