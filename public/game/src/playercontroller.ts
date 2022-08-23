@@ -1,3 +1,4 @@
+import { connection } from "./connection";
 import { AnimatedObject, GameObject } from "./gameobject";
 import Maths from "./maths";
 
@@ -48,19 +49,17 @@ function mouseController (playerController : PlayerController)
     function onclick (e : MouseEvent)
     {
         const element = e.target as HTMLElement;
-        //console.log(`Canvas client (${element.clientWidth},${element.clientHeight})`);
-        //console.log(`Event offset (${e.offsetX},${e.offsetY})`);
-        //console.log(`Event client (${e.clientX},${e.clientY})`);
         
         targetX = e.offsetX - (element.clientWidth/2);
         targetY = e.offsetY - (element.clientHeight/2);
-        //console.log(targetX, targetY);
+        console.log(targetX, targetY);
+        connection.send("moveTo", {x:targetX, y:targetY});
 
-        if(!isMoving) 
+        /* if(!isMoving) 
         {
             isMoving = true;
             moving ();
-        }
+        } */
     }
 
     function moving ()
