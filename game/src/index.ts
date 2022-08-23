@@ -12,6 +12,6 @@ app.use(express.urlencoded({ extended: true}))
 app.use(cors(corsOptions));
 
 const server = new Server(app);
-Connection
+const websocket = new Connection(server);
 
 server.listen();
