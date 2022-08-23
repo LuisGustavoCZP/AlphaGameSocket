@@ -4,6 +4,7 @@ import { GameRender } from "./gamerender";
 import { ICharacterData, IGameObjectData } from "./models";
 import { PlayerController } from "./playercontroller";
 import { loadAnimationSets, loadSpriteSheets } from "./sprites";
+import Connection from "./connection";
 
 const gameRender = new GameRender(512, 512);
 const playerController = new PlayerController();

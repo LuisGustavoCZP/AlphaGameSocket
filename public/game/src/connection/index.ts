@@ -1,4 +1,4 @@
-class Connection 
+export default class Connection 
 {
     instance;
     constructor (url : string)
