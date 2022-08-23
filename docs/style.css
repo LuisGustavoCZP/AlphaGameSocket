@@ -16,6 +16,7 @@ header {
     width: 100%;
     background-color: var(--color-gray);
     justify-content: center;
+    align-items: center;
 }
 
 header > span.title {
