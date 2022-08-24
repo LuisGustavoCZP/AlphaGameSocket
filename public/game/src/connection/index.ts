@@ -8,9 +8,13 @@ export class Connection
 
     constructor (url : string)
     {
-        console.log();
+        //console.log();
         this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
         this.events = new Map<string, SocketEvent[]>();
+        this.add("connected", (data)=>
+        {
+            console.log(data)
+        });
     }
     
     send (type : string, data : any)

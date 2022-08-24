@@ -1,4 +1,5 @@
 import { Server } from "../server";
+import { v4 as uuid } from "uuid";
 import WebSocket from "ws";
 import { SocketEvent, SocketMessage } from "./models";
 
@@ -13,10 +14,12 @@ export class Connection
         this.events = new Map<string, SocketEvent[]>();
         this.instance.on('connection', socket => 
         {
+            this.send("connected", uuid());
             socket.on("message", (resp : string) => this.message(resp));
             this.add("moveTo", (data) => 
             {
                 console.log("Movendo para", data);
+                
             });
         });
     }
