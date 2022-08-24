@@ -1,21 +1,21 @@
 import { Server } from "../server";
 import { v4 as uuid } from "uuid";
-import WebSocket from "ws";
+import { WebSocket, WebSocketServer } from "ws";
 import { SocketEvent, SocketMessage } from "./models";
 
 export class Connection 
 {
     id : string;
-    socket : WebSocket;
-    events : Map<string, SocketEvent>
+    #socket : WebSocket;
+    #events : Map<string, SocketEvent>
 
-    constructor (socket : WebSocket)
+    constructor (wsocket : WebSocket)
     {
         this.id = uuid();
-        this.socket = socket;
-        this.events = new Map<string, SocketEvent>();
+        this.#socket = wsocket;
+        this.#events = new Map<string, SocketEvent>();
         this.send("connected", this.id);
-        socket.on("message", (resp : string) => this.message(resp));
+        this.#socket.on("message", (resp : string) => this.message(resp));
         this.add("moveTo", (data) => 
         {
             console.log("Movendo para", data);
@@ -30,29 +30,29 @@ export class Connection
             data,
             date:Date.now()
         }
-        console.log(type, data)
-        this.socket.send(JSON.stringify(msg));
+        console.log(type, data);
+        this.#socket.send(JSON.stringify(msg));
     }
 
     message (resp : string)
     {
         const msg = JSON.parse(resp) as SocketMessage;
         //console.log(this.events);
-        if(!this.events.has(msg.type)) return;
-        const event = this.events.get(msg.type)!;
+        if(!this.#events.has(msg.type)) return;
+        const event = this.#events.get(msg.type)!;
         event(msg.data);
     }
 
     add (type : string, event : SocketEvent)
     {
-        this.events.set(type, event);
+        this.#events.set(type, event);
     }
 
     remove (type : string)
     {
-        if(this.events.has(type)) 
+        if(this.#events.has(type)) 
         {
-            return this.events.delete(type);
+            return this.#events.delete(type);
         }
         return false;
     }
@@ -60,17 +60,18 @@ export class Connection
 
 export class Connections
 {
-    instance : WebSocket.Server<WebSocket>;
-    connections : Map<string, Connection>;
+    instance : WebSocketServer;
+    connections : Map<string, any>;
 
     constructor(server : Server)
     {
-        this.connections = new Map<string, Connection>();
-        this.instance = new WebSocket.Server({server:server.instance});
-        this.instance.on('connection', (socket : WebSocket)  => 
+        this.connections = new Map<string, any>();
+        this.instance = new WebSocketServer({server:server.instance});
+        this.instance.on('connection', (wsocket)  => 
         {
-            const connection = new Connection(socket);
+            const connection = new Connection(wsocket);
             this.connections.set(connection.id, connection);
+            //socket.send(connection.id);
         });
     }
 }
