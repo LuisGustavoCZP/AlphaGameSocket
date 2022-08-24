@@ -9,11 +9,16 @@ export class Connection
     constructor (url : string)
     {
         //console.log();
-        this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
         this.events = new Map<string, SocketEvent[]>();
         this.add("connected", (data)=>
         {
-            console.log(data)
+            console.log(data);
+        });
+        this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
+        this.instance.onmessage = (resp) => this.message((resp as unknown) as string);
+        this.add("movedTo", (data)=>
+        {
+            console.log("Moved to", data);
         });
     }
     
@@ -30,6 +35,7 @@ export class Connection
     message (resp : string)
     {
         const msg = JSON.parse(resp) as SocketMessage;
+        console.log(msg);
         if(this.events.has(msg.type)) return;
         const eventArray = this.events.get(msg.type)!;
         eventArray.forEach(event => 

@@ -3,24 +3,23 @@ import { v4 as uuid } from "uuid";
 import WebSocket from "ws";
 import { SocketEvent, SocketMessage } from "./models";
 
-export class Connection
+export class Connection 
 {
-    instance : WebSocket.Server<WebSocket>;
-    events : Map<string, SocketEvent[]>;
+    id : string;
+    socket : WebSocket;
+    events : Map<string, SocketEvent>
 
-    constructor(server : Server)
+    constructor (socket : WebSocket)
     {
-        this.instance = new WebSocket.Server({server:server.instance});
-        this.events = new Map<string, SocketEvent[]>();
-        this.instance.on('connection', socket => 
+        this.id = uuid();
+        this.socket = socket;
+        this.events = new Map<string, SocketEvent>();
+        this.send("connected", this.id);
+        socket.on("message", (resp : string) => this.message(resp));
+        this.add("moveTo", (data) => 
         {
-            this.send("connected", uuid());
-            socket.on("message", (resp : string) => this.message(resp));
-            this.add("moveTo", (data) => 
-            {
-                console.log("Movendo para", data);
-                
-            });
+            console.log("Movendo para", data);
+            this.send("movedTo", data);
         });
     }
 
@@ -31,40 +30,47 @@ export class Connection
             data,
             date:Date.now()
         }
-        this.instance.emit(JSON.stringify(msg));
+        console.log(type, data)
+        this.socket.send(JSON.stringify(msg));
     }
 
     message (resp : string)
     {
         const msg = JSON.parse(resp) as SocketMessage;
-        console.log(this.events);
+        //console.log(this.events);
         if(!this.events.has(msg.type)) return;
-        const eventArray = this.events.get(msg.type)!;
-        eventArray.forEach(event => 
-        {
-            event(msg.data);
-        });
+        const event = this.events.get(msg.type)!;
+        event(msg.data);
     }
 
     add (type : string, event : SocketEvent)
     {
-        if(this.events.has(type)) 
-        {
-            this.events.get(type)?.push(event);
-            return;
-        }
-        const es = [event];
-        this.events.set(type, es);
+        this.events.set(type, event);
     }
 
-    remove (type : string, event : SocketEvent)
+    remove (type : string)
     {
         if(this.events.has(type)) 
         {
-            const es = this.events.get(type)!;
-            const i = es.findIndex(e => e==event);
-            es.splice(i, 1);
-            return;
+            return this.events.delete(type);
         }
+        return false;
+    }
+}
+
+export class Connections
+{
+    instance : WebSocket.Server<WebSocket>;
+    connections : Map<string, Connection>;
+
+    constructor(server : Server)
+    {
+        this.connections = new Map<string, Connection>();
+        this.instance = new WebSocket.Server({server:server.instance});
+        this.instance.on('connection', (socket : WebSocket)  => 
+        {
+            const connection = new Connection(socket);
+            this.connections.set(connection.id, connection);
+        });
     }
 }
