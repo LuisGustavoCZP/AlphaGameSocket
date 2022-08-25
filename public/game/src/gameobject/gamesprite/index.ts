@@ -4,20 +4,50 @@ import { IAnimationSetsData, ISpriteData, ISpriteAnimatedData } from "./models";
 const listAnimationSetsData = new Map<string, IAnimationSetsData>();
 const listAnimationSets = new Map<string, AnimationSet>();
 
-export async function loadAnimationSets (animationSets : IAnimationSetsData[])
+export async function loadAnimationSets (sources : string[])
 {
-    for(const animationData of animationSets) 
+    for(const source of sources) 
     {
-        await loadAnimationSet(animationData);
+        await loadAnimationSet(source);
     };
 
     return;
 }
-
-export async function loadAnimationSet (animationSetData : IAnimationSetsData)
+export async function loadAnimationSet (source : string)
 {
-    if(listAnimationSetsData.has(animationSetData.name)) return;
-    listAnimationSetsData.set(animationSetData.name, animationSetData);
+    if(listAnimationSetsData.has(source)) return listAnimationSetsData.get(source)!;
+
+    const data = await fetch(`/data/animationsets/${source}`).then(resp => resp.json()) as IAnimationSetsData;
+    listAnimationSetsData.set(source, data);
+    return data;
+}
+
+export class AnimationSet extends Map<string, SpriteRect[]>
+{
+    public name : string;
+    constructor (spriteSheet : SpriteSheet, animationSetData : IAnimationSetsData, spriteIndex : number)
+    {
+        super();
+        this.name = `${spriteSheet.name}:${animationSetData.name}:${spriteIndex}`
+        if(listAnimationSets.has(this.name)) 
+            return listAnimationSets.get(this.name)!;
+
+        //const animSeq : AnimationSet = new Map<string, SpriteRect[]> ();
+
+        animationSetData.sequences.forEach(animation => 
+        {
+            const {sequence, name} = animation;
+            const seqRects = sequence.map(frame => 
+            {
+                const frameIndex = spriteIndex + frame[0] + (frame[1]*spriteSheet.rows);
+                return spriteSheet.data[frameIndex];
+            });
+            
+            this.set(name, seqRects);
+        });
+
+        listAnimationSets.set(this.name, this);
+    }
 }
 
 export class GameSprite
@@ -26,10 +56,29 @@ export class GameSprite
     protected spriteRect : SpriteRect;
     public index : number;
     
-    constructor ({spriteSheet, spriteIndex} : ISpriteData)
+    public async load ({spriteSheet, spriteIndex} : ISpriteData)
+    {
+        this.spriteSheet = await SpriteSheet.load(spriteSheet);
+    }
+
+    public static create (spriteData : ISpriteData)
+    {
+        if((spriteData as any).animationSet)
+        {
+            return new AnimatedSprite(spriteData as ISpriteAnimatedData);
+        }
+        else
+        {
+            console.log(spriteData);
+            return new GameSprite(spriteData);
+        }
+    }
+
+    protected constructor ({spriteSheet, spriteIndex} : ISpriteData)
     {
         this.index = spriteIndex;
-        this.spriteSheet = SpriteSheet.getByName(spriteSheet)!;
+        this.spriteSheet = (null as unknown) as SpriteSheet;
+        //SpriteSheet.load(spriteSheet)!;
         this.spriteRect = this.getRect();
     }
 
@@ -96,22 +145,7 @@ export class GameSprite
         );
     }
     
-    static create (spriteData : ISpriteData)
-    {
-        
-        if((spriteData as any).animationSet)
-        {
-            return new AnimatedSprite(spriteData as ISpriteAnimatedData);
-        }
-        else
-        {
-            console.log(spriteData);
-            return new GameSprite(spriteData);
-        }
-    }
 }
-
-export type AnimationSet = Map<string, SpriteRect[]>;
 
 export class AnimatedSprite extends GameSprite
 {
@@ -120,39 +154,21 @@ export class AnimatedSprite extends GameSprite
     public animationName : string;
     protected animations : AnimationSet
 
+    public async load ({spriteSheet, spriteIndex, animationSet} : ISpriteAnimatedData)
+    {
+        this.spriteSheet = await SpriteSheet.load(spriteSheet);
+        const animData = await loadAnimationSet(animationSet);
+        this.animations = new AnimationSet(this.spriteSheet, animData, spriteIndex);
+    }
+
     constructor (spriteData : ISpriteAnimatedData)
     {
         super(spriteData);
         this.frame = 0;
         this.frameTime = 0;
         this.animationName = "idle down";
-        this.animations = this.getAnimations(spriteData.spriteIndex, listAnimationSetsData.get(spriteData.animationSet!)!);
-    }
-
-    public getAnimations (spriteIndex : number, animationSetData : IAnimationSetsData)
-    {
-        
-        const spriteRectKey = `${this.spriteSheet.hashKey}:${this.index}`;
-        const key = `${animationSetData.name}:${spriteRectKey}`
-        if(listAnimationSets.has(key)) 
-            return listAnimationSets.get(key)!;
-
-        const animSeq : AnimationSet = new Map<string, SpriteRect[]> ();
-
-        animationSetData.sequences.forEach(animation => 
-        {
-            const {sequence, name} = animation;
-            const seqRects = sequence.map(frame => 
-            {
-                const frameIndex = spriteIndex + frame[0] + (frame[1]*this.spriteSheet.rows);
-                return this.spriteSheet.data[frameIndex];
-            });
-            
-            animSeq.set(name, seqRects);
-        });
-
-        listAnimationSets.set(key, animSeq);
-        return animSeq;
+        this.animations = (null as unknown) as AnimationSet;
+        this.load(spriteData);
     }
 
     public draw(context : CanvasRenderingContext2D, posX : number, posY : number, size : number, rotation : number = 0) 

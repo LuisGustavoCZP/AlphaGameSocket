@@ -12,8 +12,8 @@ const playerController = new PlayerController();
 
 async function loadAssets ()
 {
-    await SpriteSheet.load(await fetch("/data/spritesheets.json").then(resp => resp.json()));
-    await loadAnimationSets(await fetch("/data/animationsets.json").then(resp => resp.json()));   
+    //await SpriteSheet.build(await SpriteSheet.load("/data/spritesheets.json"));
+    //await loadAnimationSets(await fetch("/data/animationsets.json").then(resp => resp.json()));   
 
     const objectsData : IGameObjectData[] = await fetch("/data/objects.json").then(resp => resp.json());
     for(const objectData of objectsData)

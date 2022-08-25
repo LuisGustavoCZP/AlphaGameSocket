@@ -32,4 +32,21 @@ export interface IMapLayer
     data: number[]
 }
 
-export type ITileSetData = ISpriteSheetData;
+export interface ITilePropertyData
+{
+    name: string,
+    type: string,
+    value: any
+}
+
+export interface ITileData
+{
+    id: number,
+    properties: ITilePropertyData[]
+}
+
+export interface ITileSetData extends ISpriteSheetData
+{
+    tiles: ITileData[]
+}
+

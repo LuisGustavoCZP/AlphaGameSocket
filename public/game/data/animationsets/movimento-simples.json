@@ -1,0 +1,13 @@
+{
+    "name":"movimento-simples",
+    "sequences":[
+        { "name":"idle left",    "sequence":[[0, 0]] },
+        { "name":"walk left",    "sequence":[[0, 1], [0, 0], [0, 2]] },
+        { "name":"idle down",    "sequence":[[1, 0]] },
+        { "name":"walk down",    "sequence":[[1, 1], [1, 0], [1, 2]] },
+        { "name":"idle up",      "sequence":[[2, 0]] },
+        { "name":"walk up",      "sequence":[[2, 1], [2, 0], [2, 2]] },
+        { "name":"idle right",   "sequence":[[3, 0]] },
+        { "name":"walk right",   "sequence":[[3, 1], [3, 0], [3, 2]] }
+    ]
+}

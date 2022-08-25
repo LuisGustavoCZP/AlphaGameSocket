@@ -1,0 +1,5 @@
+{
+    "name":"personagens",
+    "src":"/assets/images/sprites/personagens.png",
+    "frame": { "height":16, "width":16, "space":1 }
+}

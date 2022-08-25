@@ -53,24 +53,24 @@ export class SpriteSheet
         return null;
     }
 
-    static async load (spriteSheetsData : ISpriteSheetData[])
+    static async addSpriteSheet (spriteSheet : SpriteSheet)
     {
-        for(const spriteSheetData of spriteSheetsData) 
-        {
-            await SpriteSheet.getSpriteSheet(spriteSheetData);
-        };
-        return;
+        listSpriteSheets.set(spriteSheet.name, spriteSheet);
     }
 
-    static async getSpriteSheet (spriteSheetData : ISpriteSheetData) : Promise<SpriteSheet>
+    static async load (source : string) : Promise<SpriteSheet>
     {
-        if(listSpriteSheets.has(spriteSheetData.name)) 
-            return listSpriteSheets.get(spriteSheetData.name)!;
+        const ssd = this.getByName(source);
+        if(ssd) return ssd;
+        const data = await fetch(source).then(resp => resp.json());
+        return this.create(data);
+    }
 
-        const image = await SpriteSheet.loadSpriteImage (spriteSheetData.image);
+    static async create (spriteSheetData : ISpriteSheetData) : Promise<SpriteSheet>
+    {
+        const image = await this.loadSpriteImage (spriteSheetData.image);
         const spriteSheet = new SpriteSheet(spriteSheetData, image);
-        listSpriteSheets.set(spriteSheetData.name, spriteSheet);
-
+        this.addSpriteSheet(spriteSheet);
         return spriteSheet;
     }
 
@@ -86,7 +86,7 @@ export class SpriteSheet
         return image;
     }
 
-    constructor (spriteSheetData : ISpriteSheetData, image : HTMLImageElement)
+    protected constructor (spriteSheetData : ISpriteSheetData, image : HTMLImageElement)
     {
         this.name = spriteSheetData.name;
         this.readyDraw = false;
