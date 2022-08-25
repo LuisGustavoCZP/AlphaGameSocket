@@ -15,7 +15,7 @@ export class Connection
             console.log(data);
         });
         this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
-        this.instance.onmessage = (resp) => this.message((resp as unknown) as string);
+        this.instance.onmessage = (resp) => this.message(resp);
         this.add("movedTo", (data)=>
         {
             console.log("Moved to", data);
@@ -32,9 +32,9 @@ export class Connection
         this.instance.send(JSON.stringify(msg));
     }
 
-    message (resp : string)
+    message (resp : MessageEvent)
     {
-        const msg = JSON.parse(resp) as SocketMessage;
+        const msg = JSON.parse(resp.data) as SocketMessage;
         console.log(msg);
         if(this.events.has(msg.type)) return;
         const eventArray = this.events.get(msg.type)!;
