@@ -3,9 +3,9 @@
         "name":"Tobias",
         "sprite": 
         {
-            "spriteSheet":"personagens",
+            "spriteSheet":"data/spritesheets/personagens",
             "spriteIndex":0,
-            "animationSet":"movimento-simples"
+            "animationSet":"/data/animationsets/movimento-simples"
         },
         "size":32,
         "physics":{

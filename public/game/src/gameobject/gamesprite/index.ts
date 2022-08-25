@@ -17,7 +17,7 @@ export async function loadAnimationSet (source : string)
 {
     if(listAnimationSetsData.has(source)) return listAnimationSetsData.get(source)!;
 
-    const data = await fetch(`/data/animationsets/${source}`).then(resp => resp.json()) as IAnimationSetsData;
+    const data = await fetch(`${source}`).then(resp => resp.json()) as IAnimationSetsData;
     listAnimationSetsData.set(source, data);
     return data;
 }
