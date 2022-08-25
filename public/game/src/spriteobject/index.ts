@@ -62,13 +62,14 @@ export class SpriteSheet
     {
         const ssd = this.getByName(source);
         if(ssd) return ssd;
-        const data = await fetch(source).then(resp => resp.json());
+        const data = await fetch(source).then(resp => resp.json()).catch(err => console.log(err));
         return this.create(data);
     }
 
     static async create (spriteSheetData : ISpriteSheetData) : Promise<SpriteSheet>
     {
         const image = await this.loadSpriteImage (spriteSheetData.image);
+        console.log(image);
         const spriteSheet = new SpriteSheet(spriteSheetData, image);
         this.addSpriteSheet(spriteSheet);
         return spriteSheet;
@@ -105,10 +106,9 @@ export class SpriteSheet
         this.rows = Math.ceil((this.image.width + fs) / (nw));
         this.columns = Math.ceil((this.image.height + fs) / (nh));
         //console.log(`${this.image.width} => [${this.rows}, ${this.columns}]`);
-
-        for (let i = 0; i < this.rows; i++)
+        for (let j = 0; j < this.columns; j++)
         {
-            for (let j = 0; j < this.columns; j++)
+            for (let i = 0; i < this.rows; i++)
             {
                 this.data.push(new SpriteRect(nw*i, nh*j, this.tilewidth, this.tileheight));
             }

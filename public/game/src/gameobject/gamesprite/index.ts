@@ -22,12 +22,13 @@ export async function loadAnimationSet (source : string)
     return data;
 }
 
-export class AnimationSet extends Map<string, SpriteRect[]>
+export class AnimationSet
 {
     public name : string;
+    private map : Map<string, SpriteRect[]>;
     constructor (spriteSheet : SpriteSheet, animationSetData : IAnimationSetsData, spriteIndex : number)
     {
-        super();
+        this.map = new Map<string, SpriteRect[]>();
         this.name = `${spriteSheet.name}:${animationSetData.name}:${spriteIndex}`
         if(listAnimationSets.has(this.name)) 
             return listAnimationSets.get(this.name)!;
@@ -47,6 +48,21 @@ export class AnimationSet extends Map<string, SpriteRect[]>
         });
 
         listAnimationSets.set(this.name, this);
+    }
+
+    public set (key : string, values : SpriteRect[])
+    {
+        this.map.set(key, values);
+    }
+
+    public has (key : string) : boolean
+    {
+        return this.map.has(key);
+    }
+
+    public get (key : string) : SpriteRect[]
+    {
+        return this.map.get(key)!;
     }
 }
 
@@ -171,6 +187,8 @@ export class AnimatedSprite extends GameSprite
 
     public draw(context : CanvasRenderingContext2D, posX : number, posY : number, size : number, rotation : number = 0) 
     {
+        if(!this.spriteSheet || !this.animations) return;
+
         let sequence : SpriteRect[] | null = null;
         if(this.animationName)
         {
