@@ -1,6 +1,6 @@
 import { connection } from "./connection";
-import { AnimatedObject, GameObject } from "./gameobject";
-import Maths from "./maths";
+import { AnimatedObject, GameObject } from "./gameobjects/gameobject";
+import Maths from "./utils/maths";
 
 export class PlayerController
 {

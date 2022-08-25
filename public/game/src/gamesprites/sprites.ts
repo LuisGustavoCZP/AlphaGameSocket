@@ -1,5 +1,5 @@
 import { IAnimationSetsData, IFrameData, ISpriteSheetData, ISpriteData } from "./models";
-import { ISpriteAnimatedData } from "./models/spritedata";
+import { ISpriteAnimatedData } from "./models";
 
 const listSpriteSheets = new Map<string, SpriteSheet>();
 const listSpriteRects = new Map<string, SpriteRect>();
