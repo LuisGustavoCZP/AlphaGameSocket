@@ -1,4 +1,4 @@
-import { GameObject } from "./gameobject/gameobject";
+import { GameObject } from "./gameobject";
 
 export class GameData 
 {

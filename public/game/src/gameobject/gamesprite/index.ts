@@ -1,19 +1,8 @@
-import { IAnimationSetsData, IFrameData, ISpriteSheetData, ISpriteData } from "./models";
-import { ISpriteAnimatedData } from "./models";
+import { SpriteSheet, SpriteRect } from "../../spriteobject";
+import { IAnimationSetsData, ISpriteData, ISpriteAnimatedData } from "./models";
 
-const listSpriteSheets = new Map<string, SpriteSheet>();
-const listSpriteRects = new Map<string, SpriteRect>();
 const listAnimationSetsData = new Map<string, IAnimationSetsData>();
 const listAnimationSets = new Map<string, AnimationSet>();
-
-export async function loadSpriteSheets (spriteSheetsData : ISpriteSheetData[]) 
-{
-    for(const spriteSheetData of spriteSheetsData) 
-    {
-        await SpriteSheet.getSpriteSheet(spriteSheetData);
-    };
-    return;
-}
 
 export async function loadAnimationSets (animationSets : IAnimationSetsData[])
 {
@@ -31,96 +20,6 @@ export async function loadAnimationSet (animationSetData : IAnimationSetsData)
     listAnimationSetsData.set(animationSetData.name, animationSetData);
 }
 
-export class SpriteSheet
-{
-    public readyDraw : boolean;
-    public spriteFrame : IFrameData;
-    public spriteSource : string;
-    public rows : number;
-    public columns : number;
-    public image : HTMLImageElement;
-
-    static async getSpriteSheet (spriteSheetData : ISpriteSheetData) : Promise<SpriteSheet>
-    {
-        if(listSpriteSheets.has(spriteSheetData.name)) 
-            return listSpriteSheets.get(spriteSheetData.name)!;
-
-        const image = await SpriteSheet.loadSpriteImage (spriteSheetData.src);
-        const spriteSheet = new SpriteSheet(spriteSheetData.frame, image);
-        listSpriteSheets.set(spriteSheetData.name, spriteSheet);
-
-        return spriteSheet;
-    }
-
-    static async loadSpriteImage (spriteSource : string)
-    {
-        const image = new Image();
-        await new Promise <void> ((resolve, reject) => 
-        {
-            image.onload = () => { resolve(); };
-            image.src = spriteSource;
-        });
-
-        return image;
-    }
-
-    constructor (spriteFrame : IFrameData, image : HTMLImageElement)
-    {
-        this.readyDraw = false;
-        this.spriteFrame = spriteFrame;  
-        this.spriteSource = image.src;
-        this.rows = 0;
-        this.columns = 0;
-        this.image = image;
-
-        const fs = this.spriteFrame.space;
-        const nw = this.spriteFrame.width + fs, nh = this.spriteFrame.height + fs;
-        this.rows = Math.ceil((this.image.width + fs) / (nw));
-        this.columns = Math.ceil((this.image.height + fs) / (nh));
-        console.log(`${this.image.width} => [${this.rows}, ${this.columns}]`);
-        this.readyDraw = true;
-    }
-
-    get hashKey ()
-    {
-        return `${this.spriteFrame.width}:${this.spriteFrame.height}:${this.spriteFrame.space}:${this.rows}:${this.columns}`;
-    }
-}
-
-export class SpriteRect
-{
-    public x : number;
-    public y : number;
-    public width : number;
-    public height : number;
-
-    private constructor (x : number, y : number, width : number, height : number)
-    {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-
-    public static create (spriteWidth : number, spriteHeight : number, spriteSpace : number, rows : number, columns : number, index : number)
-    {
-        const spriteRectKey = `${spriteWidth}:${spriteHeight}:${spriteSpace}:${rows}:${columns}:${index}`;
-        if(listSpriteRects.has(spriteRectKey))
-            return listSpriteRects.get(spriteRectKey)!;
-
-        const x = index % rows;
-        const y = (index - x) / rows;//(anim ? rows : columns);
-
-        const fx = ((spriteWidth + spriteSpace) * x);
-        const fy = ((spriteHeight + spriteSpace) * y);
-
-        const spriteRect = new SpriteRect(fx, fy, spriteWidth, spriteHeight);
-        listSpriteRects.set(spriteRectKey, spriteRect);
-
-        return spriteRect;
-    }
-}
-
 export class GameSprite
 {
     protected spriteSheet : SpriteSheet;
@@ -130,7 +29,7 @@ export class GameSprite
     constructor ({spriteSheet, spriteIndex} : ISpriteData)
     {
         this.index = spriteIndex;
-        this.spriteSheet = listSpriteSheets.get(spriteSheet)!;
+        this.spriteSheet = SpriteSheet.getByName(spriteSheet)!;
         this.spriteRect = this.getRect();
     }
 
@@ -147,7 +46,7 @@ export class GameSprite
 
     public getRect ()
     {
-        return SpriteRect.create(this.spriteSheet.spriteFrame.width, this.spriteSheet.spriteFrame.height, this.spriteSheet.spriteFrame.space, this.spriteSheet.rows, this.spriteSheet.columns, this.index);
+        return this.spriteSheet.data[this.index];
     }
 
     public draw(context : CanvasRenderingContext2D, positionX : number, positionY : number, size : number, rotation : number = 0) 
@@ -239,7 +138,6 @@ export class AnimatedSprite extends GameSprite
             return listAnimationSets.get(key)!;
 
         const animSeq : AnimationSet = new Map<string, SpriteRect[]> ();
-        const sframe = this.spriteSheet.spriteFrame;
 
         animationSetData.sequences.forEach(animation => 
         {
@@ -247,7 +145,7 @@ export class AnimatedSprite extends GameSprite
             const seqRects = sequence.map(frame => 
             {
                 const frameIndex = spriteIndex + frame[0] + (frame[1]*this.spriteSheet.rows);
-                return SpriteRect.create(sframe.width, sframe.height, sframe.space, this.spriteSheet.rows, this.spriteSheet.columns, frameIndex);
+                return this.spriteSheet.data[frameIndex];
             });
             
             animSeq.set(name, seqRects);
@@ -283,3 +181,5 @@ export class AnimatedSprite extends GameSprite
     }
     
 }
+
+export { SpriteSheet, SpriteRect, ISpriteData, ISpriteAnimatedData, IAnimationSetsData };

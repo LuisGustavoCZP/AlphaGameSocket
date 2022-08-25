@@ -1,0 +1,126 @@
+import { ISpriteSheetData } from "./models";
+
+const listSpriteSheets = new Map<string, SpriteSheet>();
+/* const listSpriteRects = new Map<string, SpriteRect>(); */
+
+export class SpriteRect
+{
+    public x : number;
+    public y : number;
+    public width : number;
+    public height : number;
+
+    public constructor (x : number, y : number, width : number, height : number)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
+    /* public static create (spriteWidth : number, spriteHeight : number, spriteSpace : number, rows : number, columns : number, index : number)
+    {
+        const x = index % rows;
+        const y = (index - x) / rows;
+
+        const fx = ((spriteWidth + spriteSpace) * x);
+        const fy = ((spriteHeight + spriteSpace) * y);
+
+        const spriteRect = new SpriteRect(fx, fy, spriteWidth, spriteHeight);
+
+        return spriteRect;
+    } */
+}
+
+export class SpriteSheet
+{
+    public name : string;
+    public image : HTMLImageElement;
+    public readyDraw : boolean;
+    public spriteSource : string;
+    public tileheight: number;
+    public tilewidth: number;
+    public tilespacing: number;
+    public tilemargin: number;
+    public rows : number;
+    public columns : number;
+    public data : SpriteRect[]; 
+
+    static getByName (spriteSheetName : string)
+    {
+        if(listSpriteSheets.has(spriteSheetName)) 
+            return listSpriteSheets.get(spriteSheetName)!;
+        return null;
+    }
+
+    static async load (spriteSheetsData : ISpriteSheetData[])
+    {
+        for(const spriteSheetData of spriteSheetsData) 
+        {
+            await SpriteSheet.getSpriteSheet(spriteSheetData);
+        };
+        return;
+    }
+
+    static async getSpriteSheet (spriteSheetData : ISpriteSheetData) : Promise<SpriteSheet>
+    {
+        if(listSpriteSheets.has(spriteSheetData.name)) 
+            return listSpriteSheets.get(spriteSheetData.name)!;
+
+        const image = await SpriteSheet.loadSpriteImage (spriteSheetData.image);
+        const spriteSheet = new SpriteSheet(spriteSheetData, image);
+        listSpriteSheets.set(spriteSheetData.name, spriteSheet);
+
+        return spriteSheet;
+    }
+
+    static async loadSpriteImage (spriteSource : string)
+    {
+        const image = new Image();
+        await new Promise <void> ((resolve, reject) => 
+        {
+            image.onload = () => { resolve(); };
+            image.src = spriteSource;
+        });
+
+        return image;
+    }
+
+    constructor (spriteSheetData : ISpriteSheetData, image : HTMLImageElement)
+    {
+        this.name = spriteSheetData.name;
+        this.readyDraw = false;
+        this.spriteSource = image.src;
+        this.rows = 0;
+        this.columns = 0;
+        this.image = image;
+        this.data = [];
+        this.tileheight = spriteSheetData.tileheight;
+        this.tilewidth = spriteSheetData.tilewidth;
+        this.tilespacing = spriteSheetData.spacing;
+        this.tilemargin = spriteSheetData.margin;
+
+        const fs = spriteSheetData.spacing;
+        const nw = spriteSheetData.tilewidth + fs, nh = spriteSheetData.tileheight + fs;
+        this.rows = Math.ceil((this.image.width + fs) / (nw));
+        this.columns = Math.ceil((this.image.height + fs) / (nh));
+        //console.log(`${this.image.width} => [${this.rows}, ${this.columns}]`);
+
+        for (let i = 0; i < this.rows; i++)
+        {
+            for (let j = 0; j < this.columns; j++)
+            {
+                this.data.push(new SpriteRect(nw*i, nh*j, this.tilewidth, this.tileheight));
+            }
+        }
+
+        this.readyDraw = true;
+    }
+
+    get hashKey ()
+    {
+        return `${this.tilewidth}:${this.tileheight}:${this.tilespacing}:${this.tilemargin}:${this.rows}:${this.columns}`;
+    }
+}
+
+export { ISpriteSheetData };

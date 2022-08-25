@@ -1,9 +1,10 @@
 import { GameData } from "./gamedata";
-import { AnimatedObject, GameObject } from "./gameobject/gameobject";
+import { AnimatedObject, GameObject } from "./gameobject";
 import { GameRender } from "./gamerender";
-import { ICharacterData, IGameObjectData } from "./gameobject/models";
+import { ICharacterData, IGameObjectData } from "./gameobject";
 import { PlayerController } from "./playercontroller";
-import { loadAnimationSets, loadSpriteSheets } from "./gameobject/gamesprite/sprites";
+import { loadAnimationSets } from "./gameobject/gamesprite";
+import { SpriteSheet } from "./spriteobject";
 import { connection } from "./connection";
 
 const gameRender = new GameRender(512, 512);
@@ -11,7 +12,7 @@ const playerController = new PlayerController();
 
 async function loadAssets ()
 {
-    await loadSpriteSheets(await fetch("/data/spritesheets.json").then(resp => resp.json()));
+    await SpriteSheet.load(await fetch("/data/spritesheets.json").then(resp => resp.json()));
     await loadAnimationSets(await fetch("/data/animationsets.json").then(resp => resp.json()));   
 
     const objectsData : IGameObjectData[] = await fetch("/data/objects.json").then(resp => resp.json());
