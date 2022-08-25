@@ -3,7 +3,7 @@ import { AnimatedObject, GameObject } from "./gameobjects/gameobject";
 import { GameRender } from "./gamerender";
 import { ICharacterData, IGameObjectData } from "./gameobjects/models";
 import { PlayerController } from "./playercontroller";
-import { loadAnimationSets, loadSpriteSheets } from "./gamesprites/sprites";
+import { loadAnimationSets, loadSpriteSheets } from "./gameobjects/gamesprites/sprites";
 import { connection } from "./connection";
 
 const gameRender = new GameRender(512, 512);
