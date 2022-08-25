@@ -1,4 +1,4 @@
-import { ISpriteData } from "../gamesprites/models/spritedata";
+import { ISpriteData } from "../gamesprite/models/spritedata";
 
 export interface IGameObjectData 
 {

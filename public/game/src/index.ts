@@ -1,9 +1,9 @@
 import { GameData } from "./gamedata";
-import { AnimatedObject, GameObject } from "./gameobjects/gameobject";
+import { AnimatedObject, GameObject } from "./gameobject/gameobject";
 import { GameRender } from "./gamerender";
-import { ICharacterData, IGameObjectData } from "./gameobjects/models";
+import { ICharacterData, IGameObjectData } from "./gameobject/models";
 import { PlayerController } from "./playercontroller";
-import { loadAnimationSets, loadSpriteSheets } from "./gameobjects/gamesprites/sprites";
+import { loadAnimationSets, loadSpriteSheets } from "./gameobject/gamesprite/sprites";
 import { connection } from "./connection";
 
 const gameRender = new GameRender(512, 512);

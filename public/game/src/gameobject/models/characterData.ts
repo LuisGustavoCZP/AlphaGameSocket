@@ -1,5 +1,5 @@
 import { IGameObjectData } from "./gameObjectData";
-import { ISpriteAnimatedData } from "../gamesprites/models/spritedata";
+import { ISpriteAnimatedData } from "../gamesprite/models/spritedata";
 
 export interface ICharacterData extends IGameObjectData
 {

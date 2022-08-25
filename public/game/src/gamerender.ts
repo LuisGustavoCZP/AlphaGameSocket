@@ -1,5 +1,5 @@
 import { GameData } from "./gamedata";
-import { GameObject } from "./gameobjects/gameobject";
+import { GameObject } from "./gameobject/gameobject";
 
 export class GameRender
 {
