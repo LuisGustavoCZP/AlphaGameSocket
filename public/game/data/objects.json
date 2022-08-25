@@ -3,7 +3,7 @@
         "name":"Tank",
         "sprite": 
         {
-            "spriteSheet":"data/spritesheets/tanks",
+            "spriteSheet":"data/spritesheets/tanques.json",
             "spriteIndex":269
         },
         "size":32,

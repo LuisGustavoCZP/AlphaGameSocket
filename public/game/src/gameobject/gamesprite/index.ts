@@ -53,12 +53,13 @@ export class AnimationSet extends Map<string, SpriteRect[]>
 export class GameSprite
 {
     protected spriteSheet : SpriteSheet;
-    protected spriteRect : SpriteRect;
     public index : number;
-    
-    public async load ({spriteSheet, spriteIndex} : ISpriteData)
+    public spriteRect : SpriteRect;
+
+    public async load ({spriteSheet} : ISpriteData)
     {
         this.spriteSheet = await SpriteSheet.load(spriteSheet);
+        this.spriteRect = this.getRect ();
     }
 
     public static create (spriteData : ISpriteData)
@@ -74,18 +75,19 @@ export class GameSprite
         }
     }
 
-    protected constructor ({spriteSheet, spriteIndex} : ISpriteData)
+    protected constructor (spriteData : ISpriteData)
     {
+        const {spriteSheet, spriteIndex} = spriteData;
         this.index = spriteIndex;
         this.spriteSheet = (null as unknown) as SpriteSheet;
-        //SpriteSheet.load(spriteSheet)!;
-        this.spriteRect = this.getRect();
+        this.spriteRect = (null as unknown) as SpriteRect;
+        this.load(spriteData);
     }
 
     public set spriteIndex (i : number)
     {
         this.index = i;
-        this.spriteRect = this.getRect();
+        this.getRect ();
     }
 
     public get spriteIndex ()
@@ -95,7 +97,7 @@ export class GameSprite
 
     public getRect ()
     {
-        return this.spriteSheet.data[this.index];
+        return this.spriteSheet?.data[this.index];
     }
 
     public draw(context : CanvasRenderingContext2D, positionX : number, positionY : number, size : number, rotation : number = 0) 
@@ -112,7 +114,6 @@ export class GameSprite
             
             this.drawImage(context, cx, cy, size);
             
-
             context.translate(cx, cy);
             context.rotate((Math.PI / 180) * -rotation);
             context.translate(-cx, -cy);
@@ -128,9 +129,6 @@ export class GameSprite
     {
         positionX = positionX - (size/2);
         positionY = positionY - (size/2);
-
-        //context.fillStyle = "red";
-        //context.fillRect(positionX, positionY, size, size);
 
         context.drawImage(
             this.spriteSheet.image!,
