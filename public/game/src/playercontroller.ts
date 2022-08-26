@@ -5,27 +5,63 @@ import Maths from "./utils/maths";
 export class PlayerController
 {
     public player : GameObject | AnimatedObject | null;
-    private targetX : number;
-    private targetY : number;
-    public controllerMode : {start : () => void, stop : () => void};
-
+    public isMoving : boolean;
+    public targetX : number;
+    public targetY : number;
     constructor ()
     {
         this.player = null;
+        this.isMoving = false;
         this.targetX = 0;
         this.targetY = 0;
-        this.controllerMode = mouseController(this);
-
-        this.controllerMode.start();
     }
 
-    public set type (isMouse : boolean)
+    public start ()
     {
-        if(isMouse) this.controllerMode = mouseController(this);
-        else this.controllerMode = keyboardController(this);
 
-        this.controllerMode.start();
     }
+
+    public stop ()
+    {
+        this.isMoving = false;
+    }
+
+}
+
+export class PlayerMouseController extends PlayerController
+{
+    constructor ()
+    {
+        super();
+    }
+
+    public start ()
+    {
+        window.onpointerdown = (e) => this.onclick(e);
+        window.onpointermove = (e) => this.onmove(e);
+        super.start();
+    }
+
+    public stop ()
+    {
+        window.onpointerdown = null;
+        window.onpointermove = null;
+        super.stop();
+    }
+
+    public onmove (e : MouseEvent)
+    {
+        const element = e.target as HTMLElement;
+        this.targetX = e.offsetX - (element.clientWidth/2);
+        this.targetY = e.offsetY - (element.clientHeight/2);
+    }
+
+    public onclick (e : MouseEvent)
+    {
+        console.log(this.targetX, this.targetY);
+        connection.send("moveTo", {x:this.targetX, y:this.targetY});
+    }
+
 }
 
 function mouseController (playerController : PlayerController)
@@ -37,29 +73,28 @@ function mouseController (playerController : PlayerController)
 
     function start ()
     {
-        window.addEventListener("click", onclick);
+        window.addEventListener("pointerdown", onclick);
+        window.addEventListener("pointermove", onmove);
     }
 
     function stop ()
     {
-        window.removeEventListener("click", onclick);
+        window.removeEventListener("pointerdown", onclick);
+        window.removeEventListener("pointermove", onmove);
         isMoving = false;
+    }
+
+    function onmove (e : MouseEvent)
+    {
+        const element = e.target as HTMLElement;
+        targetX = e.offsetX - (element.clientWidth/2);
+        targetY = e.offsetY - (element.clientHeight/2);
     }
 
     function onclick (e : MouseEvent)
     {
-        const element = e.target as HTMLElement;
-        
-        targetX = e.offsetX - (element.clientWidth/2);
-        targetY = e.offsetY - (element.clientHeight/2);
         console.log(targetX, targetY);
         connection.send("moveTo", {x:targetX, y:targetY});
-
-        /* if(!isMoving) 
-        {
-            isMoving = true;
-            moving ();
-        } */
     }
 
     function moving ()
@@ -116,7 +151,9 @@ function mouseController (playerController : PlayerController)
 
     return {
         start,
-        stop
+        stop,
+        targetX,
+        targetY
     }
 }
 
@@ -225,3 +262,8 @@ function keyboardController (playerController : PlayerController)
         stop
     }
 }
+
+const playerController = new PlayerMouseController ();
+playerController.start();
+
+export {playerController};

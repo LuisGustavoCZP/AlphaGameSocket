@@ -2,14 +2,13 @@ import { GameData } from "./gamedata";
 import { AnimatedObject, GameObject } from "./gameobject";
 import { GameRender } from "./gamerender";
 import { ICharacterData, IGameObjectData } from "./gameobject";
-import { PlayerController } from "./playercontroller";
+import { playerController } from "./playercontroller";
 import { loadAnimationSets } from "./gameobject/gamesprite";
 import { SpriteSheet } from "./spriteobject";
 import { connection } from "./connection";
 import { MapObject } from "./mapobject";
 
-const gameRender = new GameRender(512, 512);
-const playerController = new PlayerController();
+const gameRender = new GameRender(640, 640);
 
 async function loadAssets ()
 {
