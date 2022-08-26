@@ -20,6 +20,10 @@
                 "y": 290.6666666666667
             }
         },
+        "tilesheets/tiles1.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "tilesheets/tiles2.tsj": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -42,6 +46,7 @@
     ],
     "project": "alphagame.tiled-project",
     "recentFiles": [
+        "tilesheets/tiles1.tsj",
         "tilesheets/tiles2.tsj",
         "tilemaps/map2.tmj",
         "tilesheets/tiles2.tsx"
