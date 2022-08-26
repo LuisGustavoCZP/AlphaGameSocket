@@ -1,5 +1,6 @@
 import { GameData } from "./gamedata";
 import { GameObject } from "./gameobject";
+import { MapObject } from "./mapobject";
 
 export class GameRender
 {
@@ -14,11 +15,14 @@ export class GameRender
         this.context = this.canvas.getContext("2d")!;
         document.body.appendChild(this.canvas);
         GameObject.context = this.context;
+        MapObject.context = this.context;
     }
 
     public draw () 
     {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        GameData.map?.draw();
 
         GameData.gameObjects.forEach(gameObject => 
         {

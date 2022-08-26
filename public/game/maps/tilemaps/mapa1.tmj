@@ -73,7 +73,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"tiles1.tsx"
+         "source":"/assets/tilesheets/tiles1.tsj"
         }],
  "tilewidth":64,
  "type":"map",

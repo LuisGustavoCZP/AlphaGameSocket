@@ -16,7 +16,6 @@ export async function loadAnimationSets (sources : string[])
 export async function loadAnimationSet (source : string)
 {
     if(listAnimationSetsData.has(source)) return listAnimationSetsData.get(source)!;
-
     const data = await fetch(`${source}`).then(resp => resp.json()) as IAnimationSetsData;
     listAnimationSetsData.set(source, data);
     return data;
@@ -86,7 +85,6 @@ export class GameSprite
         }
         else
         {
-            console.log(spriteData);
             return new GameSprite(spriteData);
         }
     }

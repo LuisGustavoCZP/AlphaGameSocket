@@ -1,6 +1,6 @@
 { 
  "columns":23,
- "image":"../images/towerDefense_tilesheet.png",
+ "image":"/assets/images/towerDefense_tilesheet.png",
  "imageheight":832,
  "imagewidth":1472,
  "margin":0,

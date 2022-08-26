@@ -3,7 +3,7 @@ import { gamePath } from '../paths';
 
 const router = Router();
 
-router.use('/assets/maps', express.static(`${gamePath}/maps`));
+router.use('/assets', express.static(`${gamePath}/maps`));
 router.use('/scripts', express.static(`${gamePath}/dist`));
 router.use('/data', express.static(`${gamePath}/data`));
 router.use('/assets', express.static(`${gamePath}/assets`));

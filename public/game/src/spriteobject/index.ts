@@ -1,7 +1,6 @@
 import { ISpriteSheetData } from "./models";
 
 const listSpriteSheets = new Map<string, SpriteSheet>();
-/* const listSpriteRects = new Map<string, SpriteRect>(); */
 
 export class SpriteRect
 {
@@ -17,19 +16,6 @@ export class SpriteRect
         this.width = width;
         this.height = height;
     }
-
-    /* public static create (spriteWidth : number, spriteHeight : number, spriteSpace : number, rows : number, columns : number, index : number)
-    {
-        const x = index % rows;
-        const y = (index - x) / rows;
-
-        const fx = ((spriteWidth + spriteSpace) * x);
-        const fy = ((spriteHeight + spriteSpace) * y);
-
-        const spriteRect = new SpriteRect(fx, fy, spriteWidth, spriteHeight);
-
-        return spriteRect;
-    } */
 }
 
 export class SpriteSheet
@@ -69,7 +55,7 @@ export class SpriteSheet
     static async create (spriteSheetData : ISpriteSheetData) : Promise<SpriteSheet>
     {
         const image = await this.loadSpriteImage (spriteSheetData.image);
-        console.log(image);
+        //console.log(image);
         const spriteSheet = new SpriteSheet(spriteSheetData, image);
         this.addSpriteSheet(spriteSheet);
         return spriteSheet;
