@@ -1,0 +1,50 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "tilemaps/map2.tmj",
+    "expandedProjectPaths": [
+        "tilemaps",
+        ".",
+        "tilesheets"
+    ],
+    "exportAsImage.drawObjectLabels": true,
+    "exportAsImage.drawTileGrid": true,
+    "fileStates": {
+        "tilemaps/map2.tmj": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 283.99999999999994,
+                "y": 290.6666666666667
+            }
+        },
+        "tilesheets/tiles2.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesheets/tiles2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        }
+    },
+    "last.exportedFilePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/game/maps/tilesheets",
+    "last.imagePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/game/maps/images",
+    "lastUsedTilesetExportFilter": "Arquivos de conjunto de blocos JSON (*.tsj *.json)",
+    "map.height": 30,
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "tilesheets/tiles2.tsj",
+        "tilemaps/map2.tmj"
+    ],
+    "project": "alphagame.tiled-project",
+    "recentFiles": [
+        "tilesheets/tiles2.tsj",
+        "tilemaps/map2.tmj",
+        "tilesheets/tiles2.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}

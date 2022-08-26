@@ -1,0 +1,14 @@
+{ "columns":23,
+ "image":"..\/images\/mapa.png",
+ "imageheight":305,
+ "imagewidth":390,
+ "margin":0,
+ "name":"tiles2",
+ "spacing":1,
+ "tilecount":456,
+ "tiledversion":"1.9.1",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}
