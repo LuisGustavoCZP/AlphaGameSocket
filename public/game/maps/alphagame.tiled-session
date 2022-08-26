@@ -3,21 +3,29 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tilemaps/map2.tmj",
+    "activeFile": "tilemaps/mapa2.tmj",
     "expandedProjectPaths": [
-        "tilemaps",
         ".",
-        "tilesheets"
+        "tilesheets",
+        "tilemaps"
     ],
     "exportAsImage.drawObjectLabels": true,
     "exportAsImage.drawTileGrid": true,
     "fileStates": {
         "tilemaps/map2.tmj": {
-            "scale": 0.75,
-            "selectedLayer": 2,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 283.99999999999994,
-                "y": 290.6666666666667
+                "x": 265,
+                "y": 226
+            }
+        },
+        "tilemaps/mapa2.tmj": {
+            "scale": 0.9658333333333332,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240.20707506471098,
+                "y": 240.20707506471098
             }
         },
         "tilesheets/tiles1.tsj": {
@@ -42,13 +50,14 @@
     "map.tileWidth": 16,
     "openFiles": [
         "tilesheets/tiles2.tsj",
-        "tilemaps/map2.tmj"
+        "tilemaps/mapa2.tmj"
     ],
     "project": "alphagame.tiled-project",
     "recentFiles": [
-        "tilesheets/tiles1.tsj",
         "tilesheets/tiles2.tsj",
+        "tilemaps/mapa2.tmj",
         "tilemaps/map2.tmj",
+        "tilesheets/tiles1.tsj",
         "tilesheets/tiles2.tsx"
     ],
     "tileset.lastUsedFormat": "tsx"
