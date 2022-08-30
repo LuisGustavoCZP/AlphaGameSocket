@@ -5,14 +5,18 @@
     },
     "activeFile": "",
     "expandedProjectPaths": [
-        ".",
         "tileobject",
+        ".",
         "tilesheets",
         "tilemaps"
     ],
     "exportAsImage.drawObjectLabels": true,
     "exportAsImage.drawTileGrid": true,
     "fileStates": {
+        "/assets/tilesheets/tiles1.tsj": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
         "tilemaps/map2.tmj": {
             "scale": 1,
             "selectedLayer": 3,
@@ -21,12 +25,31 @@
                 "y": 226
             }
         },
+        "tilemaps/mapa1.tmj": {
+            "scale": 0.72734375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 318.968850698174,
+                "y": 319.656283566058
+            }
+        },
         "tilemaps/mapa2.tmj": {
             "scale": 1,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 225,
-                "y": 94
+                "x": 270,
+                "y": 275
+            }
+        },
+        "tilemaps/test.tmj": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 1.4546875,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 160.171858216971,
+                "y": 160.171858216971
             }
         },
         "tilesheets/tiles1.tsj": {
@@ -34,6 +57,7 @@
             "scaleInEditor": 1
         },
         "tilesheets/tiles2.tsj": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -46,16 +70,19 @@
     "last.imagePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/game/maps/images",
     "last.objectTemplatePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/game/maps/tileobject",
     "lastUsedTilesetExportFilter": "Arquivos de conjunto de blocos JSON (*.tsj *.json)",
-    "map.height": 30,
+    "map.height": 20,
     "map.lastUsedFormat": "json",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
+    "map.width": 20,
     "openFiles": [
     ],
     "project": "alphagame.tiled-project",
     "recentFiles": [
-        "tilesheets/tiles2.tsj",
+        "tilemaps/mapa1.tmj",
         "tilemaps/mapa2.tmj",
+        "tilemaps/test.tmj",
+        "tilesheets/tiles2.tsj",
         "tilemaps/map2.tmj",
         "tilesheets/tiles1.tsj",
         "tilesheets/tiles2.tsx"

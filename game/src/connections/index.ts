@@ -61,7 +61,7 @@ export class Connection
 export class Connections
 {
     instance : WebSocketServer;
-    connections : Map<string, any>;
+    connections : Map<string, Connection>;
 
     constructor(server : Server)
     {
@@ -71,7 +71,10 @@ export class Connections
         {
             const connection = new Connection(wsocket);
             this.connections.set(connection.id, connection);
-            //socket.send(connection.id);
+            wsocket.on("close", () =>
+            {
+                this.connections.delete(connection.id);
+            });
         });
     }
 }
