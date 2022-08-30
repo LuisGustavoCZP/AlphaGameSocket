@@ -1,0 +1,9 @@
+[
+    {
+        "Question":"Enunciado",
+        "Answer": "resposta",
+        "Distractor1": "errada 1",
+        "Distractor2": "errada 2",
+        "Distractor3": "errada 3"
+    }
+]
