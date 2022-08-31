@@ -13,8 +13,8 @@ app.use(express.urlencoded({ extended: true}))
 
 app.use(cors(corsOptions));
 
-app.use(staticRouter);
 app.use(mapsRouter);
+app.use(staticRouter);
 
 const server = new Server(app);
 
