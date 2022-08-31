@@ -29,13 +29,13 @@
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.1",
- "tileheight":100,
+ "tileheight":48,
  "tilesets":[
         {
          "firstgid":1,
-         "source":"tabuleiro-tiles.tsx"
+         "source":"..\/tilesheets\/tabuleiro-tiles.tsj"
         }],
- "tilewidth":100,
+ "tilewidth":48,
  "type":"map",
  "version":"1.9",
  "width":11
