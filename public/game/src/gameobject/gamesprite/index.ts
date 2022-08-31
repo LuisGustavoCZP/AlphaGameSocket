@@ -29,10 +29,6 @@ export class AnimationSet
     {
         this.map = new Map<string, SpriteRect[]>();
         this.name = `${spriteSheet.name}:${animationSetData.name}:${spriteIndex}`
-        if(listAnimationSets.has(this.name)) 
-            return listAnimationSets.get(this.name)!;
-
-        //const animSeq : AnimationSet = new Map<string, SpriteRect[]> ();
 
         animationSetData.sequences.forEach(animation => 
         {
@@ -45,8 +41,6 @@ export class AnimationSet
             
             this.set(name, seqRects);
         });
-
-        listAnimationSets.set(this.name, this);
     }
 
     public set (key : string, values : SpriteRect[])
@@ -62,6 +56,20 @@ export class AnimationSet
     public get (key : string) : SpriteRect[]
     {
         return this.map.get(key)!;
+    }
+
+    public static create (spriteSheet : SpriteSheet, animationSetData : IAnimationSetsData, spriteIndex : number)
+    {
+        const name = `${spriteSheet.name}:${animationSetData.name}:${spriteIndex}`;
+        console.log("Checando animset", name);
+
+        if(listAnimationSets.has(name)) return listAnimationSets.get(name)!;
+        
+        console.log("Criando animset");
+        const newSet = new AnimationSet(spriteSheet, animationSetData, spriteIndex);
+        listAnimationSets.set(name, newSet);
+
+        return newSet;
     }
 }
 
@@ -170,7 +178,7 @@ export class AnimatedSprite extends GameSprite
     {
         this.spriteSheet = await SpriteSheet.load(spriteSheet);
         const animData = await loadAnimationSet(animationSet);
-        this.animations = new AnimationSet(this.spriteSheet, animData, spriteIndex);
+        this.animations = AnimationSet.create(this.spriteSheet, animData, spriteIndex);
     }
 
     constructor (spriteData : ISpriteAnimatedData)
@@ -178,7 +186,7 @@ export class AnimatedSprite extends GameSprite
         super(spriteData);
         this.frame = 0;
         this.frameTime = 0;
-        this.animationName = "idle down";
+        this.animationName = "walk down";
         this.animations = (null as unknown) as AnimationSet;
         this.load(spriteData);
     }
@@ -202,7 +210,7 @@ export class AnimatedSprite extends GameSprite
         if(!sequence)
         {
             this.frame = 0;
-            sequence = this.animations.get("idle down")!;
+            sequence = this.animations.get("walk down")!;
         }
 
         this.spriteRect = sequence[this.frame];

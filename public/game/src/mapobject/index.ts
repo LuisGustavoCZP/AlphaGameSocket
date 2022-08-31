@@ -76,8 +76,11 @@ export class MapObject
     {
         for (const {source} of tilesetDatas)
         {
-            const tileset = await TileSetObject.load(source);
+            const tileset = await TileSetObject.load(`${source.replace("..", "assets")}`);
             this.tilesets.push(tileset);
+            
+            if(!tileset.tiles) continue;
+            
             tileset.tiles.forEach(tileData => 
             {
                 this.layers.forEach(layer => 

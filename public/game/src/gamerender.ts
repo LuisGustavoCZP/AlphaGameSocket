@@ -14,6 +14,10 @@ export class GameRender
         this.canvas.height = height;
         this.context = this.canvas.getContext("2d")!;
         document.body.appendChild(this.canvas);
+        
+        document.body.style.display = "flex";
+        document.body.style.justifyContent = "center"
+        document.body.style.alignItems = "center";
         GameObject.context = this.context;
         MapObject.context = this.context;
     }
