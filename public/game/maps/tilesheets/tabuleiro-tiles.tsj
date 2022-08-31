@@ -1,0 +1,14 @@
+{ "columns":11,
+ "image":"..\/assetsjogotabuleiro\/tabuleiro.png",
+ "imageheight":1100,
+ "imagewidth":1100,
+ "margin":0,
+ "name":"tabuleiro",
+ "spacing":0,
+ "tilecount":121,
+ "tiledversion":"1.9.1",
+ "tileheight":100,
+ "tilewidth":100,
+ "type":"tileset",
+ "version":"1.8"
+}
