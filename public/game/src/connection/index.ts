@@ -38,7 +38,7 @@ export class Connection
         console.log(msg);
         if(this.events.has(msg.type)) return;
         const eventArray = this.events.get(msg.type)!;
-        eventArray.forEach(event => 
+        if(eventArray) eventArray.forEach(event => 
         {
             event(msg.data);
         });
