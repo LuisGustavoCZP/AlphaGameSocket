@@ -1,4 +1,4 @@
-import express, {Router} from 'express';
+import {Router} from 'express';
 import fs from "fs";
 import { gamePath } from '../utils/paths';
 

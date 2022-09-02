@@ -1,12 +1,12 @@
 import express, {Router} from 'express';
-import { gamePath } from '../utils/paths';
+import { gamePath, clientPath } from '../utils/paths';
 
 const router = Router();
 
 router.use('/assets', express.static(`${gamePath}/maps`));
-router.use('/scripts', express.static(`${gamePath}/dist`));
+router.use('/game/scripts', express.static(`${gamePath}/dist`));
 router.use('/data', express.static(`${gamePath}/data`));
 router.use('/assets', express.static(`${gamePath}/assets`));
-router.use('/', express.static(`${gamePath}/web`));
+router.use('/', express.static(`${clientPath}/dist`));
 
 export default router;

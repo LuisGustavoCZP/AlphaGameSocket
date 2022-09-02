@@ -2,7 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { corsOptions } from './configs';
-import { staticRouter, mapsRouter } from './routes';
+import router from './routes';
 import { Server } from './server';
 
 const app = express();
@@ -13,8 +13,7 @@ app.use(express.urlencoded({ extended: true}))
 
 app.use(cors(corsOptions));
 
-app.use(mapsRouter);
-app.use(staticRouter);
+app.use(router);
 
 const server = new Server(app);
 
