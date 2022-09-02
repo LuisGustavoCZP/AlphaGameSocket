@@ -1,1 +1,1 @@
-export {IPlayerData} from './playerdata';
+export { IPlayerData } from './playerdata';

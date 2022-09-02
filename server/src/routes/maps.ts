@@ -1,6 +1,6 @@
 import express, {Router} from 'express';
 import fs from "fs";
-import { gamePath } from '../paths';
+import { gamePath } from '../utils/paths';
 
 const mapList : string[] = [];
 

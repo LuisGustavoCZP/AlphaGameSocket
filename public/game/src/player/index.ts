@@ -1,5 +1,6 @@
 import { connection } from "../connection";
 import { ICharacterData } from "../gameobject";
+import { IPlayerData } from './models';
 
 class Player 
 {
@@ -24,4 +25,4 @@ class Player
     }
 }
 
-export { Player }
+export { Player, IPlayerData }

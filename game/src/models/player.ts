@@ -1,4 +1,4 @@
-import { connections } from "../connections";
+import { connections, SocketEvent } from "../connections";
 
 class Player 
 {
@@ -20,7 +20,13 @@ class Player
     send (type : string, data : any)
     {
         const cn = connections.list.get(this.#id);
-        if(cn) this.send(type, data);
+        if(cn) cn.send(type, data);
+    }
+
+    on (type : string, callback : SocketEvent)
+    {
+        const cn = connections.list.get(this.#id);
+        if(cn) cn.add(type, callback)
     }
 }
 

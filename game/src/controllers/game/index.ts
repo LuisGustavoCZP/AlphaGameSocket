@@ -2,6 +2,7 @@ import { Console } from "console";
 import { readFileSync } from "fs";
 import { connections, Connection } from "../../connections";
 import { Match, Player, BaseMap, TileMap } from "../../models";
+import { waitUntil } from "../../utils/wait";
 
 class GameManager 
 {
@@ -28,7 +29,7 @@ class GameManager
         return match;
     }
 
-    public addPlayer (connection : Connection)
+    public async addPlayer (connection : Connection)
     {
         let match : Match;
         console.log(this.matchs);
@@ -40,32 +41,7 @@ class GameManager
 
         const p = match.players.length;
         const player = new Player(connection.id, `Player ${p + 1}`, p, 30);
-        match.players.push(player);
-
-        connection.add("match-init", (ready : boolean) => 
-        {
-            console.log("Partida iniciada!")
-            connection.add("match-map", (ready : boolean) => 
-            {
-                console.log("Mapa iniciado!")
-                connection.add("match-players", (ready : boolean) => 
-                {
-                    if(ready)
-                    {
-                        connection.send("match-round", match.round);
-                        connection.send("match-turn", match.turn);
-                    }
-                });
-                const ps = match.players.map((player)=>
-                {
-                    const tile = match.map.base[player.position];
-                    const p = {...player, position:tile.id};//Object.assign({}, player);
-                    return p;
-                });
-                connection.send("match-players", ps);
-            });
-            connection.send("match-map", match.map.data);
-        });
+        await match.add(player);
     }
 }
 

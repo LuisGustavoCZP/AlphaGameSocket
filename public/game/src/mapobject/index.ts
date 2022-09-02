@@ -1,4 +1,3 @@
-import { playerController } from "../playercontroller";
 import { SpriteSheet } from "../spriteobject";
 import { IMapData, IMapTileset, ITileSetData, ITileData, IMapLayer, ITilePropertyData } from "./models";
 
@@ -139,10 +138,6 @@ export class MapObject
     {
         if(this.tilesets.length == 0) return;
         const context = MapObject.context;
-        const playerX = playerController.targetX;
-        const playerY = playerController.targetY;
-        const cx = Math.round((-0.5+(playerX + (context.canvas.width/2))/this.tilewidth))*this.tilewidth, cy = Math.round(-0.5+((playerY + (context.canvas.height/2))/this.tileheight))*this.tileheight;
-        //console.log(cx, cy);
 
         const tilesheet = this.tilesets[0];
         this.tiles.forEach (tile => 

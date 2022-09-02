@@ -83,4 +83,4 @@ export class Connections
 
 const connections = new Connections ();
 
-export {connections};
+export { connections, SocketEvent, SocketMessage };

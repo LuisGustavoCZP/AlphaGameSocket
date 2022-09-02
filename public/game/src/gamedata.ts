@@ -1,5 +1,6 @@
+import { CharacterObject } from "./characterobject";
 import { connection } from "./connection";
-import { AnimatedObject, GameObject, ICharacterData } from "./gameobject";
+import { GameObject, ICharacterData } from "./gameobject";
 import { MapObject } from "./mapobject";
 import { Player } from "./player";
 import { IPlayerData } from "./player/models";
@@ -51,12 +52,8 @@ export class GameManager
         players.forEach((playerData, index) => 
         {
             const objectid = `player:${index}`;
-            const x = (index%2), y = ((index) - x)/2;
             const charData = charactersData[playerData.character];
-            const size = charData.size;
-            const tile = this.map.tiles[playerData.position];
-
-            const gameObject = new AnimatedObject(objectid, charData, (size/2) + tile.x + (x*size), tile.y + (y*size), 0);
+            const gameObject = new CharacterObject(objectid, charData, index, playerData.position);
             //console.log(tile, gameObject);
             this.addGameObject(gameObject);
             const player = new Player(index, playerData.name, objectid, playerData.position, playerData.points);
