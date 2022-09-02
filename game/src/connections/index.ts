@@ -2,6 +2,7 @@ import { Server } from "../server";
 import { v4 as uuid } from "uuid";
 import { WebSocket, WebSocketServer } from "ws";
 import { SocketEvent, SocketMessage } from "./models";
+import { gameManager, GameManager } from "../controllers/game";
 
 export class Connection 
 {
@@ -16,11 +17,6 @@ export class Connection
         this.#events = new Map<string, SocketEvent>();
         this.send("connected", this.id);
         this.#socket.on("message", (resp : string) => this.message(resp));
-        this.add("moveTo", (data) => 
-        {
-            console.log("Movendo para", data);
-            this.send("movedTo", data);
-        });
     }
 
     send (type : string, data : any)
@@ -61,20 +57,30 @@ export class Connection
 export class Connections
 {
     instance : WebSocketServer;
-    connections : Map<string, Connection>;
+    list : Map<string, Connection>;
 
-    constructor(server : Server)
+    constructor()
     {
-        this.connections = new Map<string, any>();
+        this.list = new Map<string, any>();
+        this.instance = (null as unknown) as WebSocketServer;
+    }
+
+    start (server : Server)
+    {
         this.instance = new WebSocketServer({server:server.instance});
         this.instance.on('connection', (wsocket)  => 
         {
             const connection = new Connection(wsocket);
-            this.connections.set(connection.id, connection);
+            this.list.set(connection.id, connection);
+            gameManager.addPlayer(connection);
             wsocket.on("close", () =>
             {
-                this.connections.delete(connection.id);
+                this.list.delete(connection.id);
             });
         });
     }
 }
+
+const connections = new Connections ();
+
+export {connections};
