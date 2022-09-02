@@ -127,7 +127,7 @@ export class GameSprite
         if(!this.spriteSheet) return;
 
         //console.log(rotation);
-        const cx = positionX + (context.canvas.width/2), cy = positionY + (context.canvas.height/2);
+        const cx = positionX /* + (context.canvas.width/2) */, cy = positionY /* + (context.canvas.height/2) */;
         if(rotation != 0)
         {
             context.translate(cx, cy);

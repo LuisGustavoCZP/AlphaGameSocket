@@ -35,7 +35,7 @@ export class TileObject
     public x : number;
     public y : number;
 
-    public constructor (x : number, y : number, properties : ITilePropertyData[])
+    public constructor (x : number, y : number, properties : ITilePropertyData[] = [])
     {
         this.x = x;
         this.y = y;
@@ -49,6 +49,20 @@ export class TileObject
 
 export type ITileMap = Map<string, TileObject>;
 
+export class MapTile 
+{
+    public x : number;
+    public y : number;
+    public layers : number[];
+
+    public constructor (x : number, y : number, layers : number[])
+    {
+        this.x = x;
+        this.y = y;
+        this.layers = layers;
+    }
+}
+
 export class MapObject
 {
     public static context : CanvasRenderingContext2D;
@@ -60,7 +74,7 @@ export class MapObject
     /* public columns : number;
     public rows : number; */
     public layers : IMapLayer[];
-    public tiles : ITileMap;
+    public tiles : MapTile[];
 
     constructor (data : IMapData)
     {
@@ -68,18 +82,33 @@ export class MapObject
         this.tileheight = data.tileheight;
         this.tilewidth = data.tilewidth;
         this.tilesets = [];
-        this.tiles = new Map<string, TileObject>;
-        this.load(data.tilesets);
+        this.tiles = [];
+        this.load(data);
     }
 
-    public async load (tilesetDatas : IMapTileset[])
+    public async load (data : IMapData)
     {
-        for (const {source} of tilesetDatas)
+        for (const {source} of data.tilesets)
         {
             const tileset = await TileSetObject.load(`${source.replace("..", "assets")}`);
             this.tilesets.push(tileset);
+      
+            let t = 0;
+            for (let j = 0; j < data.height; j++)
+            {
+                const py = (j*this.tileheight);
+                for (let i = 0; i < data.width; i++)
+                {
+                    const px = (i*this.tilewidth);
+                    const k = t++;
+                    const layers = data.layers.map(layer => layer.data[k]-1);
+                    const tile = new MapTile(px, py, layers);
+                    this.tiles.push(tile)
+                    //if(tileIndex < 0) continue;
+                }
+            }
             
-            if(!tileset.tiles) continue;
+            /* if(!tileset.tiles) continue;
             
             tileset.tiles.forEach(tileData => 
             {
@@ -102,7 +131,7 @@ export class MapObject
                         }
                     }
                 });
-            });
+            }); */
         }
     }
 
@@ -115,7 +144,20 @@ export class MapObject
         const cx = Math.round((-0.5+(playerX + (context.canvas.width/2))/this.tilewidth))*this.tilewidth, cy = Math.round(-0.5+((playerY + (context.canvas.height/2))/this.tileheight))*this.tileheight;
         //console.log(cx, cy);
 
-        for (const layer of this.layers)
+        const tilesheet = this.tilesets[0];
+        this.tiles.forEach (tile => 
+        {
+            tile.layers.forEach(layer => 
+            {
+                if(layer >= 0) 
+                {
+                    const tsTile = tilesheet.data[layer];
+                    context.drawImage(tilesheet.image!, tsTile.x, tsTile.y, tsTile.width, tsTile.height, tile.x, tile.y, this.tilewidth, this.tileheight);
+                } 
+            });
+        });
+
+        /* for (const layer of this.layers)
         {
             const tilesheet = this.tilesets[0];
             let t = 0;
@@ -129,17 +171,8 @@ export class MapObject
                     if(tileIndex < 0) continue;
                     const tile = tilesheet.data[tileIndex];
                     context.drawImage(tilesheet.image!, tile.x, tile.y, tile.width, tile.height, px, py, this.tilewidth, this.tileheight);
-
-                    const tilekey = `${px},${py}`;
-                    
-                    if(cx == px && cy == py && this.tiles.has(tilekey))
-                    {
-                        const tileData = this.tiles.get(tilekey)!;
-                        context.fillStyle = "rgba(0,120,255,0.1)";
-                        context.fillRect(tileData.x, tileData.y, this.tilewidth, this.tileheight);
-                    }
                 }
             }
-        }
+        } */
     }
 }

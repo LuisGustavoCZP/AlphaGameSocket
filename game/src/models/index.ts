@@ -1,8 +1,7 @@
 import APIResponse from "./response";
-import IUserLogin from "./user-login"
-import Session from "./session";
-import SessionCookie from "./session-cookie";
-import IUser from "./user";
+import {Player} from "./player";
+import {Match} from "./match";
+import {TileMap} from "./map";
+import {BaseMap} from "./basemap";
 
-
-export { APIResponse, IUser, Session, SessionCookie, IUserLogin }
+export { APIResponse, Player, Match, BaseMap, TileMap }

@@ -4,22 +4,19 @@ export { SocketEvent, SocketMessage };
 export class Connection
 {
     instance : WebSocket;
-    events : Map<string, SocketEvent[]>;
+    events : Map<string, SocketEvent>;
 
     constructor (url : string)
     {
         //console.log();
-        this.events = new Map<string, SocketEvent[]>();
+        this.events = new Map<string, SocketEvent>();
         this.add("connected", (data)=>
         {
-            console.log(data);
+            console.log("Conectado!", data);
+            this.send("match-init", true)
         });
         this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
         this.instance.onmessage = (resp) => this.message(resp);
-        this.add("movedTo", (data)=>
-        {
-            console.log("Moved to", data);
-        });
     }
     
     send (type : string, data : any)
@@ -29,43 +26,37 @@ export class Connection
             data,
             date:Date.now()
         }
+        console.log("Sending", msg);
         this.instance.send(JSON.stringify(msg));
     }
 
     message (resp : MessageEvent)
     {
         const msg = JSON.parse(resp.data) as SocketMessage;
-        console.log(msg);
-        if(this.events.has(msg.type)) return;
-        const eventArray = this.events.get(msg.type)!;
-        if(eventArray) eventArray.forEach(event => 
-        {
-            event(msg.data);
-        });
+        console.log("Receiving", msg);
+        if(!this.events.has(msg.type)) return;
+        const event = this.events.get(msg.type)!;
+        if(event) event(msg.data);
     }
 
     add (type : string, event : SocketEvent)
     {
         if(this.events.has(type)) 
         {
-            this.events.get(type)?.push(event);
             return;
         }
-        const es = [event];
-        this.events.set(type, es);
+        this.events.set(type, event);
     }
 
-    remove (type : string, event : SocketEvent)
+    remove (type : string)
     {
         if(this.events.has(type)) 
         {
-            const es = this.events.get(type)!;
-            const i = es.findIndex(e => e==event);
-            es.splice(i, 1);
+            this.events.delete(type);
             return;
         }
     }
 }
 
-const connection = new Connection(window.location.host.replace("8000", "5000")); //window.location.host
+const connection = new Connection(window.location.host.replace("8000", "5000"));
 export { connection };

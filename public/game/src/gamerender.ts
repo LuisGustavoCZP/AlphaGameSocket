@@ -1,4 +1,4 @@
-import { GameData } from "./gamedata";
+import { gameManager } from "./gamedata";
 import { GameObject } from "./gameobject";
 import { MapObject } from "./mapobject";
 
@@ -20,15 +20,17 @@ export class GameRender
         document.body.style.alignItems = "center";
         GameObject.context = this.context;
         MapObject.context = this.context;
+
     }
 
     public draw () 
     {
+        
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        GameData.map?.draw();
+        gameManager.map?.draw();
 
-        GameData.gameObjects.forEach(gameObject => 
+        gameManager.gameObjects.forEach(gameObject => 
         {
             gameObject.draw();
         })
