@@ -8,7 +8,8 @@ export class Connection
 {
     id : string;
     #socket : WebSocket;
-    #events : Map<string, SocketEvent>
+    #events : Map<string, SocketEvent>;
+    #onclose : SocketEvent[];
 
     constructor (wsocket : WebSocket)
     {
@@ -17,7 +18,8 @@ export class Connection
         this.#events = new Map<string, SocketEvent>();
         this.send("connected", this.id);
         this.#socket.on("message", (resp : string) => this.message(resp));
-        this.add("match-init", () => matchController.getMatch(this))
+        this.on("match-init", () => matchController.getMatch(this))
+        this.#onclose = [];
     }
 
     send (type : string, data : any)
@@ -37,10 +39,10 @@ export class Connection
         //console.log(this.events);
         if(!this.#events.has(msg.type)) return;
         const event = this.#events.get(msg.type)!;
-        event(msg.data);
+        event(msg.data, this.id);
     }
 
-    add (type : string, event : SocketEvent)
+    on (type : string, event : SocketEvent)
     {
         this.#events.set(type, event);
     }
@@ -52,6 +54,11 @@ export class Connection
             return this.#events.delete(type);
         }
         return false;
+    }
+
+    onclose (event : SocketEvent)
+    {
+        this.#socket.on("close", event);
     }
 }
 
@@ -73,7 +80,7 @@ export class Connections
         {
             const connection = new Connection(wsocket);
             this.connections.set(connection.id, connection);
-            wsocket.on("close", () =>
+            connection.onclose(() =>
             {
                 this.connections.delete(connection.id);
             });

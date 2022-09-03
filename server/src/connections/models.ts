@@ -5,4 +5,4 @@ export interface SocketMessage
     date:number
 }
 
-export type SocketEvent = (data : any | undefined) => void;
+export type SocketEvent = (data : any | undefined, id? : string) => void;

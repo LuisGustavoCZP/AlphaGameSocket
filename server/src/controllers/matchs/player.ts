@@ -6,11 +6,22 @@ export class Player
 {
     index : number;
     #id : string;
+    name: string;
+    character: number;
 
     constructor (id : string)
     {
         this.index = -1;
         this.#id = id;
+        this.name = '';
+        this.character = -1;
+    }
+
+    set matchIndex (index : number)
+    {
+        this.index = index;
+        this.name = `Jogador ${this.index+1}`;
+        this.character = this.index;
     }
 
     public send (type : string, data : any)
@@ -22,6 +33,12 @@ export class Player
     public on (type : string, callback : SocketEvent)
     {
         const cn = connectionManager.connections.get(this.#id);
-        if(cn) cn.add(type, callback);
+        if(cn) cn.on(type, callback);
+    }
+
+    public onexit (callback : SocketEvent)
+    {
+        const cn = connectionManager.connections.get(this.#id);
+        if(cn) cn.onclose(callback);
     }
 }

@@ -22,11 +22,17 @@ export class Match
         const index = this.players.findIndex(player => !player);
         if(this.isFull || index === -1) return;
         if(index === Match.maxSize-1) this.isFull = true;
-        player.index = index;
+        player.matchIndex = index;
         this.players[index] = player;
         console.log(player.index);
-
         player.send("match-init", { player:player });
+        this.send("match-update", { players:this.players });
+        player.onexit(() => {this.remove(player)});
+    }
+
+    public remove (player : Player)
+    {
+        this.players[player.index] = null as any;
         this.send("match-update", { players:this.players });
     }
 
