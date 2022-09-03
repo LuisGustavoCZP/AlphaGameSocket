@@ -9,7 +9,6 @@ export class Connection
     id : string;
     #socket : WebSocket;
     #events : Map<string, SocketEvent>;
-    #onclose : SocketEvent[];
 
     constructor (wsocket : WebSocket)
     {
@@ -19,7 +18,6 @@ export class Connection
         this.send("connected", this.id);
         this.#socket.on("message", (resp : string) => this.message(resp));
         this.on("match-init", () => matchController.getMatch(this))
-        this.#onclose = [];
     }
 
     send (type : string, data : any)
@@ -47,7 +45,7 @@ export class Connection
         this.#events.set(type, event);
     }
 
-    remove (type : string)
+    off (type : string)
     {
         if(this.#events.has(type)) 
         {
@@ -65,11 +63,11 @@ export class Connection
 export class Connections
 {
     instance : WebSocketServer;
-    connections : Map<string, Connection>;
+    list : Map<string, Connection>;
 
     constructor()
     {
-        this.connections = new Map<string, any>();
+        this.list = new Map<string, any>();
         this.instance = null as any;
     }
 
@@ -79,10 +77,10 @@ export class Connections
         this.instance.on('connection', (wsocket)  => 
         {
             const connection = new Connection(wsocket);
-            this.connections.set(connection.id, connection);
+            this.list.set(connection.id, connection);
             connection.onclose(() =>
             {
-                this.connections.delete(connection.id);
+                this.list.delete(connection.id);
             });
         });
     }

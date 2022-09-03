@@ -26,19 +26,19 @@ export class Player
 
     public send (type : string, data : any)
     {
-        const cn = connectionManager.connections.get(this.#id);
+        const cn = connectionManager.list.get(this.#id);
         if(cn) cn.send(type, data);
     }
 
     public on (type : string, callback : SocketEvent)
     {
-        const cn = connectionManager.connections.get(this.#id);
+        const cn = connectionManager.list.get(this.#id);
         if(cn) cn.on(type, callback);
     }
 
     public onexit (callback : SocketEvent)
     {
-        const cn = connectionManager.connections.get(this.#id);
+        const cn = connectionManager.list.get(this.#id);
         if(cn) cn.onclose(callback);
     }
 }
