@@ -26,7 +26,7 @@ class Player
     on (type : string, callback : SocketEvent)
     {
         const cn = connections.list.get(this.#id);
-        if(cn) cn.add(type, callback)
+        if(cn) cn.on(type, callback)
     }
 }
 

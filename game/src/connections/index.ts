@@ -36,21 +36,26 @@ export class Connection
         //console.log(this.events);
         if(!this.#events.has(msg.type)) return;
         const event = this.#events.get(msg.type)!;
-        event(msg.data);
+        event(msg.data, this.id);
     }
 
-    add (type : string, event : SocketEvent)
+    on (type : string, event : SocketEvent)
     {
         this.#events.set(type, event);
     }
 
-    remove (type : string)
+    off (type : string)
     {
         if(this.#events.has(type)) 
         {
             return this.#events.delete(type);
         }
         return false;
+    }
+
+    onclose (event : SocketEvent)
+    {
+        this.#socket.on("close", event);
     }
 }
 
@@ -73,7 +78,7 @@ export class Connections
             const connection = new Connection(wsocket);
             this.list.set(connection.id, connection);
             gameManager.addPlayer(connection);
-            wsocket.on("close", () =>
+            connection.onclose(() =>
             {
                 this.list.delete(connection.id);
             });
