@@ -4,6 +4,7 @@ import cors from 'cors';
 import { corsOptions } from './configs';
 import router from './routes';
 import { Server } from './server';
+import { connectionManager } from './connections';
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.use(cors(corsOptions));
 app.use(router);
 
 const server = new Server(app);
+connectionManager.start(server);
 
 server.listen();

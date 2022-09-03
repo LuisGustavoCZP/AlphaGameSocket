@@ -2,6 +2,7 @@ import { Server } from "../server";
 import { v4 as uuid } from "uuid";
 import { WebSocket, WebSocketServer } from "ws";
 import { SocketEvent, SocketMessage } from "./models";
+import { matchController } from "../controllers";
 
 export class Connection 
 {
@@ -16,11 +17,7 @@ export class Connection
         this.#events = new Map<string, SocketEvent>();
         this.send("connected", this.id);
         this.#socket.on("message", (resp : string) => this.message(resp));
-        this.add("moveTo", (data) => 
-        {
-            console.log("Movendo para", data);
-            this.send("movedTo", data);
-        });
+        this.add("match-init", () => matchController.getMatch(this))
     }
 
     send (type : string, data : any)
@@ -63,9 +60,14 @@ export class Connections
     instance : WebSocketServer;
     connections : Map<string, Connection>;
 
-    constructor(server : Server)
+    constructor()
     {
         this.connections = new Map<string, any>();
+        this.instance = null as any;
+    }
+
+    start (server : Server)
+    {
         this.instance = new WebSocketServer({server:server.instance});
         this.instance.on('connection', (wsocket)  => 
         {
@@ -78,3 +80,6 @@ export class Connections
         });
     }
 }
+
+const connectionManager = new Connections ();
+export {connectionManager}

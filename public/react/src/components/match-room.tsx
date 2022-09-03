@@ -1,0 +1,44 @@
+import { useEffect, useMemo, useState } from "react"
+import { Connection } from "../connection";
+import { MatchPlayer } from "./match-player";
+
+export function MatchRoom (props : any)
+{
+    const [player, setPlayer] = useState(null as any);
+    const [players, setPlayers] = useState(null as any);
+
+    async function startConnection ()
+    {
+        const newconnection = new Connection();
+        newconnection.add("match-update", async ({players} : any) => 
+        {
+            setPlayers(players);
+        });
+        newconnection.add("match-init", async ({player} : any) => 
+        {
+            setPlayer(player);
+        });
+    }
+
+    useEffect(() => 
+    {
+        startConnection ();
+    }, []);
+
+    function renderPlayers ()
+    {
+        if(!players || !player) return <></>;
+        return players.map((player : any, index : number) => 
+        {
+            return <MatchPlayer key={index} player={player} />;
+        });
+    }
+
+    return (
+        <div className="match-room">
+            <ul>
+                {renderPlayers ()}
+            </ul>
+        </div>
+    )
+}
