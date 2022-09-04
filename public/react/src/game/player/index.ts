@@ -1,17 +1,19 @@
-import { connection } from "../connection";
+import { Connection } from "../../connection";
 import { ICharacterData } from "../gameobject";
 import { IPlayerData } from './models';
 
 class Player 
 {
+    #connection : Connection;
     index: number;
     name: string;
     character: string;
     position: number;
     points: number;
 
-    constructor (index : number, name : string, character : string, position : number, points : number)
+    constructor (connection : Connection ,index : number, name : string, character : string, position : number, points : number)
     {
+        this.#connection = connection;
         this.index = index;
         this.name = name;
         this.character = character;
@@ -21,8 +23,9 @@ class Player
 
     send (type : string, data : any)
     {
-        connection.send(type, data);
+        this.#connection.send(type, data);
     }
 }
 
-export { Player, IPlayerData }
+export type { IPlayerData }
+export { Player }

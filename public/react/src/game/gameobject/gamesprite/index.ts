@@ -220,4 +220,5 @@ export class AnimatedSprite extends GameSprite
     
 }
 
-export { SpriteSheet, SpriteRect, ISpriteData, ISpriteAnimatedData, IAnimationSetsData };
+export type { ISpriteData, ISpriteAnimatedData, IAnimationSetsData };
+export { SpriteSheet, SpriteRect };

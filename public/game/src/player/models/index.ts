@@ -1,1 +1,0 @@
-export { IPlayerData } from './playerdata';

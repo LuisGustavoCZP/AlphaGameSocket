@@ -6,4 +6,4 @@ const rootPath = serverPath.slice(0, isCounterBar ? serverPath.lastIndexOf('\\')
 const gamePath = `${rootPath}/public/game`;
 const clientPath = `${rootPath}/public/react`;
 
-export { serverPath, rootPath, gamePath, clientPath }
+export { thisPath, serverPath, rootPath, gamePath, clientPath }

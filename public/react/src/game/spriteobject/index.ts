@@ -109,4 +109,4 @@ export class SpriteSheet
     }
 }
 
-export { ISpriteSheetData };
+export type { ISpriteSheetData };

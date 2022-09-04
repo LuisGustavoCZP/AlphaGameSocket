@@ -7,7 +7,7 @@ export class GameRender
     public canvas : HTMLCanvasElement;
     public context : CanvasRenderingContext2D;
     
-    constructor (width : number = 300, height : number = 300)
+    constructor (width : number = 528, height : number = 528)
     {
         this.canvas = document.createElement("canvas");
         this.canvas.width = width;

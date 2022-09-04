@@ -1,5 +1,5 @@
 import { CharacterObject } from "./characterobject";
-import { connection } from "./connection";
+/* import { connection } from "./connection"; */
 import { GameObject, ICharacterData } from "./gameobject";
 import { MapObject } from "./mapobject";
 import { Player } from "./player";
@@ -21,7 +21,7 @@ export class GameManager
         this.map = (null as unknown) as MapObject;
         this.round = 0;
         this.turn = 0;
-        connection.add("match-map", (resp) => this.setMap(resp));
+        
     }
 
     addGameObject (gameObject : GameObject)
@@ -41,9 +41,9 @@ export class GameManager
         console.log("Setando mapa!")
         gameManager.map = new MapObject(await fetch("/assets/map").then(resp => resp.json()));
         await waitUntil(() => gameManager.map.tilesets.length > 0)
-        connection.add("match-players", (resp) => this.setPlayers(resp));
+        /* connection.add("match-players", (resp) => this.setPlayers(resp));
         connection.remove("match-map");
-        connection.send("match-map", true);
+        connection.send("match-map", true); */
     }
 
     async setPlayers (players : IPlayerData[])
@@ -56,14 +56,14 @@ export class GameManager
             const gameObject = new CharacterObject(objectid, charData, index, playerData.position);
             //console.log(tile, gameObject);
             this.addGameObject(gameObject);
-            const player = new Player(index, playerData.name, objectid, playerData.position, playerData.points);
-            this.players.push(player as Player); 
+            /* const player = new Player(index, playerData.name, objectid, playerData.position, playerData.points);
+            this.players.push(player as Player);  */
         });
         console.log(gameManager.gameObjects);
-        connection.add("match-round", (data) => this.round = data);
+        /* connection.add("match-round", (data) => this.round = data);
         connection.add("match-turn", (data) => this.turn = data);
         connection.remove("match-players");
-        connection.send("match-players", true);
+        connection.send("match-players", true); */
     }
 }
 

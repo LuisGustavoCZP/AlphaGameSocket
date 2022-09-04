@@ -1,5 +1,4 @@
 import { SocketEvent, SocketMessage } from "./models";
-export { SocketEvent, SocketMessage };
 
 export class Connection
 {
@@ -61,5 +60,5 @@ export class Connection
     }
 }
 
-const connection = new Connection(window.location.host.replace("8000", "5000"));
-export { connection };
+/* const connection = new Connection();
+export { connection }; */
