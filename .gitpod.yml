@@ -16,10 +16,14 @@ ports:
     port: 8000
     visibility: public
     onOpen: open-browser
+  - name: Server
+    port: 8010
+    visibility: public
+    onOpen: ignore
   - name: GameServer
     port: 6000
     visibility: public
-    onOpen: open-browser
+    onOpen: ignore
   - name: React
     port: 3000
     visibility: public
