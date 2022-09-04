@@ -7,12 +7,13 @@ import { UserInfo } from "./userinfo";
 
 export function MatchRoom (props : any)
 {
-    const {setPage, setID} = useContext(GlobalContext);
+    const {setPage, setID, getID} = useContext(GlobalContext);
     const [player, setPlayer] = useState(null as any);
     const [players, setPlayers] = useState(null as any);
     const [playersNumber, setNumber] = useState (1)
     async function startConnection ()
     {
+        if(getID) return;
         const newconnection = new Connection();
         newconnection.add("match-update", async ({players} : any) => 
         {

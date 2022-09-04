@@ -18,6 +18,11 @@ export class Connection
             console.log("Conectado!");
             this.send("match-init", true)
         }
+
+        this.instance.onclose = () => 
+        {
+            console.log("Desconectado!");
+        }
     }
     
     send (type : string, data : any)

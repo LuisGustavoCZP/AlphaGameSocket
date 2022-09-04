@@ -9,7 +9,7 @@ export function GameState (props : any)
         <SpecsUser />
         <PlayersState/>
         <InventoryState/>
-        <ModalPergunta/>
+        {/* <ModalPergunta/> */}
     </section>
     );
 }

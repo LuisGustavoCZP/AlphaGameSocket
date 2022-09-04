@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { gameManager } from "../game/gamedata";
 import { GameObject } from "../game/gameobject";
 import { MapObject } from "../game/mapobject";
 import { IGameProps } from "./game-room";
@@ -9,10 +10,13 @@ export function GameScreen ({connection} : IGameProps)
     const canvasRef = useRef<HTMLCanvasElement>(null)
     useEffect(() => 
     {
+        if(!connection) return;
         const canvas = canvasRef.current!;
         const context = canvas.getContext("2d")!;
         GameObject.context = context;
         MapObject.context = context;
+        console.log(connection);
+        //connection.add("match-map", (resp) => gameManager.setMap(resp))
         draw(context, canvas);
         //connection.add("match-map", (resp) => setMap(resp));
     }, []);
