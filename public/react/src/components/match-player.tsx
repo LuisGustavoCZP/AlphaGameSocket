@@ -1,10 +1,16 @@
+import img1 from "../assets/personagens/personagem1.png"
+import img2 from "../assets/personagens/personagem2.png"
+import img3 from "../assets/personagens/personagem3.png"
+import img4 from "../assets/personagens/personagem4.png"
+import img5 from "../assets/personagens/personagem5.png"
+const spritePlayers = [img1,img2,img3,img4,img5 ]
 export function MatchPlayer ({index, player} : any)
 {   
     if(player){
         return (
             <li className="w-2/5 h-2/5 bg-[#343434] flex flex-col justify-center items-center content-center gap-3 ">
                 <span>{player?.name}</span>
-                <span>{player?.index}</span>
+                <img src={spritePlayers[player.character]} alt="" className=" w-5 h-5" />
                 <span>{player?.character}</span>
             </li>
         )

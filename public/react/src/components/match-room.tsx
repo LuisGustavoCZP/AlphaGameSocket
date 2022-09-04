@@ -59,14 +59,14 @@ export function MatchRoom (props : any)
     return (
         <div className="match-room flex items-center m-0 justify-evenly h-screen">
             <UserInfo />
-            <ul className=" flex list-none h-screen w-3/5 flex-wrap justify-center content-center gap-5 place-self-start">
-            <li className="w-full flex justify-between p-4 bg-[#3E3E3E]">
+            <ul className=" flex list-none h-screen w-3/5 flex-wrap justify-center content-start gap-5 place-self-start">
+            <li className="w-full flex justify-between p-2 bg-[#3E3E3E]">
                 <p>Partida 1</p>
                 <p>{playersNumber}/4</p>
             </li>
                 {renderPlayers ()}
 
-                <li className="w-full flex justify-between p-4 bg-[#3E3E3E]">
+                <li className="w-full flex justify-between p-3 bg-[#3E3E3E]">
                     <p>Sprites do jogador vao aqui</p>
                 </li>
             </ul>
