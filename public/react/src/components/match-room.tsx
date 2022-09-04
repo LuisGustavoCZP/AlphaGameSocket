@@ -44,8 +44,8 @@ export function MatchRoom (props : any)
     }
 
     return (
-        <div className="match-room">
-            <ul className="list-none">
+        <div className="match-room flex justify-center items-center m-0">
+            <ul className=" flex list-none h-screen w-3/5 flex-wrap justify-center items-center m-0 p-0">
                 {renderPlayers ()}
             </ul>
         </div>
