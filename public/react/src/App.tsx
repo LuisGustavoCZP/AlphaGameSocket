@@ -6,7 +6,7 @@ import { MainRoom } from './components/main-room'
 function App() {
 
   return (
-    <div className="App">
+    <div>
       <GlobalContextProvider page={0}>
         <MainRoom />
       </GlobalContextProvider>

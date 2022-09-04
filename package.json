@@ -15,7 +15,8 @@
     "build:game": "cd public/game && npm run build",
     "build:gameserver": "cd game && npm run build",
     "build:react": "cd public/react && npm run build",
-    "build:server": "cd server && npm run build"
+    "build:server": "cd server && npm run build",
+    "dev":"start npm run dev:server && start npm run dev:gameserver && npm run dev:game && npm run dev:react"
   },
   "repository": {
     "type": "git",
