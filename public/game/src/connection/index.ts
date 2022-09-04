@@ -15,7 +15,10 @@ export class Connection
         this.instance.onopen = () => 
         {
             console.log("Conectado!");
-            this.send("match-init", true)
+            this.send("player-init", location.hash.replace('#', ''));
+        }
+        this.instance.onclose = () => {
+            console.log("Desconectado!");
         }
     }
     

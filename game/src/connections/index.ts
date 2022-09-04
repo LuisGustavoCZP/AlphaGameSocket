@@ -12,11 +12,27 @@ export class Connection
 
     constructor (wsocket : WebSocket)
     {
-        this.id = uuid();
+        this.id = null as any;
         this.#socket = wsocket;
         this.#events = new Map<string, SocketEvent>();
         /* this.send("connected", this.id); */
         this.#socket.on("message", (resp : string) => this.message(resp));
+
+        this.on("player-init", (id) => 
+        {
+            if(!id) 
+            {
+                this.#socket.close();
+                return;
+            }
+            this.id = id;
+            connections.list.set(this.id, this);
+            this.onclose(() =>
+            {
+                connections.list.delete(this.id);
+            });
+            console.log("Player initiate", id);
+        });
     }
 
     send (type : string, data : any)
@@ -75,12 +91,7 @@ export class Connections
         this.instance = new WebSocketServer({server:server.instance});
         this.instance.on('connection', (wsocket)  => 
         {
-            const connection = new Connection(wsocket);
-            this.list.set(connection.id, connection);
-            connection.onclose(() =>
-            {
-                this.list.delete(connection.id);
-            });
+            new Connection(wsocket);
         });
     }
 }

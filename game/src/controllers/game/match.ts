@@ -17,7 +17,7 @@ class Match
 
     constructor (matchData : IMatch, map : TileMap)
     {
-        console.log(matchData);
+        //console.log(matchData);
         this.id = matchData.id;
         this.players = [];
         this.createdAt = new Date().toUTCString();
