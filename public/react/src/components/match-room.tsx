@@ -45,7 +45,7 @@ export function MatchRoom (props : any)
 
     return (
         <div className="match-room">
-            <ul>
+            <ul className="list-none">
                 {renderPlayers ()}
             </ul>
         </div>
