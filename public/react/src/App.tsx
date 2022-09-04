@@ -1,5 +1,5 @@
 import reactLogo from './assets/react.svg'
-import './App.css'
+import './index.css'
 import GlobalContext, { GlobalContextProvider } from './contexts/global-context'
 import { MainRoom } from './components/main-room'
 
