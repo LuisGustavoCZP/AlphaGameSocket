@@ -17,7 +17,7 @@ export function GameRoom (props : any)
 
     async function startGame () 
     {
-        if(getSocket) return;
+        /* if(getSocket) return; */
         const newconnection = new Connection("localhost:5000");
         setSocket(newconnection);
     }

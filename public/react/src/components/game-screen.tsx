@@ -8,18 +8,16 @@ export function GameScreen ({connection} : IGameProps)
 {
     const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    useEffect(() => 
+
+    console.log(connection);
+    if(connection && canvasRef) 
     {
-        if(!connection) return;
         const canvas = canvasRef.current!;
         const context = canvas.getContext("2d")!;
         GameObject.context = context;
         MapObject.context = context;
-        console.log(connection);
-        //connection.add("match-map", (resp) => gameManager.setMap(resp))
         draw(context, canvas);
-        //connection.add("match-map", (resp) => setMap(resp));
-    }, []);
+    }
 
     function draw (context : CanvasRenderingContext2D, canvas : HTMLCanvasElement) 
     {
