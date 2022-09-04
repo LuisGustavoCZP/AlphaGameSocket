@@ -4,7 +4,7 @@ import {CorsOptions} from 'cors';
 
 dotenv.config();
 
-const port = parseInt(process.env.PORT || "8000");
+const port = parseInt(process.env.PORT || "5000");
 const isSsl = process.env.SSL ? process.env.SSL == "true" : false;
 
 const postgres = process.env.POSTGRES;
