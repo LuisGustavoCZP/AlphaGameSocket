@@ -17,14 +17,7 @@ export function MatchRoom (props : any)
         newconnection.add("match-update", async ({players} : any) => 
         {
             setPlayers(players);
-
-        });
-        newconnection.add("match-init", async ({player} : any) => 
-        {
-            setPlayer(player);
-            console.log(player);
-            setID(player.id)
-            let x:number = 1 ;
+            let x:number = 0 ;
             console.log(players)
             players.forEach((ele : any) => {
                 if(ele){
@@ -33,6 +26,13 @@ export function MatchRoom (props : any)
             });
             console.log(x)
             setNumber(x)
+        });
+        newconnection.add("match-init", async ({player} : any) => 
+        {
+            setPlayer(player);
+            console.log(player);
+            setID(player.id)
+
         });
         newconnection.add("match-start", async () => 
         {
