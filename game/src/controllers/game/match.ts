@@ -1,8 +1,9 @@
 import { v4 as uuid } from "uuid";
-import { SocketEvent } from "../connections";
-import { waitTime } from "../utils/wait";
-import { TileMap } from "./map";
+import { SocketEvent } from "../../connections";
+import { waitTime } from "../../utils/wait";
+import { TileMap } from "../../models/map";
 import { Player } from "./player";
+import { IMatch } from "../../models";
 
 class Match 
 {
@@ -14,16 +15,21 @@ class Match
     round: number;
     turn: number;
 
-    constructor (players : Player[], map : TileMap)
+    constructor (matchData : IMatch, map : TileMap)
     {
-        this.id = uuid();
-        this.players = players;
+        console.log(matchData);
+        this.id = matchData.id;
+        this.players = [];
         this.createdAt = new Date().toUTCString();
         this.startedAt = "";
         this.map = map;
         this.round = 0;
         this.turn = 0;
-        this.start ();
+        //this.start ();
+        matchData.players.forEach(playerData => 
+        {
+            this.add(new Player(playerData));
+        });
     }
 
     async start ()

@@ -8,15 +8,15 @@ export class Connection
 
     constructor (url : string)
     {
-        //console.log();
+        console.log(url);
         this.events = new Map<string, SocketEvent>();
-        this.add("connected", (data)=>
-        {
-            console.log("Conectado!", data);
-            this.send("match-init", true)
-        });
         this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
         this.instance.onmessage = (resp) => this.message(resp);
+        this.instance.onopen = () => 
+        {
+            console.log("Conectado!");
+            this.send("match-init", true)
+        }
     }
     
     send (type : string, data : any)

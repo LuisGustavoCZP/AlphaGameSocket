@@ -1,8 +1,10 @@
 import { Console } from "console";
 import { readFileSync } from "fs";
 import { connections, Connection } from "../../connections";
-import { Match, Player, BaseMap, TileMap } from "../../models";
+import { IMatch, IPlayer, BaseMap, TileMap } from "../../models";
 import { waitUntil } from "../../utils/wait";
+import { Match } from "./match";
+import { Player } from "./player";
 
 class GameManager 
 {
@@ -22,14 +24,14 @@ class GameManager
         return map;
     }
 
-    public createMatch ()
+    public createMatch (matchData : IMatch)
     {
-        const match = new Match([], this.generateMap());
+        const match = new Match(matchData, this.generateMap());
         this.matchs.push(match);
         return match;
     }
 
-    public async addPlayer (connection : Connection)
+    /* public async addPlayer (connection : Connection)
     {
         let match : Match;
         console.log(this.matchs);
@@ -42,7 +44,7 @@ class GameManager
         const p = match.players.length;
         const player = new Player(connection.id, `Player ${p + 1}`, p, 30);
         await match.add(player);
-    }
+    } */
 }
 
 const gameManager = new GameManager();

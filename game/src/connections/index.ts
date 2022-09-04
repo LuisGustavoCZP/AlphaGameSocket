@@ -15,7 +15,7 @@ export class Connection
         this.id = uuid();
         this.#socket = wsocket;
         this.#events = new Map<string, SocketEvent>();
-        this.send("connected", this.id);
+        /* this.send("connected", this.id); */
         this.#socket.on("message", (resp : string) => this.message(resp));
     }
 
@@ -77,7 +77,6 @@ export class Connections
         {
             const connection = new Connection(wsocket);
             this.list.set(connection.id, connection);
-            gameManager.addPlayer(connection);
             connection.onclose(() =>
             {
                 this.list.delete(connection.id);
@@ -87,5 +86,11 @@ export class Connections
 }
 
 const connections = new Connections ();
+
+const serverManager = new Connection (new WebSocket("ws://localhost:8010"));
+serverManager.on("match-init", (match) => 
+{
+    gameManager.createMatch(match);
+});
 
 export { connections, SocketEvent, SocketMessage };

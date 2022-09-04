@@ -1,6 +1,7 @@
 import { Server } from "../server";
 import { v4 as uuid } from "uuid";
 import { WebSocket, WebSocketServer } from "ws";
+import { port } from "../configs";
 import { SocketEvent, SocketMessage } from "./models";
 import { matchController } from "../controllers";
 
@@ -15,7 +16,7 @@ export class Connection
         this.id = uuid();
         this.#socket = wsocket;
         this.#events = new Map<string, SocketEvent>();
-        this.send("connected", this.id);
+        //this.send("connected", this.id);
         this.#socket.on("message", (resp : string) => this.message(resp));
         this.on("match-init", () => matchController.getMatch(this))
     }
@@ -65,15 +66,16 @@ export class Connections
     instance : WebSocketServer;
     list : Map<string, Connection>;
 
-    constructor()
+    public constructor()
     {
         this.list = new Map<string, any>();
         this.instance = null as any;
     }
 
-    start (server : Server)
+    public start (server? : Server)
     {
-        this.instance = new WebSocketServer({server:server.instance});
+        const options = server ? {server:server.instance} : {port:port+10};
+        this.instance = new WebSocketServer(options);
         this.instance.on('connection', (wsocket)  => 
         {
             const connection = new Connection(wsocket);
@@ -87,4 +89,6 @@ export class Connections
 }
 
 const connectionManager = new Connections ();
-export {connectionManager}
+const gameManager = new Connections ();
+
+export { connectionManager, gameManager }

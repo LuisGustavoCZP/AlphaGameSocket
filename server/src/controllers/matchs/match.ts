@@ -1,14 +1,19 @@
+//import redis from "../../clients/redis";
+import { v4 as uuid } from "uuid";
+import { sendMatch } from "../../clients/gameserver";
 import { SocketEvent } from "../../connections/models";
 import { Player } from "./player";
 
 export class Match 
 {
+    id: string;
     static maxSize = 4;
     players : Player[];
     isFull : boolean;
 
     public constructor ()
     {
+        this.id = uuid();
         this.players = [];
         this.isFull = false;
         for(let i = 0; i < Match.maxSize; i++)
@@ -17,23 +22,35 @@ export class Match
         }
     }
 
+    public start ()
+    {   
+        const ps = this.players.map(player => player.data)
+        sendMatch({id:this.id, players:ps});
+        this.send("match-start", true);
+    }
+
     public add (player : Player)
     {
         const index = this.players.findIndex(player => !player);
         if(this.isFull || index === -1) return;
-        if(index === Match.maxSize-1) this.isFull = true;
         player.matchIndex = index;
         this.players[index] = player;
         console.log(player.index);
-        player.send("match-init", { player:player });
+        player.send("match-init", { player:player.data });
         this.send("match-update", { players:this.players });
-        player.onexit(() => {this.remove(player)});
+        player.onexit(() => {this.remove(player);});
+        if(index === Match.maxSize-1) 
+        {
+            this.isFull = true;
+            this.start();
+        }
     }
 
     public remove (player : Player)
     {
         this.players[player.index] = null as any;
         this.send("match-update", { players:this.players });
+        if(this.isFull) this.isFull = false;
     }
 
     public send (type : string, data : any, filter? : (player : Player) => boolean)

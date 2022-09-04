@@ -1,4 +1,5 @@
-import { connections, SocketEvent } from "../connections";
+import { connections, SocketEvent } from "../../connections";
+import { IPlayer } from "../../models";
 
 class Player 
 {
@@ -8,12 +9,12 @@ class Player
     position: number;
     points: number;
 
-    constructor (id : string, name : string, character : number, position : number)
+    constructor ({ id, name, character } : IPlayer)
     {
         this.#id = id;
         this.name = name;
         this.character = character;
-        this.position = position;
+        this.position = 30;
         this.points = 0;
     }
 

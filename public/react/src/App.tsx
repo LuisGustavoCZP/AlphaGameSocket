@@ -1,14 +1,15 @@
-import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import { MatchRoom } from './components/match-room'
+import GlobalContext, { GlobalContextProvider } from './contexts/global-context'
+import { MainRoom } from './components/main-room'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className="App">
-      <MatchRoom/>
+      <GlobalContextProvider page={0}>
+        <MainRoom />
+      </GlobalContextProvider>
     </div>
   )
 }

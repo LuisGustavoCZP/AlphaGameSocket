@@ -41,4 +41,9 @@ export class Player
         const cn = connectionManager.list.get(this.#id);
         if(cn) cn.onclose(callback);
     }
+
+    public get data ()
+    {
+        return {index:this.index, id:this.#id, name:this.name, character:this.character};
+    }
 }

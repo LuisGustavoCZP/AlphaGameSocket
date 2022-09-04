@@ -5,6 +5,7 @@ const router = Router();
 
 router.use('/assets', express.static(`${gamePath}/maps`));
 router.use('/game/scripts', express.static(`${gamePath}/dist`));
+router.use('/game/', express.static(`${gamePath}/web`));
 router.use('/data', express.static(`${gamePath}/data`));
 router.use('/assets', express.static(`${gamePath}/assets`));
 router.use('/', express.static(`${clientPath}/dist`));

@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import { Connection } from "../connection";
+import GlobalContext from "../contexts/global-context";
 import { MatchPlayer } from "./match-player";
 
 export function MatchRoom (props : any)
 {
+    const {setPage, setID} = useContext(GlobalContext);
     const [player, setPlayer] = useState(null as any);
     const [players, setPlayers] = useState(null as any);
 
@@ -17,6 +19,13 @@ export function MatchRoom (props : any)
         newconnection.add("match-init", async ({player} : any) => 
         {
             setPlayer(player);
+            console.log(player);
+            setID(player.id)
+        });
+        newconnection.add("match-start", async () => 
+        {
+            setPage(1);
+            newconnection.instance.close();
         });
     }
 
