@@ -30,6 +30,7 @@ export function GameRoom (props : any)
                 {
                     console.log("Recebendo mapa!")
                     await gameManager.setMap(map);
+                    
                     newconnection.send("match-map", true);
                 });
                 newconnection.send("match-init", true);

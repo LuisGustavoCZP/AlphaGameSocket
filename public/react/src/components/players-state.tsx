@@ -1,9 +1,17 @@
 import { useContext, useEffect, useMemo, useState } from "react"
+import { IPlayerData } from "../game/player";
 
-export function PlayersState (props : any)
+export interface IPlayerStateProps 
 {
-    const [turno,setTurno] = useState(0);
-    const [pontos,setPontos] = useState([0,3000,200,500])
+    round? : number,
+    turn? : number,
+    players? : IPlayerData
+}
+
+export function PlayersState ({round, turn, players} : IPlayerStateProps)
+{
+    const [turno, setTurno] = useState(0);
+    const [pontos, setPontos] = useState([0,3000,200,500])
     const [playerTurn, setTurn] = useState([' ',' ',' ',' '])
     const playerTurnClass = 'border-2 border-black '
     function isPlayerTurn(myTurn: string){
