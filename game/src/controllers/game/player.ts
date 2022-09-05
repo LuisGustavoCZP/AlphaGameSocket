@@ -5,6 +5,7 @@ class Player
 {
     #id: string;
     #connection : Connection;
+    #ready : boolean;
     index : number;
     name: string;
     character: number;
@@ -13,6 +14,7 @@ class Player
 
     constructor (index : number, { id, name, character } : IPlayer)
     {
+        this.#ready = false;
         this.#id = id;
         this.index = index;
         this.name = name;
@@ -25,6 +27,16 @@ class Player
     set connection (_connection : Connection) 
     {
         this.#connection = _connection;
+    }
+
+    get ready ()
+    {
+        return this.#ready;
+    }
+
+    set ready (isReady)
+    {
+        this.#ready = isReady;
     }
 
     equal (id : string)

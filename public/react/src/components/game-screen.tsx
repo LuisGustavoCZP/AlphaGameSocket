@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { CharacterObject } from "../game/characterobject";
 import { gameManager } from "../game/gamedata";
 import { GameObject } from "../game/gameobject";
 import { MapObject } from "../game/mapobject";
@@ -16,10 +17,13 @@ export function GameScreen ({connection} : IGameProps)
         {
             gameManager.setPlayers(_players);
         });
-        connection.on("match-update", (_players) => 
+        connection.on("move-update", ({playerindex, position, tile}) => 
         {
-            gameManager.setPlayers(_players);
+            gameManager.players[playerindex].position = position;
+            const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
+            char.tileIndex = tile;
         });
+
     }
 
     if(canvasRef && canvasRef.current) 

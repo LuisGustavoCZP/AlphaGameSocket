@@ -34,9 +34,18 @@ class Match
 
     async start ()
     {
-        await waitTime (5000);
+        if(this.startedAt) return;
         this.startedAt = new Date().toUTCString();
         this.send("starting-match", true);
+        this.send("match-round", this.round);
+        this.send("match-turn", this.turn);
+
+        while(this.round < 20)
+        {
+            await waitTime (5000);
+            this.move ();
+        }
+        
     }
 
     async move ()
@@ -44,12 +53,18 @@ class Match
         const player = this.players[this.turn];
         const move = Math.ceil(Math.random()*7);
         this.send("starting-move", {move:move});
-        const speed = 0.1;
+        //const speed = 0.1;
 
-        for(let m = 0; m < move; m += speed)
+        
+        
+        for(let m = 0; m < move; m += 1)
         {
             await waitTime(100);
-            this.send("update-move", {turn: this.turn, dist:m});
+            const tilepos = this.map.base[player.position];
+            player.position = tilepos.path[0];
+            const tilenext = this.map.base[player.position];
+            this.send("update-move", {playerindex: this.turn, tile:tilenext.index, position:player.position});
+            //this.send("update-move", {turn: this.turn, dist:m});
         }
         
         this.nextTurn ();
@@ -92,16 +107,23 @@ class Match
             console.log("Partida iniciada!")
             player.on("match-map", async (ready : boolean) => 
             {
-                console.log("Mapa iniciado!")
+                console.log("Mapa iniciado!");
                 player.on("match-players", async (ready : boolean) => 
                 {
                     if(ready)
                     {
-                        player.send("match-round", this.round);
-                        player.send("match-turn", this.turn);
-                        if(this.players.every(player => player.connection))
+                        player.ready = true;
+
+                        let allready = true;
+                        for(const p of this.players)
                         {
-                            if(this.startedAt != "") this.send("starting-match", true);
+                            console.log(p.ready)
+                            if(!p.ready) allready = false;
+                        }
+
+                        if(allready)
+                        {
+                            this.start ();
                         }
                     }
                 });
