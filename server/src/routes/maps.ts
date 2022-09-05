@@ -4,7 +4,7 @@ import { serverPath } from '../utils/paths';
 
 const mapList : string[] = [];
 
-function loadMaps ()
+/* function loadMaps ()
 {
     const maps = fs.readdirSync(`${serverPath}/assets/maps/tilemaps`);
     maps.forEach(element => {
@@ -12,15 +12,15 @@ function loadMaps ()
     });
     console.log(maps);
 }
-loadMaps ();
+loadMaps (); */
 
 const router = Router();
 
-router.use('/assets/map', (req, res)=>
+/* router.use('/assets/map', (req, res)=>
 {
     const p = `${serverPath}/assets/maps/tilemaps/${mapList[2]}`;
     console.log("procurando mapa!", p)
     res.sendFile(p);
-});
+}); */
 
 export default router;

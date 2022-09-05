@@ -5,10 +5,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
-      '/assets/map': {
-        target: 'https://localhost:8000/assets/map'
-      }
-    }
+    /* origin: 'https://localhost:8000', */
   }
 })

@@ -20,7 +20,7 @@ export class Connection
 
         this.on("player-init", (id) => 
         {
-            if(!id) 
+            if(!id)
             {
                 this.#socket.close();
                 return;

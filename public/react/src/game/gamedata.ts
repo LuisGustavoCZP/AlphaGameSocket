@@ -39,8 +39,8 @@ export class GameManager
     async setMap (map : any)
     {
         console.log("Setando mapa!")
-        gameManager.map = new MapObject(await fetch("/assets/map")
-        .then(resp => {console.log(resp); return resp})
+        gameManager.map = new MapObject(await fetch("./src/assets/maps/tilemaps/tabuleiro.tmj")
+        //.then(resp => {console.log(resp.text()); return resp;})
         .then(resp => resp.json()));
         await waitUntil(() => gameManager.map.tilesets.length > 0);
         /* connection.add("match-players", (resp) => this.setPlayers(resp));
@@ -50,7 +50,7 @@ export class GameManager
 
     async setPlayers (players : IPlayerData[])
     {
-        const charactersData : ICharacterData[] = await fetch("/data/characters.json").then(resp => resp.json());
+        const charactersData : ICharacterData[] = await fetch("./src/assets/data/characters.json").then(resp => resp.json());
         players.forEach((playerData, index) => 
         {
             const objectid = `player:${index}`;

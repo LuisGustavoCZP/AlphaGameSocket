@@ -10,9 +10,11 @@ export function GameScreen ({connection} : IGameProps)
     const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
-    console.log(connection);
+    
     if(connection && canvasRef) 
     {
+        console.log(connection);
+
         const canvas = canvasRef.current!;
         const context = canvas.getContext("2d")!;
         GameObject.context = context;
