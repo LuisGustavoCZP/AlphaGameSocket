@@ -1,5 +1,5 @@
 { "columns":11,
- "image":"/assets/images/tabuleiro6.png",
+ "image":"/src/assets/maps/images/tabuleiro6.png",
  "imageheight":1100,
  "imagewidth":1100,
  "margin":0,
