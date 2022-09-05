@@ -52,6 +52,8 @@ class Match
     async move ()
     {
         const player = this.players[this.turn];
+        this.send("preparing-move", true);
+        await waitTime(5000);
         const move = Math.ceil(Math.random()*6);
         player.points += move*10;
         //const direction = Math.random() > 0.5;
@@ -62,7 +64,7 @@ class Match
         {
             await waitTime(500);
             const tilepos = this.map.base[player.position];
-            player.position = tilepos.path[0];
+            player.position = tilepos.next[Math.floor(Math.random()*tilepos.next.length)];
             const tilenext = this.map.base[player.position];
             this.send("update-move", {playerindex: this.turn, tile:tilenext.id, position:player.position});
             //this.send("update-move", {turn: this.turn, dist:m});
@@ -73,14 +75,16 @@ class Match
 
     async nextTurn (player : Player)
     {
+        let nextRound = false;
         this.turn++;
         if(this.turn === this.players.length)
         {
             this.turn = 0;
             this.round++;
-            await waitTime (1000);
+            nextRound = true;
         }
         this.send("finish-move", {turn:this.turn, round:this.round, points:player.points, items:[]});
+        if(nextRound) await waitTime (2000);
     }
 
     send (type : string, data : any)
