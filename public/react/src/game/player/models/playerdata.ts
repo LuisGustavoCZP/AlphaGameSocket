@@ -4,4 +4,5 @@ export interface IPlayerData
     character: number;
     position: number;
     points: number;
+    isPlayer:boolean;
 }
