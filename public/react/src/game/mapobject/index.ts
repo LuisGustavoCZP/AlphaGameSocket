@@ -15,7 +15,7 @@ export class TileSetObject extends SpriteSheet
 
     static async create (spriteSheetData : ITileSetData) : Promise<TileSetObject>
     {
-        const image = await this.loadSpriteImage (spriteSheetData.image);
+        const image = await this.loadSpriteImage (spriteSheetData.image.replace("../", "/src/assets/maps/"));
         const spriteSheet = new TileSetObject(spriteSheetData, image);
         this.addSpriteSheet(spriteSheet);
         return spriteSheet;
@@ -78,8 +78,8 @@ export class MapObject
     constructor (data : IMapData)
     {
         this.layers = data.layers;
-        this.tileheight = data.tileheight;
-        this.tilewidth = data.tilewidth;
+        this.tileheight = data.properties.find(p => p.name == "renderHeight")?.value!;
+        this.tilewidth = data.properties.find(p => p.name == "renderWidth")?.value!;
         this.tilesets = [];
         this.tiles = [];
         this.load(data);

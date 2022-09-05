@@ -3,7 +3,8 @@ interface BaseTile
     index: number,
     id: number,
     d: number,
-    path: number[]
+    next: number[]
+    back: number[]
 }
 
 type BaseMap = BaseTile[];

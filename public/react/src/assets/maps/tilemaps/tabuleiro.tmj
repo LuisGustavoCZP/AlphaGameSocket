@@ -27,15 +27,26 @@
  "nextlayerid":2,
  "nextobjectid":1,
  "orientation":"orthogonal",
+ "properties":[
+        {
+         "name":"renderHeight",
+         "type":"int",
+         "value":48
+        },
+        {
+         "name":"renderWidth",
+         "type":"int",
+         "value":48
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.9.1",
- "tileheight":48,
+ "tileheight":100,
  "tilesets":[
         {
          "firstgid":1,
          "source":"..\/tilesheets\/tabuleiro-tiles.tsj"
         }],
- "tilewidth":48,
+ "tilewidth":100,
  "type":"map",
  "version":"1.9",
  "width":11

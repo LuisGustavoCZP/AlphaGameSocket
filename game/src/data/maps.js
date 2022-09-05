@@ -1,4 +1,6 @@
 const fs = require("fs");
+const { clientPath } = require("./path");
+
 function createMap ()
 {
     const tiles = [];
@@ -11,7 +13,8 @@ function createMap ()
             index:tiles.length,
             id:k, 
             d:1,
-            path:[]
+            next:[],
+            back:[]
         };
 
         if(i == 0)
@@ -23,7 +26,7 @@ function createMap ()
             tile.d+=4;
         }
 
-        tile.path.push(tiles.length+1);
+        tile.next.push(tiles.length+1);
         tiles.push(tile);
     }
 
@@ -35,7 +38,8 @@ function createMap ()
             index:tiles.length,
             id:k, 
             d:4,
-            path:[]
+            next:[],
+            back:[]
         };
 
         if(i == 10)
@@ -43,7 +47,7 @@ function createMap ()
             tile.d+=8;
         }
 
-        tile.path.push(tiles.length+1);
+        tile.next.push(tiles.length+1);
         tiles.push(tile);
     }
 
@@ -55,7 +59,8 @@ function createMap ()
             index:tiles.length,
             id:k, 
             d:8,
-            path:[]
+            next:[],
+            back:[]
         };
 
         if(i == 10)
@@ -63,7 +68,7 @@ function createMap ()
             tile.d+=2;
         }
 
-        tile.path.push(tiles.length+1);
+        tile.next.push(tiles.length+1);
         tiles.push(tile);
     }
 
@@ -75,14 +80,33 @@ function createMap ()
             index:tiles.length,
             id:k, 
             d:2,
-            path:[]
+            next:[],
+            back:[]
         };
 
-        if(i == 9) tile.path.push(0);
-        else tile.path.push(tiles.length+1);
+        if(i == 9) tile.next.push(0);
+        else tile.next.push(tiles.length+1);
         tiles.push(tile);
     }
 
     fs.writeFileSync(__dirname+"/test1.json", JSON.stringify(tiles, null, 2));
 }
-createMap();
+
+function extractMap (path)
+{
+    const file = fs.readFile(`${clientPath}/src/assets/maps/${path}`);
+    if(file)
+    {
+        const parsedMap = JSON.parse(file);
+        const tilesetFileSrc = parsedMap.tilesets[0].source;
+        const tilesetFile = fs.readFile(`${clientPath}/src/assets/maps/${tilesetFileSrc.replace('../', '')}`);
+        const parsedTileset = JSON.parse(tilesetFile);
+        
+        console.log(parsedMap, parsedTileset);
+    }
+    
+    //fs.writeFileSync(__dirname+"/test1.json", JSON.stringify(tiles, null, 2));
+}
+
+extractMap('tilesheets/tabuleiro-tiles.tsj');
+//createMap();
