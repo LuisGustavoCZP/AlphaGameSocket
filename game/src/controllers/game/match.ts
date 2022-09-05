@@ -28,7 +28,7 @@ class Match
         //this.start ();
         matchData.players.forEach(playerData => 
         {
-            this.add(new Player(playerData));
+            this.players.push(new Player(playerData));
         });
     }
 
@@ -84,7 +84,8 @@ class Match
 
     async add (player : Player)
     {
-        this.players.push(player);
+        /* this.players.push(player); */
+        player.send("match-ready", true);
         player.on("match-init", async (ready : boolean) => 
         {
             console.log("Partida iniciada!")

@@ -26,6 +26,11 @@ export class Connection
                 return;
             }
             this.id = id;
+            if(!gameManager.initPlayer(id, this))
+            {
+                this.#socket.close();
+                return;
+            }
             connections.list.set(this.id, this);
             this.onclose(() =>
             {

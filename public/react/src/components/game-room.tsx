@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Connection } from "../connection";
 import GlobalContext from "../contexts/global-context";
+import { gameManager } from "../game/gamedata";
 import { ChatScreen } from "./chat-screen";
 import { GameScreen } from "./game-screen";
 import { GameState } from "./game-state";
@@ -19,7 +20,22 @@ export function GameRoom (props : any)
     {
         /* if(getSocket) return; */
         const newconnection = new Connection("localhost:5000");
-        setSocket(newconnection);
+        
+        newconnection.on("onopen", () => 
+        {
+            newconnection.on("match-map", (map) => 
+            {
+                console.log("Recebendo mapa!")
+                gameManager.setMap(map);
+            });
+            newconnection.on("match-ready", () => 
+            {
+                setSocket(newconnection);
+                
+                newconnection.send("match-init", true);
+            });
+            newconnection.send("player-init", getID);
+        });
     }
 
     useEffect(() => 

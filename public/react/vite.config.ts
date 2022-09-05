@@ -6,9 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/socket': {
-        target: 'wss://localhost:8000',
-        ws: true
+      '/assets/map': {
+        target: 'https://localhost:8000/assets/map'
       }
     }
   }

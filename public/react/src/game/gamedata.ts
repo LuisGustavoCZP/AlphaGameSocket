@@ -39,8 +39,10 @@ export class GameManager
     async setMap (map : any)
     {
         console.log("Setando mapa!")
-        gameManager.map = new MapObject(await fetch("/assets/map").then(resp => resp.json()));
-        await waitUntil(() => gameManager.map.tilesets.length > 0)
+        gameManager.map = new MapObject(await fetch("/assets/map")
+        .then(resp => {console.log(resp); return resp})
+        .then(resp => resp.json()));
+        await waitUntil(() => gameManager.map.tilesets.length > 0);
         /* connection.add("match-players", (resp) => this.setPlayers(resp));
         connection.remove("match-map");
         connection.send("match-map", true); */

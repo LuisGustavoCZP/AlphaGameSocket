@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { gameManager } from "../game/gamedata";
 import { GameObject } from "../game/gameobject";
 import { MapObject } from "../game/mapobject";
+import { IMapData } from "../game/mapobject/models";
 import { IGameProps } from "./game-room";
 
 export function GameScreen ({connection} : IGameProps)
@@ -16,6 +17,7 @@ export function GameScreen ({connection} : IGameProps)
         const context = canvas.getContext("2d")!;
         GameObject.context = context;
         MapObject.context = context;
+        
         draw(context, canvas);
     }
 
@@ -23,12 +25,12 @@ export function GameScreen ({connection} : IGameProps)
     {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        /* gameManager.map?.draw();
+        gameManager.map?.draw();
 
         gameManager.gameObjects.forEach(gameObject => 
         {
             gameObject.draw();
-        }) */
+        })
         //console.log("desenhando");
         requestAnimationFrame(() => draw(context, canvas));
     }

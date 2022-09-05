@@ -31,6 +31,21 @@ class GameManager
         return match;
     }
 
+    public async initPlayer (id : string, connection : Connection)
+    {
+        for (let match of this.matchs)
+        {
+            const p = match.players.find(player => player.equal(id));
+            if(p) 
+            {
+                p.connection = connection;
+                match.add(p);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /* public async addPlayer (connection : Connection)
     {
         let match : Match;

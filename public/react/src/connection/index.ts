@@ -9,22 +9,32 @@ export class Connection
 
     constructor (url : string = defaultUrl)
     {
-        //console.log();
         this.events = new Map<string, SocketEvent>();
         this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
         this.instance.onmessage = (resp) => this.message(resp);
-        this.instance.onopen = () => 
-        {
-            console.log("Conectado!");
-            this.send("match-init", true)
-        }
-
-        this.instance.onclose = () => 
-        {
-            console.log("Desconectado!");
-        }
+        this.instance.onopen = () => {this.#onEventOpen();};
+        this.instance.onclose = () => {this.#onEventClose();};
     }
     
+    #onEventOpen () 
+    {
+        console.log("Conectado!");
+        const type = "onopen";
+        if(!this.events.has(type)) return;
+        const event = this.events.get(type)!;
+        if(event) event();
+        
+    }
+
+    #onEventClose () 
+    {
+        const type = "onclose";
+        if(!this.events.has(type)) return;
+        const event = this.events.get(type)!;
+        if(event) event();
+        console.log("Desconectado!");
+    }
+
     send (type : string, data : any)
     {
         const msg = {
@@ -45,7 +55,7 @@ export class Connection
         if(event) event(msg.data);
     }
 
-    add (type : string, event : SocketEvent)
+    on (type : string, event : SocketEvent)
     {
         if(this.events.has(type)) 
         {
@@ -54,7 +64,7 @@ export class Connection
         this.events.set(type, event);
     }
 
-    remove (type : string)
+    off (type : string)
     {
         if(this.events.has(type)) 
         {

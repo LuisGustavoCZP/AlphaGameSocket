@@ -15,7 +15,19 @@ export function MatchRoom (props : any)
     {
         if(getID) return;
         const newconnection = new Connection();
-        newconnection.add("match-update", async ({players} : any) => 
+        newconnection.on("onopen", () => 
+        {
+            newconnection.send("match-init", true)
+        });
+        
+        newconnection.on("match-init", async ({player} : any) => 
+        {
+            setPlayer(player);
+            console.log(player);
+            setID(player.id)
+
+        });
+        newconnection.on("match-update", async ({players} : any) => 
         {
             setPlayers(players);
             let x:number = 0 ;
@@ -28,14 +40,7 @@ export function MatchRoom (props : any)
             console.log(x)
             setNumber(x)
         });
-        newconnection.add("match-init", async ({player} : any) => 
-        {
-            setPlayer(player);
-            console.log(player);
-            setID(player.id)
-
-        });
-        newconnection.add("match-start", async () => 
+        newconnection.on("match-start", async () => 
         {
             setPage(1);
             newconnection.instance.close();
