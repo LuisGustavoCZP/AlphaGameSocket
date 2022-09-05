@@ -19,7 +19,7 @@ export function GameState ({connection} : IGameProps)
             connection.on("match-round", (data) => setRound(data));
             connection.on("match-turn", (data) => setTurn(data));
             connection.send("match-players", true);
-        })
+        });
     }
     return (
     <section className="flex flex-col h-full w-full min-w-[200px] max-w-[400px] gap-4">
