@@ -5,11 +5,11 @@ const defaultUrl = "localhost:8000";
 export class Connection
 {
     instance : WebSocket;
-    events : Map<string, SocketEvent>;
+    events : Map<string, SocketEvent[]>;
 
     constructor (url : string = defaultUrl)
     {
-        this.events = new Map<string, SocketEvent>();
+        this.events = new Map<string, SocketEvent[]>();
         this.instance = new WebSocket(`wss://${url}`, ["https", "http"]);
         this.instance.onmessage = (resp) => this.message(resp);
         this.instance.onopen = () => {this.#onEventOpen();};
@@ -21,18 +21,29 @@ export class Connection
         console.log("Conectado!");
         const type = "onopen";
         if(!this.events.has(type)) return;
-        const event = this.events.get(type)!;
-        if(event) event();
-        
+        const events = this.events.get(type)!;
+        if(events) 
+        {
+            events.forEach(event =>
+            {
+                event();
+            });
+        }
     }
 
     #onEventClose () 
     {
+        console.log("Desconectado!");
         const type = "onclose";
         if(!this.events.has(type)) return;
-        const event = this.events.get(type)!;
-        if(event) event();
-        console.log("Desconectado!");
+        const events = this.events.get(type)!;
+        if(events) 
+        {
+            events.forEach(event =>
+            {
+                event();
+            });
+        }
     }
 
     send (type : string, data : any)
@@ -51,17 +62,24 @@ export class Connection
         const msg = JSON.parse(resp.data) as SocketMessage;
         console.log("Receiving", msg);
         if(!this.events.has(msg.type)) return;
-        const event = this.events.get(msg.type)!;
-        if(event) event(msg.data);
+        const events = this.events.get(msg.type)!;
+        if(events) 
+        {
+            events.forEach(event =>
+            {
+                event(msg.data);
+            });
+        }
     }
 
     on (type : string, event : SocketEvent)
     {
         if(this.events.has(type)) 
         {
+            this.events.get(type)?.push(event);
             return;
         }
-        this.events.set(type, event);
+        this.events.set(type, [event]);
     }
 
     off (type : string)

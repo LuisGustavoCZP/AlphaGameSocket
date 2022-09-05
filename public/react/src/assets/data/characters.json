@@ -4,9 +4,9 @@
         "name":"Tobias",
         "sprite": 
         {
-            "spriteSheet":"data/spritesheets/personagens.json",
+            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
             "spriteIndex":0,
-            "animationSet":"/data/animationsets/movimento-simples.json"
+            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
         },
         "size":24
     },
@@ -15,9 +15,9 @@
         "name":"Josefina",
         "sprite": 
         {
-            "spriteSheet":"data/spritesheets/personagens.json",
+            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
             "spriteIndex":12,
-            "animationSet":"/data/animationsets/movimento-simples.json"
+            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
         },
         "size":24
     },
@@ -26,9 +26,9 @@
         "name":"Seu zé",
         "sprite": 
         {
-            "spriteSheet":"data/spritesheets/personagens.json",
+            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
             "spriteIndex":24,
-            "animationSet":"/data/animationsets/movimento-simples.json"
+            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
         },
         "size":24
     },
@@ -37,9 +37,9 @@
         "name":"Katrina",
         "sprite": 
         {
-            "spriteSheet":"data/spritesheets/personagens.json",
+            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
             "spriteIndex":36,
-            "animationSet":"/data/animationsets/movimento-simples.json"
+            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
         },
         "size":24
     }

@@ -18,12 +18,11 @@ export function MatchRoom (props : any)
         newconnection.on("onopen", () => 
         {
             newconnection.send("match-init", true)
-        });
-        
+        }); 
         newconnection.on("match-init", async ({player} : any) => 
         {
             setPlayer(player);
-            console.log(player);
+            //console.log(player);
             setID(player.id)
 
         });
@@ -31,13 +30,13 @@ export function MatchRoom (props : any)
         {
             setPlayers(players);
             let x:number = 0 ;
-            console.log(players)
+            //console.log(players)
             players.forEach((ele : any) => {
                 if(ele){
                     x++;
                 }
             });
-            console.log(x)
+            //console.log(x)
             setNumber(x)
         });
         newconnection.on("match-start", async () => 

@@ -1,6 +1,6 @@
 {
     "name":"personagens",
-    "image":"/game/assets/images/sprites/personagens3.png",
+    "image":"/src/assets/sprites/personagens3.png",
     "tileheight":16, 
     "tilewidth":16,
     "spacing":1,

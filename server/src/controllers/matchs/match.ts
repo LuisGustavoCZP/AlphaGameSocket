@@ -1,6 +1,6 @@
 //import redis from "../../clients/redis";
 import { v4 as uuid } from "uuid";
-import { sendMatch } from "../../clients/gameserver";
+import { freeGameServer } from "../../clients/gameserver";
 import { SocketEvent } from "../../connections/models";
 import { Player } from "./player";
 
@@ -25,8 +25,12 @@ export class Match
     public start ()
     {   
         const ps = this.players.map(player => player.data)
-        sendMatch({id:this.id, players:ps});
-        this.send("match-start", true);
+        const cn = freeGameServer()!;
+        cn.on("match-init", () => 
+        {
+            this.send("match-start", true);
+        });
+        cn.send("match-init", {id:this.id, players:ps});
     }
 
     public add (player : Player)

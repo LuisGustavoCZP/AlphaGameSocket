@@ -32,14 +32,12 @@ class Player
 
     send (type : string, data : any)
     {
-        const cn = connections.list.get(this.#id);
-        if(cn) cn.send(type, data);
+        this.#connection.send(type, data);
     }
 
     on (type : string, callback : SocketEvent)
     {
-        const cn = connections.list.get(this.#id);
-        if(cn) cn.on(type, callback)
+        this.#connection.on(type, callback)
     }
 }
 

@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import { WebSocket, WebSocketServer } from "ws";
 import { SocketEvent, SocketMessage } from "./models";
 import { gameManager, GameManager } from "../controllers/game";
+import { waitTime } from "../utils/wait";
 
 export class Connection 
 {
@@ -78,6 +79,11 @@ export class Connection
     {
         this.#socket.on("close", event);
     }
+
+    retry ()
+    {
+        this.#socket = new WebSocket(this.#socket.url);
+    }
 }
 
 export class Connections
@@ -102,11 +108,17 @@ export class Connections
 }
 
 const connections = new Connections ();
-
-const serverManager = new Connection (new WebSocket("ws://localhost:8010"));
+//let serverManager : Connection;
+let serverManager = new Connection (new WebSocket("ws://localhost:8010"));
 serverManager.on("match-init", (match) => 
 {
     gameManager.createMatch(match);
+    serverManager.send("match-init", true);
 });
+serverManager.onclose(async () => 
+{
+    await waitTime(5000);
+    serverManager.retry();
+})
 
 export { connections, SocketEvent, SocketMessage };

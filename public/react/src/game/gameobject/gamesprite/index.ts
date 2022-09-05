@@ -61,11 +61,11 @@ export class AnimationSet
     public static create (spriteSheet : SpriteSheet, animationSetData : IAnimationSetsData, spriteIndex : number)
     {
         const name = `${spriteSheet.name}:${animationSetData.name}:${spriteIndex}`;
-        console.log("Checando animset", name);
+        //console.log("Checando animset", name);
 
         if(listAnimationSets.has(name)) return listAnimationSets.get(name)!;
         
-        console.log("Criando animset");
+        //console.log("Criando animset");
         const newSet = new AnimationSet(spriteSheet, animationSetData, spriteIndex);
         listAnimationSets.set(name, newSet);
 

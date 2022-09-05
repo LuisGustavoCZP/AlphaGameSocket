@@ -12,12 +12,13 @@ export class Server
         this.instance = isSsl ? https.createServer(certs, app) : http.createServer(app);
     }
 
-    public listen ()
+    public listen (callback? : () => void)
     {
         this.instance.listen(port, () =>
         {
             const a = this.instance.address() as AddressInfo;
             console.log(`> Server listening on http${isSsl?'s':''}://${process.env.URL || a.address=='::'?'localhost':a.address}:${port}`);
+            if(callback)callback();
         });
     }
 }

@@ -40,7 +40,6 @@ export class GameManager
     {
         console.log("Setando mapa!")
         gameManager.map = new MapObject(await fetch("./src/assets/maps/tilemaps/tabuleiro.tmj")
-        //.then(resp => {console.log(resp.text()); return resp;})
         .then(resp => resp.json()));
         await waitUntil(() => gameManager.map.tilesets.length > 0);
         /* connection.add("match-players", (resp) => this.setPlayers(resp));
@@ -56,10 +55,7 @@ export class GameManager
             const objectid = `player:${index}`;
             const charData = charactersData[playerData.character];
             const gameObject = new CharacterObject(objectid, charData, index, playerData.position);
-            //console.log(tile, gameObject);
             this.addGameObject(gameObject);
-            /* const player = new Player(index, playerData.name, objectid, playerData.position, playerData.points);
-            this.players.push(player as Player);  */
         });
         console.log(gameManager.gameObjects);
         /* connection.add("match-round", (data) => this.round = data);

@@ -1,12 +1,12 @@
 import { gameManager } from "../../connections";
 import { Match } from "../../controllers";
 
-function sendMatch (match : any)
+function freeGameServer ()
 {
     for(const [,cn] of gameManager.list)
     {
-        cn.send("match-init", match);
+        return cn;
     }
 }
-
-export {sendMatch};
+//
+export {freeGameServer};
