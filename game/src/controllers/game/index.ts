@@ -46,21 +46,6 @@ class GameManager
         }
         return false;
     }
-
-    /* public async addPlayer (connection : Connection)
-    {
-        let match : Match;
-        console.log(this.matchs);
-        if(this.matchs.length === 0) match = this.createMatch();
-        else {
-            match = this.matchs[this.matchs.length-1];
-            if(match.players.length === 4) match = this.createMatch();
-        }
-
-        const p = match.players.length;
-        const player = new Player(connection.id, `Player ${p + 1}`, p, 30);
-        await match.add(player);
-    } */
 }
 
 const gameManager = new GameManager();

@@ -18,6 +18,7 @@ export function GameState ({connection} : IGameProps)
             setPlayers(_players);
             connection.on("match-round", (data) => setRound(data));
             connection.on("match-turn", (data) => setTurn(data));
+            connection.send("match-players", true);
         })
     }
     return (

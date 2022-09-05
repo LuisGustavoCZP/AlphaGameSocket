@@ -16,6 +16,10 @@ export function GameScreen ({connection} : IGameProps)
         {
             gameManager.setPlayers(_players);
         });
+        connection.on("match-update", (_players) => 
+        {
+            gameManager.setPlayers(_players);
+        });
     }
 
     if(canvasRef && canvasRef.current) 

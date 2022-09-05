@@ -26,9 +26,9 @@ class Match
         this.round = 0;
         this.turn = 0;
         //this.start ();
-        matchData.players.forEach(playerData => 
+        matchData.players.forEach((playerData, i) => 
         {
-            this.players.push(new Player(playerData));
+            this.players.push(new Player(i, playerData));
         });
     }
 
@@ -99,13 +99,16 @@ class Match
                     {
                         player.send("match-round", this.round);
                         player.send("match-turn", this.turn);
-                        if(this.startedAt != "") player.send("starting-match", true);
+                        if(this.players.every(player => player.connection))
+                        {
+                            if(this.startedAt != "") this.send("starting-match", true);
+                        }
                     }
                 });
-                const ps = this.players.map((player)=>
+                const ps = this.players.map((_player, index)=>
                 {
-                    const tile = this.map.base[player.position];
-                    const p = {...player, position:tile.id};//Object.assign({}, player);
+                    const tile = this.map.base[_player.position];
+                    const p = {..._player, position:tile.id, isPlayer:_player.index === player.index};//Object.assign({}, player);
                     return p;
                 });
                 player.send("match-players", ps);

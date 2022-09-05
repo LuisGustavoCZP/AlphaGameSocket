@@ -5,14 +5,16 @@ class Player
 {
     #id: string;
     #connection : Connection;
+    index : number;
     name: string;
     character: number;
     position: number;
     points: number;
 
-    constructor ({ id, name, character } : IPlayer)
+    constructor (index : number, { id, name, character } : IPlayer)
     {
         this.#id = id;
+        this.index = index;
         this.name = name;
         this.character = character;
         this.position = 30;
