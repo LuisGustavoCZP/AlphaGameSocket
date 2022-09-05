@@ -24,4 +24,12 @@ export class CharacterObject extends AnimatedObject
         this.x = tile.x + this.tileOffsetX;
         this.y = tile.y + this.tileOffsetY;
     }
+
+    public draw() 
+    {
+        const tile = gameManager.map.tiles[this.tileIndex];
+        this.x = tile.x + this.tileOffsetX;
+        this.y = tile.y + this.tileOffsetY;
+        super.draw();
+    }
 }

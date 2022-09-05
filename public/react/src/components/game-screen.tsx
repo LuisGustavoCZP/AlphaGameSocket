@@ -10,11 +10,16 @@ export function GameScreen ({connection} : IGameProps)
     const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
-    
-    if(connection && canvasRef) 
+    if(connection)
     {
-        console.log(connection);
+        connection.on("match-players", (_players) => 
+        {
+            gameManager.setPlayers(_players);
+        });
+    }
 
+    if(canvasRef && canvasRef.current) 
+    {
         const canvas = canvasRef.current!;
         const context = canvas.getContext("2d")!;
         GameObject.context = context;

@@ -85,6 +85,7 @@ class Match
     async add (player : Player)
     {
         /* this.players.push(player); */
+        //console.log("add player", player);
         player.send("match-ready", true);
         player.on("match-init", async (ready : boolean) => 
         {

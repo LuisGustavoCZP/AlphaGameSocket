@@ -33,6 +33,7 @@ class GameManager
 
     public async initPlayer (id : string, connection : Connection)
     {
+        //console.log("Rodando aqui", this.matchs)
         for (let match of this.matchs)
         {
             const p = match.players.find(player => player.equal(id));
