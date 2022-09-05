@@ -17,9 +17,18 @@ export function GameScreen ({connection} : IGameProps)
         {
             gameManager.setPlayers(_players);
         });
-        connection.on("move-update", ({playerindex, position, tile}) => 
+        connection.on("starting-move", ({playerindex, move}) => 
         {
-            gameManager.players[playerindex].position = position;
+            const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
+            char.animation = "walk down";
+            connection.on("finish-move", ({turn, round}) => 
+            {
+                char.animation = "idle down";
+            });
+        });
+
+        connection.on("update-move", ({playerindex, position, tile}) => 
+        {
             const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
             char.tileIndex = tile;
         });

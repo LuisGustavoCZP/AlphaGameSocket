@@ -186,7 +186,7 @@ export class AnimatedSprite extends GameSprite
         super(spriteData);
         this.frame = 0;
         this.frameTime = 0;
-        this.animationName = "walk down";
+        this.animationName = "idle down";
         this.animations = (null as unknown) as AnimationSet;
         this.load(spriteData);
     }
@@ -210,7 +210,7 @@ export class AnimatedSprite extends GameSprite
         if(!sequence)
         {
             this.frame = 0;
-            sequence = this.animations.get("walk down")!;
+            sequence = this.animations.get("idle down")!;
         }
 
         this.spriteRect = sequence[this.frame];

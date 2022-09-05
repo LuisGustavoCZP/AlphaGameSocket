@@ -3,7 +3,7 @@ import { PlayersState } from "./players-state";
 import { SpecsUser } from "./specsuser";
 import { ModalPergunta } from './modalpergunta'
 import { IGameProps } from "./game-room";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IPlayerData } from "../game/player";
 
 export function GameState ({connection} : IGameProps)
@@ -12,24 +12,38 @@ export function GameState ({connection} : IGameProps)
     const [turn, setTurn] = useState<number>();
     const [diceNumber, setDice ] = useState<number>();
     const [players, setPlayers] = useState <IPlayerData[]>();
-    if(connection)
+    
+    useEffect(() => 
     {
-        connection.on("match-players", (_players) => 
+        if(connection)
         {
-            setPlayers(_players);
-            connection.on("match-round", (data) => setRound(data));
-            connection.on("match-turn", (data) => setTurn(data));
-            connection.send("match-players", true);
-        })
-        connection.on("starting-move",(data)=> {
-            setDice(data.move);
-            console.log(data.move) })
-        connection.on("finish-move",(data)=> {
-            
-            setRound(data.round);
-            setTurn(data.turn);
-        } )
-    }
+            connection.on("match-players", (_players) => 
+            {
+                setPlayers(_players);
+                connection.on("match-round", (data) => setRound(data));
+                connection.on("match-turn", (data) => setTurn(data));
+                
+                connection.on("starting-move", ({playerindex, move}) => 
+                {
+                    setDice(move);
+
+                    connection.on("finish-move", ({turn, round, points, items})=> 
+                    {
+                        setRound(round);
+                        setTurn(turn);
+                        console.log(playerindex)
+                        _players![playerindex].points = points;
+                        setPlayers(_players);
+                        connection.off("finish-move");
+                    });
+                });
+                connection.send("match-players", true);
+            });
+        }
+    }, [connection])
+    
+        
+    
     return (
     <section className="flex flex-col h-full w-full min-w-[200px] max-w-[400px] gap-4">
         <SpecsUser players={players}/>

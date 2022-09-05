@@ -57,7 +57,7 @@ export class GameManager
             const gameObject = new CharacterObject(objectid, charData, index, playerData.position);
             this.addGameObject(gameObject);
         });
-        console.log(gameManager.gameObjects);
+        //console.log(gameManager.gameObjects);
         /* connection.add("match-round", (data) => this.round = data);
         connection.add("match-turn", (data) => this.turn = data);
         connection.remove("match-players");
