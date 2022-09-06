@@ -1,5 +1,11 @@
 import { ISpriteSheetData } from "../../spriteobject/models"
 
+export interface IMapPropertie {
+    name : string,
+    type : string,
+    value : number
+}
+
 export interface IMapData 
 {
     orientation : string,
@@ -10,6 +16,7 @@ export interface IMapData
     height : number,
     width : number,
     layers : IMapLayer[]
+    properties : IMapPropertie[]
 }
 
 export interface IMapTileset 

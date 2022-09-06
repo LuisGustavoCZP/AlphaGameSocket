@@ -67,6 +67,17 @@
  "nextlayerid":3,
  "nextobjectid":1,
  "orientation":"orthogonal",
+ "properties":[
+        {
+         "name":"renderHeight",
+         "type":"int",
+         "value":32
+        }, 
+        {
+         "name":"renderWidth",
+         "type":"int",
+         "value":32
+        }],
  "renderorder":"right-up",
  "tiledversion":"1.9.1",
  "tileheight":32,

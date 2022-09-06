@@ -40,10 +40,11 @@ class Match
         this.send("match-round", this.round);
         this.send("match-turn", this.turn);
 
+        await waitTime (5000);
+
         while(this.round < 20)
         {
-            await waitTime (5000);
-            this.move ();
+            await this.move ();
         }
         
     }
@@ -51,34 +52,39 @@ class Match
     async move ()
     {
         const player = this.players[this.turn];
-        const move = Math.ceil(Math.random()*7);
-        this.send("starting-move", {move:move});
+        this.send("preparing-move", true);
+        await waitTime(5000);
+        const move = Math.ceil(Math.random()*6);
+        player.points += move*10;
+        //const direction = Math.random() > 0.5;
+        this.send("starting-move", {playerindex: this.turn, move:move});
         //const speed = 0.1;
 
-        
-        
         for(let m = 0; m < move; m += 1)
         {
-            await waitTime(100);
+            await waitTime(500);
             const tilepos = this.map.base[player.position];
-            player.position = tilepos.path[0];
+            player.position = tilepos.next[Math.floor(Math.random()*tilepos.next.length)];
             const tilenext = this.map.base[player.position];
-            this.send("update-move", {playerindex: this.turn, tile:tilenext.index, position:player.position});
+            this.send("update-move", {playerindex: this.turn, tile:tilenext.id, position:player.position});
             //this.send("update-move", {turn: this.turn, dist:m});
         }
         
-        this.nextTurn ();
+        await this.nextTurn (player);
     }
 
-    nextTurn ()
+    async nextTurn (player : Player)
     {
+        let nextRound = false;
         this.turn++;
         if(this.turn === this.players.length)
         {
             this.turn = 0;
             this.round++;
+            nextRound = true;
         }
-        this.send("finish-move", {turn:this.turn, round:this.round});
+        this.send("finish-move", {turn:this.turn, round:this.round, points:player.points, items:[]});
+        if(nextRound) await waitTime (2000);
     }
 
     send (type : string, data : any)
