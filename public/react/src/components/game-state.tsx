@@ -5,7 +5,7 @@ import { ModalPergunta } from './modalpergunta'
 import { IGameProps } from "./game-room";
 import { useState } from "react";
 import { IPlayerData } from "../game/player";
-
+import { DiceRoll } from "./dice-animation";
 export function GameState ({connection} : IGameProps)
 {
     const [round, setRound] = useState<number>();
@@ -35,6 +35,7 @@ export function GameState ({connection} : IGameProps)
         <SpecsUser players={players}/>
         <PlayersState players={players} round={round} turn={turn} />
         <InventoryState />
+        < DiceRoll />
         <h1>Voce tirou {diceNumber} no dado</h1>
         {/* <ModalPergunta/> */}
     </section>
