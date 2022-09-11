@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { SocketEvent } from "../../connections";
 import { waitTime } from "../../utils/wait";
-import { TileMap } from "../../models/map";
+import { TileMap } from "./map";
 import { Player } from "./player";
 import { IMatch } from "../../models";
 
@@ -14,6 +14,7 @@ class Match
     map: TileMap;
     round: number;
     turn: number;
+    static speed = 1;
 
     constructor (matchData : IMatch, map : TileMap)
     {
@@ -42,7 +43,7 @@ class Match
 
         await waitTime (5000);
 
-        while(this.round < 20)
+        while(this.round < 40)
         {
             await this.move ();
         }
@@ -53,7 +54,7 @@ class Match
     {
         const player = this.players[this.turn];
         this.send("preparing-move", true);
-        await waitTime(5000);
+        await waitTime(5000*Match.speed);
         const move = Math.ceil(Math.random()*6);
         player.points += move*10;
         //const direction = Math.random() > 0.5;
@@ -62,10 +63,10 @@ class Match
 
         for(let m = 0; m < move; m += 1)
         {
-            await waitTime(500);
-            const tilepos = this.map.base[player.position];
+            await waitTime(1000*Match.speed);
+            const tilepos = this.map.base.tile(player.position.toString())!;
             player.position = tilepos.next[Math.floor(Math.random()*tilepos.next.length)];
-            const tilenext = this.map.base[player.position];
+            const tilenext = this.map.base.tile(player.position.toString())!;
             this.send("update-move", {playerindex: this.turn, tile:tilenext.id, position:player.position});
             //this.send("update-move", {turn: this.turn, dist:m});
         }
@@ -83,8 +84,11 @@ class Match
             this.round++;
             nextRound = true;
         }
+
+        const tile = this.map.tile(player.position.toString())!;
+        tile
         this.send("finish-move", {turn:this.turn, round:this.round, points:player.points, items:[]});
-        if(nextRound) await waitTime (2000);
+        if(nextRound) await waitTime (2000*Match.speed);
     }
 
     send (type : string, data : any)
@@ -135,7 +139,7 @@ class Match
                 });
                 const ps = this.players.map((_player, index)=>
                 {
-                    const tile = this.map.base[_player.position];
+                    const tile = this.map.base.tile(_player.position.toString())!;
                     const p = {..._player, position:tile.id, isPlayer:_player.index === player.index};//Object.assign({}, player);
                     return p;
                 });
