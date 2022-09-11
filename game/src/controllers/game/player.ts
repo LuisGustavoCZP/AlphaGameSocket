@@ -19,7 +19,7 @@ class Player
         this.index = index;
         this.name = name;
         this.character = character;
-        this.position = 30;
+        this.position = 110;
         this.points = 0;
         this.#connection = null as any;
     }

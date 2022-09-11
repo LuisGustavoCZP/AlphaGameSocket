@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "tilesheets/tabuleiro-tiles.tsj",
     "expandedProjectPaths": [
         "tileobject",
         "tilesheets",
@@ -61,8 +61,8 @@
             }
         },
         "tilesheets/tabuleiro-tiles.tsj": {
-            "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.33
         },
         "tilesheets/tiles1.tsj": {
             "scaleInDock": 1,
@@ -88,13 +88,15 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
+        "tilesheets/tabuleiro-tiles.tsj",
+        "tilemaps/tabuleiro.tmj"
     ],
     "project": "alphagame.tiled-project",
     "property.type": "int",
     "recentFiles": [
         "tilemaps/tabuleiro.tmj",
-        "tilemaps/mapa2.tmj",
         "tilesheets/tabuleiro-tiles.tsj",
+        "tilemaps/mapa2.tmj",
         "tilemaps/mapa1.tmj",
         "tilemaps/test.tmj",
         "tilesheets/tiles2.tsj",

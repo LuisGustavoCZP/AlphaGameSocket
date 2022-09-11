@@ -1,10 +1,11 @@
 import { Console } from "console";
-import { readFileSync } from "fs";
 import { connections, Connection } from "../../connections";
-import { IMatch, IPlayer, BaseMap, TileMap } from "../../models";
+import { IMatch, IPlayer } from "../../models";
+import { TileMap } from "./map";
 import { waitUntil } from "../../utils/wait";
 import { Match } from "./match";
 import { Player } from "./player";
+import { BaseTile, BaseMap } from "./basemap";
 
 class GameManager 
 {
@@ -14,8 +15,7 @@ class GameManager
     constructor ()
     {
         this.matchs = [];
-        this.baseMap = JSON.parse(readFileSync("./src/data/test1.json").toString()) as BaseMap;
-        //console.log(this.baseMap);
+        this.baseMap = BaseMap.load("./src/data/test1.json");
     }
 
     public generateMap ()
