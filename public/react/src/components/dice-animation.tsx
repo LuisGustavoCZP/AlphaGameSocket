@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../assets/dice/dice.css'
+type DiceType = {
+  diceNumber:Number | undefined,
 
-export function DiceRoll(){
+}
+export function DiceRoll({diceNumber}:DiceType){
 
-    let [dataRoll,setDiceRoll] = useState(1)
+    // let [dataRoll,setDiceRoll] = useState(1)
 function rollDice() {
     const dice = [...document.querySelectorAll(".die-list")];
     dice.forEach(die => {
       toggleClasses(die);
-      setDiceRoll(getRandomNumber(1, 6)) ;
+      // setDiceRoll(diceNumber) ;
     });
   }
   
@@ -16,18 +19,14 @@ function rollDice() {
     die.classList.toggle("odd-roll");
     die.classList.toggle("even-roll");
   }
-  
-  function getRandomNumber(min:any, max:any) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
+  useEffect(() => {
+     rollDice()
+  },[diceNumber])
 
     return(
         <div className="  ">
-            <div className="dice " onClick={rollDice} >
-            <ol className="die-list even-roll " data-roll={dataRoll} id="die-1">
+            <div className="dice " >
+            <ol className="die-list even-roll " data-roll={diceNumber} id="die-1">
                 <li className="die-item " data-side="1">
                 <span className="dot "></span>
                 </li>

@@ -12,7 +12,6 @@ export function GameState ({connection} : IGameProps)
     const [turn, setTurn] = useState<number>();
     const [diceNumber, setDice ] = useState<number>();
     const [players, setPlayers] = useState <IPlayerData[]>();
-    
     useEffect(() => 
     {
         if(connection)
@@ -26,7 +25,7 @@ export function GameState ({connection} : IGameProps)
                 connection.on("starting-move", ({playerindex, move}) => 
                 {
                     setDice(move);
-
+                    
                     connection.on("finish-move", ({turn, round, points, items})=> 
                     {
                         setRound(round);
@@ -49,7 +48,7 @@ export function GameState ({connection} : IGameProps)
         <SpecsUser players={players}/>
         <PlayersState players={players} round={round} turn={turn} />
         <InventoryState />
-        < DiceRoll />
+        <DiceRoll diceNumber={diceNumber} />
         <h1>Voce tirou {diceNumber} no dado</h1>
         {/* <ModalPergunta/> */}
     </section>
