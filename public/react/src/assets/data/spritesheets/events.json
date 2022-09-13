@@ -1,0 +1,8 @@
+{
+    "name":"events",
+    "image":"/src/assets/sprites/events.png",
+    "tileheight":32, 
+    "tilewidth":32,
+    "spacing":0,
+    "margin":0
+}

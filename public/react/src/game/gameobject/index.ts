@@ -29,7 +29,9 @@ export class GameObject
 
     public draw ()
     {
-        this.sprite.draw(GameObject.context, this.x, this.y, this.size, this.rotation);
+        const positionX = this.x - (this.size/2);
+        const positionY = this.y - (this.size/2);
+        this.sprite.draw(GameObject.context, positionX, positionY, this.size, this.rotation);
     }
 }
 

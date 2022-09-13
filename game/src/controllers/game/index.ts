@@ -18,15 +18,9 @@ class GameManager
         this.baseMap = BaseMap.load("./src/data/test1.json");
     }
 
-    public generateMap ()
-    {
-        const map = new TileMap(this.baseMap);
-        return map;
-    }
-
     public createMatch (matchData : IMatch)
     {
-        const match = new Match(matchData, this.generateMap());
+        const match = new Match(matchData, this.baseMap);
         this.matchs.push(match);
         return match;
     }

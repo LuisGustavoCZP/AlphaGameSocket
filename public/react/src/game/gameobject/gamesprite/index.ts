@@ -149,9 +149,6 @@ export class GameSprite
 
     private drawImage(context : CanvasRenderingContext2D, positionX : number, positionY : number, size : number)
     {
-        positionX = positionX - (size/2);
-        positionY = positionY - (size/2);
-
         context.drawImage(
             this.spriteSheet.image!,
             this.spriteRect.x,

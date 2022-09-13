@@ -7,8 +7,8 @@
     "expandedProjectPaths": [
         "tileobject",
         "tilesheets",
-        ".",
-        "tilemaps"
+        "tilemaps",
+        "."
     ],
     "exportAsImage.drawObjectLabels": true,
     "exportAsImage.drawTileGrid": true,
@@ -42,11 +42,11 @@
             }
         },
         "tilemaps/tabuleiro.tmj": {
-            "scale": 0.33,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 624.2424242424242,
-                "y": 478.78787878787875
+                "x": 92.66666666666667,
+                "y": 199.33333333333334
             }
         },
         "tilemaps/test.tmj": {
@@ -62,7 +62,7 @@
         },
         "tilesheets/tabuleiro-tiles.tsj": {
             "scaleInDock": 0.25,
-            "scaleInEditor": 0.33
+            "scaleInEditor": 1
         },
         "tilesheets/tiles1.tsj": {
             "scaleInDock": 1,

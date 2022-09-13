@@ -53,14 +53,14 @@ export class Connection
             data,
             date:Date.now()
         }
-        console.log("Sending", msg);
+        //console.log("Sending", msg);
         this.instance.send(JSON.stringify(msg));
     }
 
     message (resp : MessageEvent)
     {
         const msg = JSON.parse(resp.data) as SocketMessage;
-        console.log("Receiving", msg);
+        //console.log("Receiving", msg);
         if(!this.events.has(msg.type)) return;
         const events = this.events.get(msg.type)!;
         if(events) 

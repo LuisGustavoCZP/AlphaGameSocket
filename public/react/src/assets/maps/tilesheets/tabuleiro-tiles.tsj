@@ -1,13 +1,13 @@
 { "columns":11,
  "image":"..\/images\/tabuleiro6.png",
- "imageheight":1100,
- "imagewidth":1100,
+ "imageheight":352,
+ "imagewidth":352,
  "margin":0,
  "name":"tabuleiro",
  "spacing":0,
  "tilecount":121,
  "tiledversion":"1.9.1",
- "tileheight":100,
+ "tileheight":32,
  "tiles":[
         {
          "id":0,
@@ -1668,7 +1668,7 @@
                  "value":0
                 }]
         }],
- "tilewidth":100,
+ "tilewidth":32,
  "type":"tileset",
  "version":"1.8"
 }

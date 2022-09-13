@@ -72,16 +72,26 @@ function mapTiles (tileset, parsedTiles, tiles, tileIndex)
 
         if((next >= 0 && forward < 0) || (forward > 0 && next < max))
         {
-            const ti = next+(y*parsedTiles.width);
+            const ti = next + (y * parsedTiles.width);
             const nextTile = parsedTiles.tiles[ti];
-            if(nextTile) tile.next.push(ti);
+            
+            if(nextTile) 
+            {
+                if(pT.order != 24) tile.next.unshift(ti);
+                else tile.next.push(ti);
+            }
         }
 
         if((last >= 0 && forward > 0) || (forward < 0 && last < max))
         {
-            const ti = last+(y*parsedTiles.width);
+            const ti = last + (y * parsedTiles.width);
             const lastTile = parsedTiles.tiles[ti];
-            if(lastTile) tile.back.push(ti);
+            //if(lastTile) tile.back.push(ti);
+            if(lastTile) 
+            {
+                if(pT.order != 16) tile.back.unshift(ti);
+                else tile.back.push(ti);
+            }
         }
     }
 
@@ -96,14 +106,24 @@ function mapTiles (tileset, parsedTiles, tiles, tileIndex)
         {
             const ti = x+(next*parsedTiles.width);
             const nextTile = parsedTiles.tiles[ti];
-            if(nextTile) tile.next.push(ti);
+            /* if(nextTile) tile.next.push(ti); */
+            if(nextTile) 
+            {
+                if(pT.order != 33) tile.next.unshift(ti);
+                else tile.next.push(ti);
+            }
         }
 
         if((last >= 0 && forward < 0) || (forward > 0 && last < max))
         {
             const ti = x+(last*parsedTiles.width);
             const lastTile = parsedTiles.tiles[ti];
-            if(lastTile) tile.back.push(ti);
+            //if(lastTile) tile.back.push(ti);
+            if(lastTile) 
+            {
+                if(pT.order != 32) tile.back.unshift(ti);
+                else tile.back.push(ti);
+            }
         }
     }
 

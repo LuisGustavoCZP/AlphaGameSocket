@@ -40,13 +40,13 @@
         }],
  "renderorder":"right-down",
  "tiledversion":"1.9.1",
- "tileheight":100,
+ "tileheight":32,
  "tilesets":[
         {
          "firstgid":1,
          "source":"..\/tilesheets\/tabuleiro-tiles.tsj"
         }],
- "tilewidth":100,
+ "tilewidth":32,
  "type":"map",
  "version":"1.9",
  "width":11

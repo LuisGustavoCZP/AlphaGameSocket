@@ -1,0 +1,32 @@
+[
+    {
+        "id":0,
+        "name":"Pergunta",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/events.json",
+            "spriteIndex":8
+        },
+        "size":48
+    },
+    {
+        "id":1,
+        "name":"Caminho Horizontal",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/events.json",
+            "spriteIndex":2
+        },
+        "size":48
+    },
+    {
+        "id":2,
+        "name":"Caminho Vertical",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/events.json",
+            "spriteIndex":5
+        },
+        "size":48
+    }
+]

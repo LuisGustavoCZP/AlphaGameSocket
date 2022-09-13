@@ -6,13 +6,6 @@
             "spriteSheet":"data/spritesheets/tanques.json",
             "spriteIndex":269
         },
-        "size":32,
-        "physics":{
-            "isTrigger":false
-        },
-        "dynamic":{
-            "speedRotation": 2,
-            "speed": 1
-        }
+        "size":32
     }
 ]

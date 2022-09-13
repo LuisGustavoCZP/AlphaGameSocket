@@ -1,6 +1,6 @@
 import { CharacterObject } from "./characterobject";
 /* import { connection } from "./connection"; */
-import { GameObject, ICharacterData } from "./gameobject";
+import { GameObject, GameSprite, ICharacterData, IGameObjectData, SpriteSheet } from "./gameobject";
 import { MapObject } from "./mapobject";
 import { Player } from "./player";
 import { IPlayerData } from "./player/models";
@@ -9,6 +9,7 @@ import { waitUntil } from "./utils/wait";
 export class GameManager 
 {
     public map : MapObject;
+    
     public gameObjects : Map<string, GameObject>;
     public players : Player[];
     public round : number;
@@ -36,15 +37,21 @@ export class GameManager
         return this.gameObjects.get(id)!;
     }
 
-    async setMap (map : any)
+    async setMap (map: any)
     {
-        console.log("Setando mapa!")
-        gameManager.map = new MapObject(await fetch("./src/assets/maps/tilemaps/tabuleiro.tmj")
-        .then(resp => resp.json()));
+        const eventsData : IGameObjectData[] = await fetch(map.eventsSource).then(resp => resp.json());
+        const eventsObject : GameObject[] = [];
+        for (const eventData of eventsData)
+        {
+            await SpriteSheet.load(eventData.sprite.spriteSheet);
+            const eventObject = new GameObject(`Events:${eventData.id}`, eventData, 0, 0);
+            eventsObject.push(eventObject);
+        }
+
+        gameManager.map = new MapObject(await fetch(map.mapSource)
+        .then(resp => resp.json()), eventsObject);
+        gameManager.map.updateEvents(map.data);
         await waitUntil(() => gameManager.map.tilesets.length > 0);
-        /* connection.add("match-players", (resp) => this.setPlayers(resp));
-        connection.remove("match-map");
-        connection.send("match-map", true); */
     }
 
     async setPlayers (players : IPlayerData[])
@@ -57,11 +64,6 @@ export class GameManager
             const gameObject = new CharacterObject(objectid, charData, index, playerData.position);
             this.addGameObject(gameObject);
         });
-        //console.log(gameManager.gameObjects);
-        /* connection.add("match-round", (data) => this.round = data);
-        connection.add("match-turn", (data) => this.turn = data);
-        connection.remove("match-players");
-        connection.send("match-players", true); */
     }
 }
 
