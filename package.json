@@ -3,19 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "install:game": "cd public/game && npm i",
     "install:react": "cd public/react && npm i",
     "install:server": "cd server && npm i",
-    "install:gameserver": "cd game && npm i",
+    "install:game": "cd game && npm i",
     "install": "npm run install:game && npm run install:react && npm run install:server",
-    "dev:gameserver": "cd game && npm run dev",
+    "dev:game": "cd game && npm run dev",
     "dev:react": "cd public/react && npm run devbuild",
     "dev:server": "cd server && npm run dev",
-    "build:game": "cd public/game && npm run build",
-    "build:gameserver": "cd game && npm run build",
+    "build:game": "cd game && npm run build",
     "build:react": "cd public/react && npm run build",
     "build:server": "cd server && npm run build",
-    "dev":"start npm run dev:server && start npm run dev:gameserver && npm run dev:game && npm run dev:react"
+    "dev":"start npm run dev:server && start npm run dev:game && npm run dev:react"
   },
   "repository": {
     "type": "git",

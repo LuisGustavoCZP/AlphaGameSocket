@@ -50,8 +50,18 @@ class RedisSocket
 
     private receive (channel : string, message : any)
     {
+        const data = JSON.parse(message);
         console.log(`Received message from ${channel} channel.`);
-        console.log(JSON.parse(message));
+        console.log(data);
+
+        if(this.events.has(channel))
+        {
+            const events = this.events.get(channel)!;
+            events.forEach(event => 
+            {
+                event(data)
+            });
+        }
     }
 }
 

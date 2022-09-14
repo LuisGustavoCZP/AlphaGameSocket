@@ -19,7 +19,7 @@ export function GameRoom (props : any)
     async function startGame () 
     {
         /* if(getSocket) return; */
-        const newconnection = new Connection("localhost:5000");
+        const newconnection = new Connection(location.host.replace("8000", "5000"));
         
         newconnection.on("onopen", () => 
         {

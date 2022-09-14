@@ -21,7 +21,7 @@ ports:
     visibility: public
     onOpen: ignore
   - name: GameServer
-    port: 6000
+    port: 5000
     visibility: public
     onOpen: ignore
   - name: React
@@ -45,10 +45,10 @@ tasks:
      psql -h localhost -U gitpod -f sql/start.sql
     openMode: tab-after
     
-  - name: Start GameFront Stack
+  - name: Start Frontend Stack
     init: | 
-     npm run install:game
-    command: npm run dev:game
+     npm run install:react
+    command: npm run dev:react
     openMode: tab-after
 
   - name: Start Server Stack
@@ -64,8 +64,8 @@ tasks:
 
   - name: Start GameServer Stack
     init: | 
-     npm run install:gameserver
-    command: npm run dev:gameserver
+     npm run install:game
+    command: npm run dev:game
     openMode: tab-after
     env:
       PORT: 5000

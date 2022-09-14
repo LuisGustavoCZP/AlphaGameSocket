@@ -1,6 +1,6 @@
 import { SocketEvent, SocketMessage } from "./models";
 
-const defaultUrl = "localhost:8000";
+const defaultUrl = location.host;
 
 export class Connection
 {
