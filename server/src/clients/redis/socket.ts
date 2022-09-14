@@ -3,15 +3,12 @@ import { RedisEvent } from "./models";
 
 class RedisSocket 
 {
-    /* pubServer : Redis; */
-    socket : Redis; 
-    /* subServers : Map<string, Redis>; */
+    socket : Redis;
     events : Map<string, RedisEvent[]>;
 
     constructor ()
     {
-        /* this.pubServer = new Redis(); */
-        this.socket = new Redis();//new Map<string, Redis>();
+        this.socket = new Redis();
         this.events = new Map<string, RedisEvent[]>();
         this.socket.on("message", (channel, message) => this.receive(channel, message));
     }
