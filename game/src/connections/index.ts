@@ -109,7 +109,7 @@ export class Connections
 
 const connections = new Connections ();
 //let serverManager : Connection;
-let serverManager = new Connection (new WebSocket("ws://localhost:8010"));
+/* let serverManager = new Connection (new WebSocket("ws://localhost:8010"));
 serverManager.on("match-init", (match) => 
 {
     gameManager.createMatch(match);
@@ -119,6 +119,6 @@ serverManager.onclose(async () =>
 {
     await waitTime(5000);
     serverManager.retry();
-})
+}) */
 
 export { connections, SocketEvent, SocketMessage };

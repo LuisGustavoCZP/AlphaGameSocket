@@ -1,0 +1,1 @@
+export type RedisEvent = (data : any | undefined) => void;

@@ -6,6 +6,7 @@ import { waitUntil } from "../../utils/wait";
 import { Match } from "./match";
 import { Player } from "./player";
 import { BaseTile, BaseMap } from "./basemap";
+import { redisSocket } from "../../clients/redis/socket";
 
 class GameManager 
 {
@@ -16,6 +17,13 @@ class GameManager
     {
         this.matchs = [];
         this.baseMap = BaseMap.load("./src/data/test1.json");
+        
+        redisSocket.on("new-match", (match) =>
+        {
+            this.createMatch(match);
+            /* serverManager.send("match-init", true); */
+        })
+        
     }
 
     public createMatch (matchData : IMatch)

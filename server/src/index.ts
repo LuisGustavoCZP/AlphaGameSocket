@@ -4,9 +4,10 @@ import cors from 'cors';
 import { corsOptions } from './configs';
 import router from './routes';
 import { Server } from './server';
-import { connectionManager, gameManager } from './connections';
+import { connectionManager, /* gameManager */ } from './connections';
 import { exec } from 'node:child_process';
 import { rootPath } from './utils/paths';
+import redis from './clients/redis';
 
 const app = express();
 
@@ -19,8 +20,9 @@ app.use(cors(corsOptions));
 app.use(router);
 
 const server = new Server(app);
-gameManager.start();
+/* gameManager.start(); */
 connectionManager.start(server);
+
 
 server.listen(() => 
 {

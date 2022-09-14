@@ -89,6 +89,6 @@ export class Connections
 }
 
 const connectionManager = new Connections ();
-const gameManager = new Connections ();
+//const gameManager = new Connections ();
 
-export { connectionManager, gameManager }
+export { connectionManager/* , gameManager */ }
