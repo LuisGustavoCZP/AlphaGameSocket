@@ -3,22 +3,22 @@ import { RedisEvent } from "./models";
 
 class RedisSocket 
 {
-    pubServer : Redis;
-    subServer : Redis; 
+    /* pubServer : Redis; */
+    socket : Redis; 
     /* subServers : Map<string, Redis>; */
     events : Map<string, RedisEvent[]>;
 
     constructor ()
     {
-        this.pubServer = new Redis();
-        this.subServer = new Redis();//new Map<string, Redis>();
+        /* this.pubServer = new Redis(); */
+        this.socket = new Redis();//new Map<string, Redis>();
         this.events = new Map<string, RedisEvent[]>();
-        this.subServer.on("message", (channel, message) => this.receive(channel, message));
+        this.socket.on("message", (channel, message) => this.receive(channel, message));
     }
 
     public send (channel : string, data : any)
     {
-        this.pubServer.publish(channel, JSON.stringify(data));
+        this.socket.publish(channel, JSON.stringify(data));
     }
 
     public on (channel : string, event : (data : any) => void)
@@ -30,22 +30,11 @@ class RedisSocket
         else 
         {
             this.events.set(channel, [event]);
-            this.subServer.subscribe(channel, (err, count) => {
+            this.socket.subscribe(channel, (err, count) => {
                 if (err) console.error(err.message);
                 console.log(`Subscribed to ${count} channels.`);
             });
         }
-
-        
-        /* if(!this.subServers.has(channel))
-        {
-            const subServer = new Redis();
-            subServer.subscribe(channel, (err, count) => {
-                if (err) console.error(err.message);
-                console.log(`Subscribed to ${count} channels.`);
-            });
-            this.subServers.set(channel, subServer);
-        } */
     }
 
     private receive (channel : string, message : any)
