@@ -1,6 +1,6 @@
 import { BaseTile, BaseMap } from "./basemap";
 
-class TileBlock
+class TileEvent
 {
     id:string;
     eventID: number;
@@ -15,11 +15,11 @@ class TileBlock
 class TileMap 
 {
     base : BaseMap;
-    data : Map<string, TileBlock>;
+    data : Map<string, TileEvent>;
     constructor (base : BaseMap)
     {
         this.base = base;
-        this.data = new Map<string, TileBlock>();
+        this.data = new Map<string, TileEvent>();
         this.build();
     }
 
@@ -35,8 +35,8 @@ class TileMap
 
     build () 
     {
-        this.data.set('55', new TileBlock('55', 1));
-        this.data.set('5', new TileBlock('5', 2));
+        this.data.set('55', new TileEvent('55', 1));
+        this.data.set('5', new TileEvent('5', 2));
         //this.data.set('115', new TileBlock('115', 2));
         //this.data.set('65', new TileBlock('65', 3));
 
@@ -49,7 +49,7 @@ class TileMap
                 let p = sideTiles[r].toString();
                 if(this.data.has(p)) continue;
                 
-                this.data.set(p, new TileBlock(p, 0));
+                this.data.set(p, new TileEvent(p, 0));
                 i++;
             }
         }
@@ -57,4 +57,4 @@ class TileMap
     }
 }
 
-export { TileMap };
+export { TileMap, TileEvent };

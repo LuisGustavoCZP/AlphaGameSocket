@@ -5,10 +5,10 @@
     },
     "activeFile": "tilesheets/tabuleiro-tiles.tsj",
     "expandedProjectPaths": [
-        "tileobject",
         "tilesheets",
-        "tilemaps",
-        "."
+        ".",
+        "tileobject",
+        "tilemaps"
     ],
     "exportAsImage.drawObjectLabels": true,
     "exportAsImage.drawTileGrid": true,
@@ -45,8 +45,8 @@
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 92.66666666666667,
-                "y": 199.33333333333334
+                "x": 176,
+                "y": 175.66666666666669
             }
         },
         "tilemaps/test.tmj": {

@@ -1,10 +1,11 @@
 import { v4 as uuid } from "uuid";
 import { SocketEvent } from "../../connections";
-import { waitTime } from "../../utils/wait";
-import { TileMap } from "./map";
+import { waitBut, waitTime, waitUntil } from "../../utils/wait";
+import { TileMap, TileEvent } from "./map";
 import { Player } from "./player";
 import { IMatch } from "../../models";
 import { BaseMap } from "./basemap";
+import { createEvent } from "../events";
 
 class Match 
 {
@@ -15,7 +16,8 @@ class Match
     map: TileMap;
     round: number;
     turn: number;
-    static speed = 1;
+    static #speed = 1;
+    static get deltaSpeed () { return 1/Match.#speed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
     {
@@ -34,10 +36,12 @@ class Match
         });
     }
 
-    async triggerEvent (tileID : string)
+    async triggerEvent (player : Player, tileEvent : TileEvent)
     {
-        console.log("Acionando evento!", tileID)
-        return false;
+        const event = createEvent(player, tileEvent.eventID)!;
+        if(!(await event.check())) return false;
+        await event.start();
+        return true;
     }
 
     async start ()
@@ -48,20 +52,23 @@ class Match
         this.send("match-round", this.round);
         this.send("match-turn", this.turn);
 
-        await waitTime (5000*(1/Match.speed));
+        await waitTime (5000*Match.deltaSpeed);
 
         while(this.round < 40)
         {
             await this.move ();
         }
-        
     }
 
     async move ()
     {
         const player = this.players[this.turn];
+        const limitTime = Date.now() + 15000*Match.deltaSpeed;
+        await waitUntil(() => (Date.now() >= limitTime));
+
         this.send("preparing-move", true);
-        await waitTime(1000*(1/Match.speed));
+
+        await waitTime(1000*Match.deltaSpeed);
         const move = Math.ceil(Math.random()*6);
         player.points += move*10;
         //const direction = Math.random() > 0.5;
@@ -70,7 +77,7 @@ class Match
 
         for(let m = 0; m < move; m += 1)
         {
-            await waitTime(1000*(1/Match.speed));
+            await waitTime(1000*Match.deltaSpeed);
             const tilepos = this.map.base.tile(player.position.toString())!;
             
             const event = this.map.tile(player.position.toString());
@@ -82,7 +89,7 @@ class Match
             }
             else 
             {
-                const result = await this.triggerEvent(event.id);
+                const result = await this.triggerEvent(player, event);
                 if(result)
                 {
                     const nextTile = tilepos.next[1];
@@ -116,11 +123,11 @@ class Match
         const event = this.map.tile(player.position.toString());
         if(event)
         { 
-            const result = await this.triggerEvent(event.id);
+            const result = await this.triggerEvent(player, event);
         }
 
         this.send("finish-move", {turn:this.turn, round:this.round, points:player.points, items:[]});
-        if(nextRound) await waitTime (2000*(1/Match.speed));
+        if(nextRound) await waitTime (2000*Match.deltaSpeed);
     }
 
     send (type : string, data : any)
@@ -136,6 +143,14 @@ class Match
         this.players.forEach(player => 
         {
             player.on(type, callback);
+        });
+    }
+    
+    off (type : string)
+    {
+        this.players.forEach(player => 
+        {
+            player.off(type);
         });
     }
 

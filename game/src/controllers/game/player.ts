@@ -53,6 +53,11 @@ class Player
     {
         this.#connection.on(type, callback)
     }
+
+    off (type : string)
+    {
+        this.#connection.off(type)
+    }
 }
 
 export { Player };
