@@ -50,7 +50,7 @@ export function GameState ({connection} : IGameProps)
         <InventoryState />
         <DiceRoll diceNumber={diceNumber} />
         <h1>Voce tirou {diceNumber} no dado</h1>
-        {/* <ModalPergunta/> */}
+        <ModalPergunta questionNumber={2}/>
     </section>
     );
 }
