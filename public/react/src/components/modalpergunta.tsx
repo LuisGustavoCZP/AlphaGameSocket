@@ -4,15 +4,16 @@ import 'react-circular-progressbar/dist/styles.css';
 import questions from '../assets/questions/questions.json';
 type modalPerguntaType={
     questionNumber:number
+    finalTime:number,
 }
 
-export function ModalPergunta({questionNumber}:modalPerguntaType){
+export function ModalPergunta({questionNumber,finalTime}:modalPerguntaType){
     const question = questions[questionNumber]
     const totalSeconds = 60
     const [timeLeft, timeHandler] = useState(totalSeconds)
     const timeLeftRef = useRef(timeLeft)
     function tick(){
-        timeHandler(prevCount => prevCount - 1);
+        timeHandler(Date.now()-finalTime);
     }
     useEffect(()=>{
         console.log('entrou')

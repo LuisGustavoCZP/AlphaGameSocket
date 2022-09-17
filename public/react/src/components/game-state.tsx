@@ -12,6 +12,15 @@ export function GameState ({connection} : IGameProps)
     const [turn, setTurn] = useState<number>();
     const [diceNumber, setDice ] = useState<number>();
     const [players, setPlayers] = useState <IPlayerData[]>();
+    const [modal,setModal] = useState(<></>)
+
+    function openModal(){
+        setModal(<ModalPergunta questionNumber={2} finalTime={1663450732000}/>)
+    }
+    function closeModal(){
+        setModal(<></>)
+    }
+
     useEffect(() => 
     {
         if(connection)
@@ -50,7 +59,7 @@ export function GameState ({connection} : IGameProps)
         <InventoryState />
         <DiceRoll diceNumber={diceNumber} />
         <h1>Voce tirou {diceNumber} no dado</h1>
-        <ModalPergunta questionNumber={2}/>
+        {modal}
     </section>
     );
 }
