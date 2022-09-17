@@ -63,8 +63,16 @@ class Match
     async move ()
     {
         const player = this.players[this.turn];
+        let confirmed = false;
+        player.on("confirm-turn", () => 
+        {
+            confirmed = true;
+        });
+
         const limitTime = Date.now() + 15000*Match.deltaSpeed;
-        await waitUntil(() => (Date.now() >= limitTime));
+        player.send("starting-turn", {limitTime});
+
+        await waitUntil(() => (confirmed || Date.now() >= limitTime));
 
         this.send("preparing-move", true);
 
