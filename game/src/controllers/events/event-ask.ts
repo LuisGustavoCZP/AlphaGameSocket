@@ -11,7 +11,7 @@ export class GameEventAsk extends GameEvent
     public constructor (player : Player)
     {
         super(player);
-        this.askID = Math.floor(Math.random()*10);
+        this.askID = Math.floor(Math.random()*3);
     }
 
     protected get data () 

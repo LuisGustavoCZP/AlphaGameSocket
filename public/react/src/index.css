@@ -11,6 +11,17 @@
   line-height: 24px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #232323
+  background-color: #232323;
+  --cinza: #3E3E3E;
+  --cinza1: #e2e2e2;
+  --cinza2: #3e98c7;
+}
 
+@layer components {
+  .text-cinza {
+    color: var(--cinza);
+  }
+  .bg-cinza {
+    background: var(--cinza);
+  }
 }

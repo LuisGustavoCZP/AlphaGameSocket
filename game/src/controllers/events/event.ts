@@ -29,7 +29,7 @@ export abstract class GameEvent
         let executionSucess = false;
         this.player.on("execute-event", async (option) => 
         { 
-            this.player!.off("execute-event"); 
+            this.player!.off("execute-event");
             executionSucess = await this.execute(option);
             this.#executed = true; 
         });

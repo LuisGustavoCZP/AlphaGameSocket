@@ -14,11 +14,18 @@ export function GameState ({connection} : IGameProps)
     const [players, setPlayers] = useState <IPlayerData[]>();
     const [modal,setModal] = useState(<></>)
 
-    function openModal(){
-        setModal(<ModalPergunta questionNumber={2} finalTime={1663450732000}/>)
+    function openModal(eventID : number, finalTime : number, questionNumber? : number){
+        if(eventID == 0) setModal(<ModalPergunta finalTime={finalTime} choose={chooseFunction} questionNumber={questionNumber!} />)
     }
     function closeModal(){
         setModal(<></>)
+    }
+    function chooseFunction(option? : number){
+        closeModal();
+        if(option)
+        {
+            connection.send("execute-event", option);
+        }
     }
 
     useEffect(() => 
@@ -39,12 +46,31 @@ export function GameState ({connection} : IGameProps)
                     {
                         setRound(round);
                         setTurn(turn);
-                        console.log(playerindex)
+                        //console.log(playerindex)
                         _players![playerindex].points = points;
                         setPlayers(_players);
                         connection.off("finish-move");
                     });
                 });
+
+                connection.on("start-event", (data : {event:number, limitTime:number, data?:any}) => 
+                {
+                    //console.log(data);
+                    if(data.event == 0)
+                    {
+                        const question = data.data as number;
+                        openModal(data.event, data.limitTime, question);
+                    }
+
+                    connection.on("end-event", (data : {sucess:boolean, items:number[]}) => 
+                    {
+                        closeModal();
+                        connection.off("end-event")
+                    });
+                });
+
+                
+
                 connection.send("match-players", true);
             });
         }

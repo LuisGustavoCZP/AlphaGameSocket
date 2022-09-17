@@ -38,6 +38,7 @@ class Match
 
     async triggerEvent (player : Player, tileEvent : TileEvent)
     {
+        await waitTime(500*Match.deltaSpeed);
         const event = createEvent(player, tileEvent.eventID)!;
         if(!(await event.check())) return false;
         await event.start();
@@ -52,9 +53,9 @@ class Match
         this.send("match-round", this.round);
         this.send("match-turn", this.turn);
 
-        await waitTime (5000*Match.deltaSpeed);
+        await waitTime (1000*Match.deltaSpeed);
 
-        while(this.round < 40)
+        while(this.round < 5)
         {
             await this.move ();
         }
@@ -69,7 +70,7 @@ class Match
             confirmed = true;
         });
 
-        const limitTime = Date.now() + 15000*Match.deltaSpeed;
+        const limitTime = Date.now() + 2000*Match.deltaSpeed;
         player.send("starting-turn", {limitTime});
 
         await waitUntil(() => (confirmed || Date.now() >= limitTime));

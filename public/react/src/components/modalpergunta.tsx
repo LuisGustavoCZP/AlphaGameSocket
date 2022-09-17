@@ -5,36 +5,39 @@ import questions from '../assets/questions/questions.json';
 type modalPerguntaType={
     questionNumber:number
     finalTime:number,
+    choose: (option?:number)=>void
 }
 
-export function ModalPergunta({questionNumber,finalTime}:modalPerguntaType){
+export function ModalPergunta({questionNumber,finalTime,choose}:modalPerguntaType){
     const question = questions[questionNumber]
-    const totalSeconds = 60
-    const [timeLeft, timeHandler] = useState(totalSeconds)
+    const [totalTime, setTotalTime] = useState(60);
+    const [timeLeft, timeHandler] = useState(totalTime)
     const timeLeftRef = useRef(timeLeft)
     function tick(){
-        timeHandler(Date.now()-finalTime);
+        const timeLeft = Math.max(0, finalTime - Date.now());
+        timeHandler(timeLeft);
+        if(timeLeft <= 0) 
+        {
+            choose();
+        }
     }
     useEffect(()=>{
+        setTotalTime(finalTime - Date.now());
         console.log('entrou')
         const interval = setInterval(()=>{
             console.log(timeLeftRef.current)
             tick()
-        },1000)
-
+        }, 500);
         return ()=>clearInterval(interval)
 
     },[])
     
     return<div className="flex bg-[#00000099] items-center justify-center w-screen h-screen fixed m-0">
         <div className="h-3/4 w-4/5 bg-[#D9D9D9] relative flex flex-col content-start items-center">
-            <div className="w-full text-[58px] bg-[#3E3E3E] pl-10 leading-[80px]">
+            <div className="w-full text-[58px] bg-[#3E3E3E] pl-10 leading-[80px] flex justify-between">
                 <h2 >Pergunta</h2>
-            </div>
-            <div className="flex justify-between pl-6 pr-6 w-full text-black text-[36px] leading-[80px]">
-                <p>{question.question} </p>
                 <div className='w-20 h-20'>
-                    <CircularProgressbar value={Math.round((timeLeft/totalSeconds)*100)} text={`${timeLeft}s`}  styles={buildStyles({
+                    <CircularProgressbar value={(timeLeft/totalTime)*100} text={`${Math.floor(timeLeft/1000)}s`}  styles={buildStyles({
                         // Rotation of path and trail, in number of turns (0-1)
                         rotation: 1,
 
@@ -51,12 +54,16 @@ export function ModalPergunta({questionNumber,finalTime}:modalPerguntaType){
                         // pathTransition: 'none',
 
                         // Colors
-                        pathColor: `#3E3E3E`,
-                        textColor: '#3E3E3E',
-                        trailColor: '#e2e2e2',
+                        pathColor: `#e2e2e2`,
+                        textColor: '#e2e2e2',
+                        trailColor: '#757575',
                         backgroundColor: '#3e98c7',
                     })}/>
                 </div>
+            </div>
+            <div className="flex justify-between pl-6 pr-6 w-full text-black text-[36px] leading-[80px]">
+                <p>{question.question} </p>
+                
             </div>
             <ul className="text-black leading-[50px] self-start pl-10">
                 <li><input type="radio" name="resposta" id="resposta1" value={question.answer1.respostaId}/> <label htmlFor="resposta1">{question.answer1.resposta}</label></li>
