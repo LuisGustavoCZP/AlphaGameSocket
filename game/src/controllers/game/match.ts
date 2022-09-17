@@ -15,7 +15,7 @@ class Match
     map: TileMap;
     round: number;
     turn: number;
-    static speed = 2;
+    static speed = 1;
 
     constructor (matchData : IMatch, baseMap : BaseMap)
     {

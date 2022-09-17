@@ -1,5 +1,6 @@
 import Redis from "ioredis";
 import { RedisEvent } from "./models";
+import { redis } from "../../configs";
 
 class RedisSocket 
 {
@@ -8,7 +9,7 @@ class RedisSocket
 
     constructor ()
     {
-        this.socket = new Redis();
+        this.socket = new Redis(redis);
         this.events = new Map<string, RedisEvent[]>();
         this.socket.on("message", (channel, message) => this.receive(channel, message));
     }
