@@ -1,0 +1,26 @@
+[
+    {
+        "id": 0,
+        "name": "Urso",
+        "mesh": "character_bear_animated.glb",
+        "size": 1
+    },
+    {
+        "id": 1,
+        "name": "Cachorro",
+        "mesh": "character_bear_animated.glb",
+        "size": 1
+    },
+    {
+        "id": 2,
+        "name": "Pato",
+        "mesh": "character_bear_animated.glb",
+        "size": 1
+    },
+    {
+        "id": 3,
+        "name": "Katrina",
+        "mesh": "character_bear_animated.glb",
+        "size": 1
+    }
+]
