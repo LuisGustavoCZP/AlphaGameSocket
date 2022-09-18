@@ -1,11 +1,17 @@
 import charactersData from "./data/characters.json";
 import eventsData from "./data/events.json";
 import { Camera, Group, Object3D, Scene } from "three";
-import { gltf } from "./utils/loaders";
+import { fbx, gltf } from "./utils/loaders";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { IGameObjectData } from "./gameobject";
 import { ICharacterData } from "./character";
 import { createGameState } from "./utils/game-state";
+
+const types = {
+    ".glp": gltf,
+    ".gltf": gltf,
+    ".fbx": fbx
+}
 
 class GameData 
 {
@@ -29,20 +35,26 @@ class GameData
         return this._isLoaded;
     }
 
+    async loadMesh (path : string) : Promise<Object3D>
+    {
+        const type = path.match(/.(\w{1,})/gi)![0];
+        return await ((types as any)[type]).load(path);
+    }
+
     async load ()
     {
         const meshPath = "/src/assets/meshs/";
         for (const characterData of charactersData) 
         {
             if(this.meshs.has(characterData.mesh)) continue;
-            const mesh = await gltf.load(`${meshPath}${characterData.mesh}`);
+            const mesh = await loadMesh(`${meshPath}${characterData.mesh}`);
             this.meshs.set(characterData.mesh, mesh);
         };
 
         for (const eventData of eventsData) 
         {
             if(this.meshs.has(eventData.mesh)) continue;
-            const mesh = await gltf.load(`${meshPath}${eventData.mesh}`);
+            const mesh = await loadMesh(`${meshPath}${eventData.mesh}`);
             this.meshs.set(eventData.mesh, mesh);
         };
 
