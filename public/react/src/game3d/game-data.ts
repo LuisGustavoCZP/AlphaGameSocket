@@ -47,14 +47,14 @@ class GameData
         for (const characterData of charactersData) 
         {
             if(this.meshs.has(characterData.mesh)) continue;
-            const mesh = await loadMesh(`${meshPath}${characterData.mesh}`);
+            const mesh = await this.loadMesh(`${meshPath}${characterData.mesh}`);
             this.meshs.set(characterData.mesh, mesh);
         };
 
         for (const eventData of eventsData) 
         {
             if(this.meshs.has(eventData.mesh)) continue;
-            const mesh = await loadMesh(`${meshPath}${eventData.mesh}`);
+            const mesh = await this.loadMesh(`${meshPath}${eventData.mesh}`);
             this.meshs.set(eventData.mesh, mesh);
         };
 
