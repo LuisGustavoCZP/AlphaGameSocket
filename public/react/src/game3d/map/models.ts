@@ -4,12 +4,50 @@ export interface ITileEvent
      eventID: number
 }
 
+export interface IMapLayer 
+{
+    id : number,
+    type : string,
+    name : string,
+    visible : boolean,
+    opacity : number,
+    height : number,
+    width : number,
+    x: number,
+    y: number,
+    data: number[]
+}
+
+export interface IMapTileset 
+{
+    firstgid : number,
+    source : string
+}
+
+export interface ITileData
+{
+    id: number
+}
+
+export interface ITilesetData 
+{
+     tiles: ITileData[]
+}
+
 export interface IMapData 
 {
-     id:string,
-     width : number,
+     orientation : string,
+     renderorder : string,
+     tilesets : IMapTileset[],
+     tileheight : number,
+     tilewidth : number,
      height : number,
-     tileHeight : number,
-     tileWidth : number,
-     eventID: number
+     width : number,
+     layers : IMapLayer[]
+}
+
+export interface IMapSource 
+{
+     mapSource: string,
+     data: ITileEvent[]
 }

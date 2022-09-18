@@ -1,0 +1,14 @@
+{ "columns":8,
+ "image":"..\/images\/tabuleiro7.png",
+ "imageheight":900,
+ "imagewidth":800,
+ "margin":0,
+ "name":"tilesheet3d.tsj",
+ "spacing":0,
+ "tilecount":72,
+ "tiledversion":"1.9.1",
+ "tileheight":100,
+ "tilewidth":100,
+ "type":"tileset",
+ "version":"1.8"
+}

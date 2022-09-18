@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Connection } from "../connection";
 import GlobalContext from "../contexts/global-context";
-import { gameManager } from "../game/gamedata";
+import { gameManager, gameData } from "../game3d";
 import { ChatScreen } from "./chat-screen";
 import { GameScreen } from "./game-screen";
 import { GameState } from "./game-state";
@@ -19,8 +19,9 @@ export function GameRoom (props : any)
     async function startGame () 
     {
         /* if(getSocket) return; */
+        await gameData.load();
         const newconnection = new Connection(location.host.replace("8000", "5000"));
-        
+
         newconnection.on("onopen", () => 
         {
             newconnection.on("onclose", () => 
@@ -30,14 +31,6 @@ export function GameRoom (props : any)
             newconnection.on("match-ready", () => 
             {
                 setSocket(newconnection);
-                newconnection.on("match-map", async (map) => 
-                {
-                    console.log("Recebendo mapa!")
-                    await gameManager.setMap(map);
-                    
-                    newconnection.send("match-map", true);
-                });
-                newconnection.send("match-init", true);
             });
             newconnection.send("player-init", getID);
         });
@@ -48,6 +41,7 @@ export function GameRoom (props : any)
         startGame ();
     }, []);
 
+    if(!getSocket) return (<></>);
     return (
         <main className="flex justify-between items-center h-screen w-full p-2">
             <GameState connection={getSocket}/>

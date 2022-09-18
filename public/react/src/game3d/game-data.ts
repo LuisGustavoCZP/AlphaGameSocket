@@ -1,21 +1,22 @@
 import charactersData from "./data/characters.json";
 import eventsData from "./data/events.json";
-import { Camera, Group, Object3D, Scene } from "three";
+import { Camera, Clock, Group, Object3D, Scene } from "three";
 import { fbx, gltf } from "./utils/loaders";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { IGameObjectData } from "./gameobject";
 import { ICharacterData } from "./character";
 import { createGameState } from "./utils/game-state";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const types = {
-    ".glp": gltf,
+    ".glb": gltf,
     ".gltf": gltf,
     ".fbx": fbx
 }
 
 class GameData 
 {
-    public state : {scene : Scene, camera : Camera, render : () => void}
+    private state : {scene : Scene, camera : Camera, render : () => void, orbitcontrols : OrbitControls, clock : Clock}
     public meshs : Map<string, Object3D>;
     public eventsData : IGameObjectData[];
     public charactersData : ICharacterData[];
@@ -27,7 +28,7 @@ class GameData
         this.eventsData = eventsData;
         this.charactersData = charactersData;
         this._isLoaded = false;
-        this.state = createGameState();
+        this.state = null as any;
     }
 
     get isLoaded ()
@@ -35,9 +36,35 @@ class GameData
         return this._isLoaded;
     }
 
+    get scene ()
+    {
+        return this.state.scene;
+    }
+
+    get camera ()
+    {
+        return this.state.camera;
+    }
+
+    get orbit ()
+    {
+        return this.state.orbitcontrols;
+    }
+
+    get clock ()
+    {
+        return this.state.clock;
+    }
+
+    render ()
+    {
+        this.state.render();
+    }
+
     async loadMesh (path : string) : Promise<Object3D>
     {
-        const type = path.match(/.(\w{1,})/gi)![0];
+        const type = path.match(/\.(\w{1,})/gi)![0];
+        console.log(type);
         return await ((types as any)[type]).load(path);
     }
 
@@ -59,6 +86,12 @@ class GameData
         };
 
         this._isLoaded = true;
+        console.log("Terminou de carregar!")
+    }
+
+    async start ()
+    {
+        this.state = createGameState();
     }
 }
 

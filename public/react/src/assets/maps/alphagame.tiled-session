@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tilesheets/tabuleiro-tiles.tsj",
+    "activeFile": "tilemaps/tabuleiro3d.tmj",
     "expandedProjectPaths": [
-        "tilesheets",
         ".",
-        "tileobject",
-        "tilemaps"
+        "tilesheets",
+        "tilemaps",
+        "tileobject"
     ],
     "exportAsImage.drawObjectLabels": true,
     "exportAsImage.drawTileGrid": true,
@@ -45,8 +45,16 @@
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 176,
-                "y": 175.66666666666669
+                "x": 175.33333333333334,
+                "y": 175.33333333333334
+            }
+        },
+        "tilemaps/tabuleiro3d.tmj": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 780,
+                "y": 480
             }
         },
         "tilemaps/test.tmj": {
@@ -76,33 +84,43 @@
         "tilesheets/tiles2.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 2
+        },
+        "tilesheets/tilesheet3d.tsj": {
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.75
         }
     },
     "last.exportedFilePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/game/maps/tilesheets",
-    "last.imagePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/game/maps/images",
+    "last.imagePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/react/src/assets/maps/images",
     "last.objectTemplatePath": "C:/Users/Luis Gustavo/Documents/GitHub/AlphaGameSocket/public/game/maps/tileobject",
     "lastUsedTilesetExportFilter": "Arquivos de conjunto de blocos JSON (*.tsj *.json)",
-    "map.height": 20,
+    "map.height": 11,
     "map.lastUsedFormat": "json",
-    "map.tileHeight": 16,
-    "map.tileWidth": 16,
-    "map.width": 20,
+    "map.tileHeight": 100,
+    "map.tileWidth": 100,
+    "map.width": 11,
     "openFiles": [
-        "tilesheets/tabuleiro-tiles.tsj",
-        "tilemaps/tabuleiro.tmj"
+        "tilesheets/tilesheet3d.tsj",
+        "tilemaps/tabuleiro3d.tmj"
     ],
     "project": "alphagame.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "tilemaps/tabuleiro.tmj",
         "tilesheets/tabuleiro-tiles.tsj",
+        "tilesheets/tilesheet3d.tsj",
+        "tilemaps/tabuleiro3d.tmj",
+        "tilemaps/tabuleiro.tmj",
+        "tilesheets/tiles1.tsj",
+        "tilesheets/tiles2.tsj",
         "tilemaps/mapa2.tmj",
         "tilemaps/mapa1.tmj",
         "tilemaps/test.tmj",
-        "tilesheets/tiles2.tsj",
         "tilemaps/map2.tmj",
-        "tilesheets/tiles1.tsj",
         "tilesheets/tiles2.tsx"
     ],
-    "tileset.lastUsedFormat": "tsx"
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 100,
+        "width": 100
+    }
 }

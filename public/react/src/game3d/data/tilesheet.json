@@ -1,0 +1,9 @@
+[
+    {
+        "tiles":
+        [
+            "./src/assets/Grass_01_512.png",
+            "./src/assets/Dirt_01_512.png"
+        ]
+    }
+]

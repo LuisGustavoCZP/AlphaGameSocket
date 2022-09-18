@@ -23,9 +23,9 @@ export function ModalPergunta({questionNumber,finalTime,choose}:modalPerguntaTyp
     }
     useEffect(()=>{
         setTotalTime(finalTime - Date.now());
-        console.log('entrou')
+        //console.log('entrou')
         const interval = setInterval(()=>{
-            console.log(timeLeftRef.current)
+            //console.log(timeLeftRef.current)
             tick()
         }, 500);
         return ()=>clearInterval(interval)

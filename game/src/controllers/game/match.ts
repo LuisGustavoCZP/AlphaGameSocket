@@ -181,7 +181,7 @@ class Match
                         let allready = true;
                         for(const p of this.players)
                         {
-                            console.log(p.ready)
+                            //console.log(p.ready)
                             if(!p.ready) allready = false;
                         }
 
@@ -199,7 +199,7 @@ class Match
                 });
                 player.send("match-players", ps);
             });
-            player.send("match-map", {mapSource:"./src/assets/maps/tilemaps/tabuleiro.tmj", eventsSource:"./src/assets/data/events.json", data:Array.from(this.map.data.values())});
+            player.send("match-map", {mapSource:"./src/assets/maps/tilemaps/tabuleiro3d.tmj", eventsSource:"./src/assets/data/events.json", data:Array.from(this.map.data.values())});
         });
     }
 }

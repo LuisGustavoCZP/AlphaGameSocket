@@ -1,0 +1,42 @@
+{ "compressionlevel":-1,
+ "height":11,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+            2, 9, 10, 11, 12, 3, 13, 14, 15, 16, 2,
+            1, 17, 18, 19, 20, 4, 21, 22, 23, 24, 1,
+            2, 25, 26, 27, 28, 3, 29, 30, 31, 32, 2,
+            1, 33, 34, 35, 36, 4, 37, 38, 39, 40, 1,
+            2, 3, 4, 3, 4, 5, 4, 3, 4, 3, 2,
+            1, 41, 42, 43, 44, 4, 45, 46, 47, 48, 1,
+            2, 49, 50, 51, 52, 3, 53, 54, 55, 56, 2,
+            1, 57, 58, 59, 60, 4, 61, 62, 63, 64, 1,
+            2, 65, 66, 67, 68, 3, 69, 70, 71, 72, 2,
+            1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+         "height":11,
+         "id":1,
+         "name":"terreno",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":11,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.9.1",
+ "tileheight":100,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"..\/tilesheets\/tilesheet3d.tsj"
+        }],
+ "tilewidth":100,
+ "type":"map",
+ "version":"1.9",
+ "width":11
+}

@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CharacterObject } from "../game/characterobject";
-import { gameManager } from "../game/gamedata";
-import { GameObject } from "../game/gameobject";
-import { MapObject } from "../game/mapobject";
-import { IMapData } from "../game/mapobject/models";
+import { gameManager, gameData, Character } from "../game3d";
 import { IGameProps } from "./game-room";
 
 export function GameScreen ({connection} : IGameProps)
@@ -11,53 +7,55 @@ export function GameScreen ({connection} : IGameProps)
     const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
-    if(connection)
+    function network ()
     {
-        connection.on("match-players", (_players) => 
+        if(connection)
         {
-            gameManager.setPlayers(_players);
-        });
-        connection.on("starting-move", ({playerindex, move}) => 
-        {
-            const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
-            char.animation = "walk down";
-            connection.on("finish-move", ({turn, round}) => 
+            connection.on("match-map", async (map) => 
             {
-                char.animation = "idle down";
+                console.log("Recebendo mapa!");
+                await gameManager.setMap(map);
+                
+                connection.send("match-map", true);
             });
-        });
+            connection.send("match-init", true);
 
-        connection.on("update-move", ({playerindex, position, tile}) => 
-        {
-            const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
-            char.tileIndex = tile;
-        });
+            connection.on("match-players", (_players) => 
+            {
+                gameManager.setPlayers(_players);
+            });
+            connection.on("starting-move", ({playerindex, move}) => 
+            {
+                const char = gameManager.gameObjects.get(`Player:${playerindex}`)! as Character;
+                char.animation = "Walk";
+                connection.on("finish-move", ({turn, round}) => 
+                {
+                    char.animation = "Idle";
+                });
+            });
 
+            connection.on("update-move", ({playerindex, position, tile}) => 
+            {
+                const char = gameManager.gameObjects.get(`Player:${playerindex}`)! as Character;
+                char.tile = tile;
+            });
+        }
     }
 
-    if(canvasRef && canvasRef.current) 
+    useEffect(() => 
     {
-        const canvas = canvasRef.current!;
-        const context = canvas.getContext("2d")!;
-        GameObject.context = context;
-        MapObject.context = context;
-        
-        draw(context, canvas);
-    }
+        gameData.start();
+        network ();
+        render();
+    }, []);
 
-    function draw (context : CanvasRenderingContext2D, canvas : HTMLCanvasElement) 
+    function render () 
     {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        gameManager.map?.draw();
-
-        gameManager.gameObjects.forEach(gameObject => 
-        {
-            gameObject.draw();
-        })
-        //console.log("desenhando");
-        requestAnimationFrame(() => draw(context, canvas));
+        //console.log("Renderizando")
+        requestAnimationFrame(() => render());
+        gameData.render();
+        gameManager.cameraControl();
     }
 
-    return <canvas ref={canvasRef} className="flex bg-black flex-grow aspect-square" width={528} height={528}></canvas>;
+    return <canvas ref={canvasRef} id="canvas-screen" className="flex bg-black flex-grow aspect-square" width={528} height={528}></canvas>;
 }

@@ -2,19 +2,19 @@
     {
         "id": 0,
         "name": "Pergunta",
-        "mesh": "character_bear_animated.glb",
+        "mesh": "present.glb",
         "size": 1
     },
     {
         "id": 1,
         "name": "Caminho Horizontal",
-        "mesh": "character_bear_animated.glb",
+        "mesh": "arrow.glb",
         "size": 1
     },
     {
         "id": 2,
         "name": "Caminho Vertical",
-        "mesh": "character_bear_animated.glb",
+        "mesh": "arrow.glb",
         "size": 1
     }
 ]
