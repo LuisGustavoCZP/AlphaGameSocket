@@ -82,7 +82,7 @@ export function GameState ({connection} : IGameProps)
     <section className="flex flex-col h-full w-full min-w-[200px] max-w-[400px] gap-4">
         <SpecsUser players={players}/>
         <PlayersState players={players} round={round} turn={turn} />
-        <InventoryState />
+        <InventoryState playerItems=/*{variavel dos items vem aqui }*/{[{id:0,quanty:0},{id:1,quanty:0},{id:2,quanty:0},{id:3,quanty:0},{id:4,quanty:0},{id:5,quanty:0}]}/>
         <DiceRoll diceNumber={diceNumber} />
         <h1>Voce tirou {diceNumber} no dado</h1>
         {modal}
