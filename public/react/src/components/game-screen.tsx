@@ -4,7 +4,6 @@ import { IGameProps } from "./game-room";
 
 export function GameScreen ({connection} : IGameProps)
 {
-    const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
     function network ()
@@ -23,7 +22,9 @@ export function GameScreen ({connection} : IGameProps)
             connection.on("match-players", (_players) => 
             {
                 gameManager.setPlayers(_players);
+                update ();
             });
+
             connection.on("starting-move", ({playerindex, move}) => 
             {
                 const char = gameManager.gameObjects.get(`Player:${playerindex}`)! as Character;
@@ -42,19 +43,21 @@ export function GameScreen ({connection} : IGameProps)
         }
     }
 
+    async function gameStart ()
+    {
+        await gameData.start();
+        network ();
+    }
+
     useEffect(() => 
     {
-        gameData.start();
-        network ();
-        render();
+        gameStart ();
     }, []);
 
-    function render () 
+    function update () 
     {
-        //console.log("Renderizando")
-        requestAnimationFrame(() => render());
-        gameData.render();
-        gameManager.cameraControl();
+        requestAnimationFrame(() => update());
+        gameManager.update();
     }
 
     return <canvas ref={canvasRef} id="canvas-screen" className="flex bg-black flex-grow aspect-square" width={528} height={528}></canvas>;

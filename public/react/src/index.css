@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Arbutus&display=swap');
 
+@font-face {
+  font-family: "KenneyFuture";
+  src: url("./assets/fonts/Kenney\ Future.ttf") format("ttf"),
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

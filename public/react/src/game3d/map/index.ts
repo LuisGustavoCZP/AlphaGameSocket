@@ -1,24 +1,23 @@
 import * as THREE from "three";
-import { Mesh } from "three";
+import { Mesh, Vector3 } from "three";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { ITileSetData } from "../../game/mapobject/models";
 import { gameData } from "../game-data";
 import { GameObject } from "../gameobject";
 import { IMapData, IMapSource, ITileEvent } from "./models";
 import tilesheets from "../data/tilesheet.json";
 
-const textures = [
-    new THREE.TextureLoader().load('/src/assets/maps/images/tabuleiro7.png'),
-    //new THREE.TextureLoader().load('./src/assets/Dirt_01_512.png'),
-];
+function createMaterials ()
+{
+    const tiles = tilesheets[0].tiles;
+    
+    return tiles.map(tile => 
+    {
+        return new THREE.MeshStandardMaterial({color:tile.color, map:new THREE.TextureLoader().load(tile.map)});
+    });
+}
 
-const materials = [
-    new THREE.MeshStandardMaterial({color:"purple"}),
-    new THREE.MeshStandardMaterial({color:"green"}),
-    new THREE.MeshStandardMaterial({color:"red"}),
-    new THREE.MeshStandardMaterial({color:"gray"}),
-    new THREE.MeshStandardMaterial({color:"yellow"}),
-    new THREE.MeshStandardMaterial({color:"black"}),
-];
+const materials = createMaterials();
 
 const geometries = createGeometries ();
 
@@ -100,6 +99,7 @@ export class MapObject
                     const tileID = layer.data[k]-1;
                     //console.log(tileID);
                     const mesh = new THREE.Mesh(geometries[0], materials[tileID<5?tileID:6]);
+                    mesh.castShadow = true;
                     mesh.rotation.x = - Math.PI / 2;
                     mesh.position.x = (i*5) - 2.5 - 22.5;
                     mesh.position.z = (j*5) - 2.5 - 22.5;
@@ -120,14 +120,17 @@ export class MapObject
 
     public updateEvents (events : ITileEvent[]) 
     {
-        events.forEach(event => 
+        for (const event of events) 
         {
             const eventData = gameData.eventsData[event.eventID];
+            
+            let offset;
             const mesh = gameData.meshs.get(eventData.mesh)!;
-            const eventObject = new GameObject(`Events:${event.id}`, eventData.name, mesh, parseInt(event.id));
-            /* this.events.set(event.id, event); */
+            if(!mesh) continue;
+
+            const eventObject = new GameObject(`Events:${event.id}`, eventData.name, mesh, parseInt(event.id), offset);
             this.eventObjects.set(event.id, eventObject);
-        });
+        };
         console.log("Eventos", events);
     }
 }

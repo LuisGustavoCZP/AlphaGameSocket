@@ -5,6 +5,8 @@ import { waitUntil } from "./utils/wait";
 import { MapObject } from "./map";
 import { gameData } from "./game-data";
 import Maths from "./utils/maths";
+import { Mesh, MeshBasicMaterial, MeshToonMaterial, TextureLoader, Vector3 } from "three";
+import Stats from "three/examples/jsm/libs/stats.module"
 
 class GameManager 
 {
@@ -16,6 +18,8 @@ class GameManager
     public round : number;
     public turn : number;
 
+    private stats : Stats | undefined;
+    
     constructor () 
     {
         this.gameObjects = new Map<string, GameObject>();
@@ -24,6 +28,8 @@ class GameManager
         this.map = (null as unknown) as MapObject;
         this.round = 0;
         this.turn = 0;
+        
+        this.createStats();
     }
 
     addGameObject (gameObject : GameObject)
@@ -54,32 +60,69 @@ class GameManager
         {
             const objectid = `Player:${index}`;
             if(playerData.isPlayer) this.player = index;
-            //console.log(playerData)
 
             const charData = gameData.charactersData[playerData.character];
             const mesh = gameData.meshs.get(charData.mesh)!;
-            
             const gameObject = new Character(objectid, charData.name, mesh, playerData.position, index);
+            
             this.addGameObject(gameObject);
         });
+    }
+
+    animations ()
+    {
+        this.gameObjects.forEach(gameObject => 
+        {
+            gameObject.update();
+        });
+
+        if(this.map)
+        {
+            //console.log("Atualizando eventos")
+            this.map.eventObjects.forEach(eventObject => 
+            {
+                eventObject.update();
+            });
+        }
     }
 
     cameraControl ()
     {
         if(this.player < 0) return;
-        console.log(this.player);
+        //console.log(this.player);
 
-        const deltaTime = gameData.clock.getDelta();
+        const deltaTime = gameData.deltaTime;
         const orbit = gameData.orbit;
-        const camera = gameData.camera;
 
         const char = gameManager.gameObjects.get(`Player:${this.player}`)! as Character;
-        const x = Maths.lerp(orbit.target.x, char.position.x, deltaTime*15);
-        const y = Maths.lerp(orbit.target.y, char.position.y, deltaTime*15);
-        const z = Maths.lerp(orbit.target.z, char.position.z, deltaTime*15);
-        orbit.target.set(x, y, z);
-        
-        orbit.update();
+        const pos = new Vector3(char.position.x, char.position.y+1, char.position.z)
+        if(orbit.target.distanceToSquared(pos) > 0.1)
+        {
+            const x = Maths.lerp(orbit.target.x, pos.x, deltaTime*5);
+            const y = Maths.lerp(orbit.target.y, pos.y, deltaTime*5);
+            const z = Maths.lerp(orbit.target.z, pos.z, deltaTime*5);
+            orbit.target.set(x, y, z);
+            orbit.update();
+        }
+    }
+
+    createStats()
+    {
+        this.stats = Stats();
+        this.stats.setMode(0);
+  
+        this.stats.domElement.style.position = 'absolute';
+        this.stats.domElement.style.left = '0';
+        this.stats.domElement.style.top = '0';
+        document.body.appendChild(this.stats.domElement);
+    }
+
+    update ()
+    {
+        this.cameraControl();
+        this.animations();
+        gameData.render();
+        this.stats?.update();
     }
 }
 

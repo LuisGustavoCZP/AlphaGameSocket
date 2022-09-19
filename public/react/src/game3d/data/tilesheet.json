@@ -2,8 +2,11 @@
     {
         "tiles":
         [
-            "./src/assets/Grass_01_512.png",
-            "./src/assets/Dirt_01_512.png"
+            {"map":"/assets/textures/tech/FLOOR_1A.png", "color":"purple"},
+            {"map":"/assets/textures/tech/FLOOR_1A.png", "color":"green"},
+            {"map":"/assets/textures/tech/GRID_1C.png", "color":"red"},
+            {"map":"/assets/textures/tech/GRID_1A.png"},
+            {"map":"/assets/textures/tech/CONCRETE_2B.png"}
         ]
     }
 ]

@@ -10,7 +10,9 @@ export async function load (path : string)
         {
             const anims = gltf.animations.filter(anim => !anim.name.includes('_'));
             const scene = gltf.scene;
+            console.log(anims, scene.animations);
             scene.animations = anims;
+            scene.castShadow = true;
             resolve(scene);
         }, undefined, function (error) 
         {
