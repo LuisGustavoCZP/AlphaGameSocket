@@ -2,6 +2,7 @@ import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { CircularProgressbar,buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import questions from '../assets/questions/questions.json';
+
 type modalPerguntaType={
     questionNumber:number
     finalTime:number,
@@ -13,6 +14,7 @@ export function ModalPergunta({questionNumber,finalTime,choose}:modalPerguntaTyp
     const [totalTime, setTotalTime] = useState(60);
     const [timeLeft, timeHandler] = useState(totalTime)
     const timeLeftRef = useRef(timeLeft)
+    const btnAwnserClass = 'bg-[#7A7A7A] border-2 border-black leading-[35px] text-[25px] text-white w-full cursor-pointer hover:text-[#7A7A7A] hover:bg-white hover:border-white '
     function tick(){
         const timeLeft = Math.max(0, finalTime - Date.now());
         timeHandler(timeLeft);
@@ -21,19 +23,20 @@ export function ModalPergunta({questionNumber,finalTime,choose}:modalPerguntaTyp
             choose();
         }
     }
+    function sendAwnser(choosenAwnser:number){
+        choose(choosenAwnser)
+    }
     useEffect(()=>{
         setTotalTime(finalTime - Date.now());
-        console.log('entrou')
         const interval = setInterval(()=>{
-            console.log(timeLeftRef.current)
             tick()
         }, 500);
         return ()=>clearInterval(interval)
 
     },[])
     
-    return<div className="flex bg-[#00000099] items-center justify-center w-screen h-screen fixed m-0">
-        <div className="h-3/4 w-4/5 bg-[#D9D9D9] relative flex flex-col content-start items-center">
+    return<div className="flex bg-[#00000099] items-center justify-center w-screen h-screen fixed m-0 ">
+        <div className="h-3/4 w-4/5 bg-[#D9D9D9] relative flex flex-col content-center items-center transform transition-all ">
             <div className="w-full text-[58px] bg-[#3E3E3E] pl-10 leading-[80px] flex justify-between">
                 <h2 >Pergunta</h2>
                 <div className='w-20 h-20'>
@@ -65,13 +68,12 @@ export function ModalPergunta({questionNumber,finalTime,choose}:modalPerguntaTyp
                 <p>{question.question} </p>
                 
             </div>
-            <ul className="text-black leading-[50px] self-start pl-10">
-                <li><input type="radio" name="resposta" id="resposta1" value={question.answer1.respostaId}/> <label htmlFor="resposta1">{question.answer1.resposta}</label></li>
-                <li><input type="radio" name="resposta" id="resposta2" value={question.answer2.respostaId}/> <label htmlFor="resposta2">{question.answer2.resposta}</label></li>
-                <li><input type="radio" name="resposta" id="resposta3" value={question.answer3.respostaId}/> <label htmlFor="resposta3">{question.answer3.resposta}</label></li>
-                <li><input type="radio" name="resposta" id="resposta4" value={question.answer4.respostaId}/> <label htmlFor="resposta4">{question.answer4.resposta}</label></li>
+            <ul className="text-black leading-[50px] self-start pl-10 w-full flex flex-col justify-center px-8 items-center">
+                <li><input type="button" className={btnAwnserClass} id="resposta1" onClick={()=>{sendAwnser(question.answer1.respostaId)}} value={question.answer1.resposta}/></li>
+                <li><input type="button" className={btnAwnserClass} id="resposta2" onClick={()=>{sendAwnser(question.answer2.respostaId)}} value={question.answer2.resposta}/></li>
+                <li><input type="button" className={btnAwnserClass} id="resposta3" onClick={()=>{sendAwnser(question.answer3.respostaId)}} value={question.answer3.resposta}/></li>
+                <li><input type="button" className={btnAwnserClass} id="resposta4" onClick={()=>{sendAwnser(question.answer4.respostaId)}} value={question.answer4.resposta}/></li>
             </ul>
-            <button className="bg-[#7A7A7A]  border-2 border-black leading-[50px] text-[40px] text-black absolute bottom-5" type="button">Enviar</button>
         </div>
     </div>
 }

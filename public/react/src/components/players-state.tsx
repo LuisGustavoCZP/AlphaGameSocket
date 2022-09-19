@@ -10,7 +10,6 @@ export interface IPlayerStateProps
 
 export function PlayersState ({round, turn, players} : IPlayerStateProps)
 {
-    console.log('aqui',round,turn,players)
     let playerTurn = [' ',' ',' ',' ']
     const playerTurnClass = 'border-2 border-black '
     function isPlayerTurn(myTurn: number){

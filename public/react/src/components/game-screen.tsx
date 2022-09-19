@@ -59,5 +59,5 @@ export function GameScreen ({connection} : IGameProps)
         requestAnimationFrame(() => draw(context, canvas));
     }
 
-    return <canvas ref={canvasRef} className="flex bg-black flex-grow aspect-square" width={528} height={528}></canvas>;
+    return <canvas ref={canvasRef} className="flex bg-black flex-grow aspect-square max-h-screen" width={528} height={528}></canvas>;
 }
