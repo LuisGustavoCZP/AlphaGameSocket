@@ -4,19 +4,21 @@ import { redis } from "../../configs";
 
 class RedisSocket 
 {
-    socket : Redis;
+    pubSocket : Redis;
+    subSocket : Redis;
     events : Map<string, RedisEvent[]>;
 
     constructor ()
     {
-        this.socket = new Redis(redis);
+        this.pubSocket = new Redis(redis);
+        this.subSocket = new Redis(redis);
         this.events = new Map<string, RedisEvent[]>();
-        this.socket.on("message", (channel, message) => this.receive(channel, message));
+        this.subSocket.on("message", (channel, message) => this.receive(channel, message));
     }
 
     public send (channel : string, data : any)
     {
-        this.socket.publish(channel, JSON.stringify(data));
+        this.pubSocket.publish(channel, JSON.stringify(data));
     }
 
     public on (channel : string, event : (data : any) => void)
@@ -28,7 +30,7 @@ class RedisSocket
         else 
         {
             this.events.set(channel, [event]);
-            this.socket.subscribe(channel, (err, count) => {
+            this.subSocket.subscribe(channel, (err, count) => {
                 if (err) console.error(err.message);
                 console.log(`Subscribed to ${count} channels.`);
             });
