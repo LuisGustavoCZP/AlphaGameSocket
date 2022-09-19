@@ -1,4 +1,6 @@
+import { redisSocket } from "../../clients/redis/socket";
 import { Connection } from "../../connections";
+import { IClosedMatch } from "../../models";
 import { Match } from "./match";
 import { Player } from "./player";
 
@@ -9,6 +11,12 @@ export class MatchController
     constructor ()
     {
         this.matchs = [];
+        redisSocket.on("end-match", (match) => { this.closeMatch(match); });
+    }
+
+    async closeMatch (match : IClosedMatch)
+    {
+        
     }
 
     async getMatch (connection : Connection)

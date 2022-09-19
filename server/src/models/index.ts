@@ -6,4 +6,5 @@ import IUser from "./user";
 import User from "./user-register";
 
 
-export { APIResponse, IUser, Session, SessionCookie, IUserLogin, User };
+export { APIResponse, IUser, Session, SessionCookie, IUserLogin, User, IClosedMatch };
+import { IClosedMatch } from "./closed-match";

@@ -7,22 +7,27 @@ import { Match } from "./match";
 import { Player } from "./player";
 import { BaseTile, BaseMap } from "./basemap";
 import { redisSocket } from "../../clients/redis/socket";
+import { IQuestion } from "./questions";
+import { ILoot, Item } from "./item";
+import { loadSync } from "../../utils/loader";
 
 class GameManager 
 {
     baseMap : BaseMap;
     matchs : Match[];
+    questions : IQuestion[]
 
     constructor ()
     {
         this.matchs = [];
-        this.baseMap = BaseMap.load("./src/data/test1.json");
-        
+        this.baseMap = BaseMap.load("./src/data/map/test1.json");
+        this.questions = loadSync<IQuestion[]>("./src/data/questions/questions.json");
+        Item.setLoots(loadSync<ILoot[]>("./src/data/items/loots.json"));
+
         redisSocket.on("new-match", (match) =>
         {
             this.createMatch(match);
-            /* serverManager.send("match-init", true); */
-        })
+        });
         
     }
 

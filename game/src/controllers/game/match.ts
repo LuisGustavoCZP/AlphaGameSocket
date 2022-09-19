@@ -6,6 +6,7 @@ import { Player } from "./player";
 import { IMatch } from "../../models";
 import { BaseMap } from "./basemap";
 import { createEvent } from "../events";
+import { redisSocket } from "../../clients/redis/socket";
 
 class Match 
 {
@@ -13,9 +14,10 @@ class Match
     players: Player[];
     createdAt: string;
     startedAt: string;
-    map: TileMap;
-    round: number;
-    turn: number;
+    endedAt: string;
+    private map: TileMap;
+    private round: number;
+    private turn: number;
     static #speed = 1;
     static get deltaSpeed () { return 1/Match.#speed; }
 
@@ -26,6 +28,7 @@ class Match
         this.players = [];
         this.createdAt = new Date().toUTCString();
         this.startedAt = "";
+        this.endedAt = "";
         this.map = new TileMap(baseMap);
         this.round = 0;
         this.turn = 0;
@@ -59,6 +62,9 @@ class Match
         {
             await this.move ();
         }
+
+        this.endedAt = new Date().toUTCString();
+        redisSocket.send("end-match", this);
     }
 
     async move ()
