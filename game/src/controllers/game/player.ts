@@ -27,6 +27,11 @@ class Player
         this.items = new Map<number, Item>();
     }
 
+    get data ()
+    {
+        return Object.assign({id:this._id}, this);
+    }
+
     set position (_position : number)
     {
         this._position = _position;

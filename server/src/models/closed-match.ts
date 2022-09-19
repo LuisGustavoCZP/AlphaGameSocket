@@ -1,5 +1,6 @@
 export interface IClosedPlayer
 {
+    id : string;
     index : number;
     name: string;
     character: number;
