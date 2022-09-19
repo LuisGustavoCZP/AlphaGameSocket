@@ -1,0 +1,38 @@
+[
+    {
+        "id":0,
+        "name":"Passe para os Caminhos Tortuosos",
+        "description":"",
+        "icon":""
+    },
+    {
+        "id":1,
+        "name":"Bomba",
+        "description":"",
+        "icon":""
+    },
+    {
+        "id":2,
+        "name":"Dados duplos",
+        "description":"",
+        "icon":""
+    },
+    {
+        "id":3,
+        "name":"Relógio atrasado",
+        "description":"",
+        "icon":""
+    },
+    {
+        "id":4,
+        "name":"",
+        "description":"Relógio adiantado",
+        "icon":""
+    },
+    {
+        "id":5,
+        "name":"Relógio Mestre",
+        "description":"",
+        "icon":""
+    }
+]
