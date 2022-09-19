@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { clientPath } = require("./path");
+const { clientPath } = require("../../utils/path");
 
 function parseTiles (parsedMap, parsedTileset)
 {

@@ -1,4 +1,6 @@
 import { waitUntil } from "../../utils/wait";
+import { gameManager } from "../game";
+import { Item } from "../game/item";
 import { Player } from "../game/player";
 import { GameEvent } from "./event";
 
@@ -31,7 +33,14 @@ export class GameEventAsk extends GameEvent
 
     protected async execute (option : any)
     {
-        return true;
+        const question = gameManager.questions[this.askID];
+        if(question.answer == option)
+        {
+            const item = Item.loot(0)!;
+            this.player.addItem(item);
+            return true;
+        }
+        return false;
     }
 
     public async end (data : {sucess:boolean, items:number[]})
