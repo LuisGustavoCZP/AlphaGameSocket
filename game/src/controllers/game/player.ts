@@ -1,5 +1,6 @@
 import { Connection, connections, SocketEvent } from "../../connections";
 import { IPlayer } from "../../models";
+import { Item } from "./item";
 
 class Player 
 {
@@ -11,6 +12,7 @@ class Player
     character: number;
     position: number;
     points: number;
+    items : Map<number, Item>;
 
     constructor (index : number, { id, name, character } : IPlayer)
     {
@@ -22,6 +24,7 @@ class Player
         this.position = 110;
         this.points = 0;
         this.#connection = null as any;
+        this.items = new Map<number, Item>();
     }
 
     set connection (_connection : Connection) 
@@ -37,6 +40,47 @@ class Player
     set ready (isReady)
     {
         this.#ready = isReady;
+    }
+
+    hasItem (itemID : number, quanty = 1)
+    {
+        return this.getItem(itemID) >= quanty;
+    }
+
+    getItem (itemID : number)
+    {
+        if(this.items.has(itemID)) return 0;
+        return this.items.get(itemID)!.quanty;
+    }
+
+    addItem (newitem : Item)
+    {
+        if(this.items.has(newitem.id))
+        {
+            const item = this.items.get(newitem.id)!;
+            item.quanty += newitem.id;
+        }
+        else this.items.set(newitem.id, newitem);
+        
+        this.send("player-items", {items:Array.from(this.items.values())});
+        return true;
+    }
+
+    removeItem (newitem : Item)
+    {
+        if(this.items.has(newitem.id))
+        {
+            const item = this.items.get(newitem.id)!;
+            item.quanty -= newitem.quanty;
+            if(item.quanty <= 0)
+            {
+                this.items.delete(newitem.id)
+            }
+
+            this.send("player-items", {items:Array.from(this.items.values())});
+            return true;
+        }
+        return false;
     }
 
     equal (id : string)
