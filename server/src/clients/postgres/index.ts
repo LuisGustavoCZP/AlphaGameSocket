@@ -8,7 +8,11 @@ class PostgresDB
     public constructor ()
     {
         this._pool = new Pool({
-            connectionString: postgres
+            user:'postgres',
+            password:'login123',
+            host:'localhost',
+            database:'game',
+            port:2602
         });
     }
 
@@ -35,10 +39,8 @@ class PostgresDB
                 indexes += `${q != ''? ', ' : ''}$${i+1}`;
                 return q + `${q != ''? ', ' : ''}"${key}"`;
             }, '');
-
             const queryString = `INSERT INTO ${table} (${keys}, created_at) VALUES (${indexes}, now()) RETURNING id`;
-
-            //console.log(select_query);
+            console.log(queryString, values);
             
             const result = await this.pool.query(queryString, values);
 
