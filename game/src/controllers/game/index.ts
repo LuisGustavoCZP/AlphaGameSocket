@@ -27,7 +27,7 @@ class GameManager
         redisSocket.on("new-match", (match) =>
         {
             this.createMatch(match);
-        })
+        });
         
     }
 
