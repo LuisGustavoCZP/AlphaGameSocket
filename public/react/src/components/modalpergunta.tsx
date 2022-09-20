@@ -35,7 +35,7 @@ export function ModalPergunta({questionNumber,finalTime,choose}:modalPerguntaTyp
 
     },[])
     
-    return<div className="flex bg-[#00000099] items-center justify-center w-screen h-screen fixed m-0 ">
+    return <div className="flex bg-[#00000099] items-center justify-center w-screen h-screen fixed m-0 ">
         <div className="h-3/4 w-4/5 bg-[#D9D9D9] relative flex flex-col content-center items-center transform transition-all ">
             <div className="w-full text-[58px] bg-[#3E3E3E] pl-10 leading-[80px] flex justify-between">
                 <h2 >Pergunta</h2>

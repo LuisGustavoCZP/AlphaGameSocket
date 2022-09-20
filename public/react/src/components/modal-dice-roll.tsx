@@ -2,12 +2,14 @@ import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { CircularProgressbar,buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import itemsName from '../assets/data/items.json'
+import { waitTime } from "../game/utils/wait";
 import {DiceRoll} from './dice-animation'
 type modalDiceRollType = {
-    finalTime:number
+    finalTime:number,
+    choose: (option?:number)=>void
 }
 
-export default function ModalDiceRoll({finalTime}:modalDiceRollType){
+export default function ModalDiceRoll({finalTime, choose}:modalDiceRollType){
     const [totalTime, setTotalTime] = useState(60);
     const [timeLeft, timeHandler] = useState(totalTime)
     const [modalContent,setModalContent] = useState(<div></div>)
@@ -18,12 +20,14 @@ export default function ModalDiceRoll({finalTime}:modalDiceRollType){
         if(timeLeft <= 0) 
         {
             // Funçao de fechar o modal automaticamente e passar a vez vem aqui TODO
+            choose();
         }
     }
-    function rollTheDice(){
+    async function rollTheDice()
+    {
         // Funçao de jogar o dado e andar vem aqui TODO
-
         setModalContent(<DiceRoll diceNumber={1}></DiceRoll>)
+        choose(-1);
     }
 
     function chooseTheItem(){
@@ -47,6 +51,7 @@ export default function ModalDiceRoll({finalTime}:modalDiceRollType){
     }
     function useItem(itemNumber:number){
         // funçao de usar o item e jogar o dado vem aqui TODO
+        choose(itemNumber);
     }
     useEffect(()=>{
         setModalContent(        
