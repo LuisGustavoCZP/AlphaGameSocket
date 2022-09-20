@@ -12,7 +12,9 @@ export type GlobalContextData =
     getPage : number,
     setPage: Dispatch<number>,
     getID : string,
-    setID : Dispatch<string>
+    setID : Dispatch<string>,
+    server : string,
+    gameserver : string
 };
 
 const DEFAULT_VALUE = {
@@ -26,13 +28,25 @@ function GlobalContextProvider ({children, page} : PropsGlobalContext)
 {
     const [getPage, setPage] = useState<number>(page);
     const [getID, setID] = useState<string>(null as any);
+    
+    let server = location.host;
+    let gameserver = location.host.replace("8000", "5000");
+
+    if(location.port == "5173")
+    {
+        server = "localhost:8000"
+        gameserver = "localhost:5000"
+    }
+    
 
     return (
         <GlobalContext.Provider value={{
             getPage,
             setPage,
             getID,
-            setID
+            setID,
+            gameserver,
+            server
         }}>
         {children}
         </GlobalContext.Provider>

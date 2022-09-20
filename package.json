@@ -8,6 +8,7 @@
     "install:game": "cd game && npm i",
     "install": "npm run install:game && npm run install:react && npm run install:server",
     "dev:game": "cd game && npm run dev",
+    "test:react": "cd public/react && npm run dev",
     "dev:react": "cd public/react && npm run devbuild",
     "dev:server": "cd server && npm run dev",
     "build:game": "cd game && npm run build",

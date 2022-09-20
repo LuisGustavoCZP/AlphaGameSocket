@@ -38,6 +38,13 @@ class Match
         {
             this.players.push(new Player(i, playerData));
         });
+
+        this.countdown ();
+    }
+
+    async countdown ()
+    {
+        await waitBut(() => !(!this.startedAt), 10000, 500);
     }
 
     async triggerEvent (player : Player, eventID : number)

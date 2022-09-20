@@ -1,1 +1,3 @@
-export type { IPlayerData } from './playerdata';
+import { IPlayerData } from './playerdata';
+
+export type { IPlayerData };

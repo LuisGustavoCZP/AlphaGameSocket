@@ -9,6 +9,8 @@ import { IPlayerData } from "../game/player";
 import { EventAsk } from "./event-ask";
 import { EventTurn } from "./event-turn";
 import { EventDice } from "./event-dice";
+import { waitTime } from "../utils/wait";
+import { EventItem } from "./event-item";
 
 export function GameState ({connection} : IGameProps)
 {
@@ -19,7 +21,8 @@ export function GameState ({connection} : IGameProps)
 
     function openModal(eventID : number, finalTime : number, data? : any)
     {
-        if(eventID == -2) setModal(<EventDice finalTime={finalTime} choose={chooseAction} connection={data}/>);
+        if(eventID == -2) setModal(<EventDice finalTime={finalTime} choose={chooseAction} connection={data} />);
+        else if(eventID == -3) setModal(<EventItem finalTime={finalTime} choose={chooseAction} items={data} />);
         else if(eventID == -1) setModal(<EventTurn finalTime={finalTime} choose={chooseAction} />);
         else if(eventID == 0) setModal(<EventAsk finalTime={finalTime} choose={chooseAction} questionNumber={data!} />);
     }
@@ -79,6 +82,10 @@ export function GameState ({connection} : IGameProps)
                     connection.on("end-event", (data : {sucess:boolean, items:number[]}) => 
                     {
                         closeModal();
+                        if(data.items.length > 0)
+                        {
+                            openModal(-3, 1000, data.items);
+                        }
                         connection.off("end-event");
                     });
                 });

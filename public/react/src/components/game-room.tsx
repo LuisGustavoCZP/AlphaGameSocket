@@ -14,12 +14,13 @@ export interface IGameProps
 export function GameRoom (props : any)
 {
     const [getSocket, setSocket] = useState<Connection>(null as any);
-    const {getID, setPage} = useContext(GlobalContext);
+    const {getID, setPage, gameserver} = useContext(GlobalContext);
 
     async function startGame () 
     {
         /* if(getSocket) return; */
-        const newconnection = new Connection(location.host.replace("8000", "5000"));
+
+        const newconnection = new Connection(gameserver);
         
         newconnection.on("onopen", () => 
         {

@@ -1,5 +1,5 @@
 import { gameSpeed } from "../../configs";
-import { waitUntil } from "../../utils/wait";
+import { waitTime, waitUntil } from "../../utils/wait";
 import { gameManager } from "../game";
 import { Item } from "../game/item";
 import { Player } from "../game/player";
@@ -50,6 +50,7 @@ export class GameEventAsk extends GameEvent
     public async end (data : {sucess:boolean, items:Item[]})
     {
         await super.end(data);
+        await waitTime(1000*(1/gameSpeed));
     }
 
 }
