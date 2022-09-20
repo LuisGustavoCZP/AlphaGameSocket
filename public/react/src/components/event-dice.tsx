@@ -28,19 +28,25 @@ export function EventDice({connection, finalTime, choose} : IEventDiceProps)
     {
         loop ();
 
+        
         connection.on("starting-move", async ({ move }) => 
         {
+            connection.off("starting-move");
+            choose();
+        });
+
+        connection.on("starting-turn", async ({ move }) => 
+        {
+            connection.off("starting-turn");
             setRoll(false);
             setDice(move);
-            connection.off("starting-move");
-            await waitTime(2500);
-            choose();
         });
 
         connection.on("finish-move", ()=> 
         {
             connection.off("finish-move");
         });
+
     }, [])
 
     return (

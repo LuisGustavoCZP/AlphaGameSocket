@@ -93,15 +93,19 @@ class Match
 
         await waitTime(500*Match.deltaSpeed);
 
-        player.send("preparing-move", true);
+        player.send("preparing-turn", true);
 
         await waitTime(1000*Match.deltaSpeed);
         const move = Math.ceil(Math.random()*6);
         //player.points += move*10;
         //const direction = Math.random() > 0.5;
-        player.send("starting-move", { move:move });
+
+        player.send("starting-turn", { move:move });
+        
         //const speed = 0.1;
         await waitTime(3000*Match.deltaSpeed);
+
+        player.send("starting-move", true);
 
         for(let m = 0; m < move; m += 1)
         {
@@ -148,6 +152,8 @@ class Match
             nextRound = true;
         }
 
+        player.send("finish-move", true);
+
         const event = this.map.tile(player.position.toString());
         if(event)
         { 
@@ -159,8 +165,8 @@ class Match
             }
         }
 
-        player.send("finish-move", true);
-        this.send("next-move", { turn:this.turn, round:this.round });
+        this.send("next-turn", { turn:this.turn, round:this.round });
+
         if(nextRound) await waitTime (2000*Match.deltaSpeed);
     }
 
@@ -224,7 +230,7 @@ class Match
                 });
                 player.send("match-players", ps);
             });
-            player.send("match-map", {mapSource:"./src/assets/maps/tilemaps/tabuleiro.tmj", eventsSource:"./src/assets/data/events.json", data:Array.from(this.map.data.values())});
+            player.send("match-map", {mapSource:"/src/assets/maps/tilemaps/tabuleiro.tmj", eventsSource:"/src/assets/data/events.json", data:Array.from(this.map.data.values())});
         });
     }
 }

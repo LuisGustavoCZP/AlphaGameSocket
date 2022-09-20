@@ -11,19 +11,21 @@ import { EventTurn } from "./event-turn";
 import { EventDice } from "./event-dice";
 import { waitTime } from "../utils/wait";
 import { EventItem } from "./event-item";
+import { IItemData } from "../models";
 
 export function GameState ({connection} : IGameProps)
 {
     const [round, setRound] = useState<number>();
     const [turn, setTurn] = useState<number>();
     const [players, setPlayers] = useState <IPlayerData[]>();
-    const [modal, setModal] = useState(<></>)
+    const [getItems, setitems] = useState<IItemData[]>([]);
+    const [modal, setModal] = useState(<></>);
 
     function openModal(eventID : number, finalTime : number, data? : any)
     {
         if(eventID == -2) setModal(<EventDice finalTime={finalTime} choose={chooseAction} connection={data} />);
         else if(eventID == -3) setModal(<EventItem finalTime={finalTime} choose={chooseAction} items={data} />);
-        else if(eventID == -1) setModal(<EventTurn finalTime={finalTime} choose={chooseAction} />);
+        else if(eventID == -1) setModal(<EventTurn finalTime={finalTime} choose={chooseAction} items={data} />);
         else if(eventID == 0) setModal(<EventAsk finalTime={finalTime} choose={chooseAction} questionNumber={data!} />);
     }
     function closeModal()
@@ -50,14 +52,20 @@ export function GameState ({connection} : IGameProps)
                 connection.on("match-round", (data) => setRound(data));
                 connection.on("match-turn", (data) => setTurn(data));
                 
-                connection.on("preparing-move", () => 
+                connection.on("preparing-turn", () => 
                 {
+                    connection.off("starting-turn");
                     connection.off("starting-move");
                     connection.off("finish-move");
                     openModal(-2, 10000, connection)
                 });
 
-                connection.on("next-move", ({turn, round}) => 
+                connection.on("player-items", ({items}) => 
+                {
+                    setitems(items);
+                });
+
+                connection.on("next-turn", ({turn, round}) => 
                 {
                     setRound(round);
                     setTurn(turn);
@@ -76,6 +84,9 @@ export function GameState ({connection} : IGameProps)
                     if(data.event == 0)
                     {
                         eventData = data.data as number;
+                    } else if (data.event == -1)
+                    {
+                        eventData = getItems;
                     }
                     openModal(data.event, data.limitTime, eventData);
 
@@ -101,12 +112,12 @@ export function GameState ({connection} : IGameProps)
     }, [connection])
     
         
-    
+    if(!connection) return <></>;
     return (
     <section className="flex flex-col h-full w-full min-w-[200px] max-w-[400px] gap-4">
         <SpecsUser players={players}/>
         <PlayersState players={players} round={round} turn={turn} />
-        <InventoryState playerItems=/*{variavel dos items vem aqui }*/{[{id:0,quanty:0},{id:1,quanty:0},{id:2,quanty:0},{id:3,quanty:0},{id:4,quanty:0},{id:5,quanty:0}]}/>
+        <InventoryState items={getItems}/>
         {/* <h1>Voce tirou {diceNumber} no dado</h1> */}
         {modal}
     </section>

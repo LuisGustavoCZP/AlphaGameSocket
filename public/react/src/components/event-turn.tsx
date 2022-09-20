@@ -1,8 +1,16 @@
 import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { EventModal, IEventProps } from './event-modal';
 import itemsName from '../assets/data/items.json';
+import { IItemData } from "../models";
 
-export function EventTurn({finalTime, choose} : IEventProps)
+interface IEventTurnProps extends IEventProps
+{
+    finalTime : number,
+    choose : (option?:number)=>void,
+    items : IItemData[]
+}
+
+export function EventTurn({finalTime, choose, items} : IEventTurnProps)
 {
     const [modalContent, setModalContent] = useState(<div></div>)
     const btnAwnserClass = 'bg-[#7A7A7A] border-2 border-black leading-[35px] text-[25px] text-white w-full cursor-pointer hover:text-[#7A7A7A] hover:bg-white hover:border-white '
@@ -14,7 +22,7 @@ export function EventTurn({finalTime, choose} : IEventProps)
 
     function chooseTheItem()
     {
-        const playerItems = [{id:0,quanty:1},{id:1,quanty:0},{id:2,quanty:1},{id:3,quanty:0},{id:4,quanty:0},{id:5,quanty:0}] //mock data
+        const playerItems = items;
         const renderUsableItems:any = []
         playerItems.forEach(ele=>{
             if(ele.quanty>0){
