@@ -2,6 +2,7 @@
     {
         "id":0,
         "name":"Tobias",
+        "portait":"/src/assets/personagens/person1.png",
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
@@ -12,18 +13,8 @@
     },
     {
         "id":1,
-        "name":"Josefina",
-        "sprite": 
-        {
-            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
-            "spriteIndex":12,
-            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
-        },
-        "size":24
-    },
-    {
-        "id":2,
-        "name":"Seu zé",
+        "name":"Cleber",
+        "portait":"/src/assets/personagens/person3.png",
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
@@ -33,12 +24,25 @@
         "size":24
     },
     {
-        "id":3,
-        "name":"Katrina",
+        "id":2,
+        "name":"José",
+        "portait":"/src/assets/personagens/person4.png",
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
             "spriteIndex":36,
+            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
+        },
+        "size":24
+    },
+    {
+        "id":3,
+        "name":"Katrina",
+        "portait":"/src/assets/personagens/person6.png",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
+            "spriteIndex":60,
             "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
         },
         "size":24

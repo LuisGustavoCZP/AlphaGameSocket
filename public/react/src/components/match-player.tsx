@@ -1,17 +1,28 @@
-import img1 from "../assets/personagens/personagem1.png"
-import img2 from "../assets/personagens/personagem2.png"
-import img3 from "../assets/personagens/personagem3.png"
-import img4 from "../assets/personagens/personagem4.png"
-import img5 from "../assets/personagens/personagem5.png"
-const spritePlayers = [img1,img2,img3,img4,img5 ]
-export function MatchPlayer ({index, player} : any)
-{   
-    if(player){
+import charactersData from "../assets/data/characters.json"
+
+export function MatchPlayer ({index, player, isSelf} : any)
+{  
+    if(player)
+    {
+        const character = charactersData[player.character];
+        const playerImg = <img src={character.portait} alt="" className=" w-20 h-20" />;
+
+        function isPlayer ()
+        {
+            return (
+                <span className="flex">
+                    <button className="w-fit h-fit p-0 bg-transparent text-white">{'<'}</button>
+                    {playerImg}
+                    <button className="w-fit h-fit p-0 bg-transparent text-white">{'>'}</button>
+                </span>
+            );
+        }
+
         return (
             <li className="w-2/5 h-2/5 bg-[#343434] flex flex-col justify-center items-center content-center gap-3 ">
-                <span>{player?.name}</span>
-                <img src={spritePlayers[player.character]} alt="" className=" w-5 h-5" />
-                <span>{player?.character}</span>
+                <span>{player.name}</span>
+                {isSelf?isPlayer ():playerImg}
+                <span>{character.name}</span>
             </li>
         )
     }else{
