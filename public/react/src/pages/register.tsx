@@ -14,11 +14,11 @@ import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
             "email":(document.getElementById('register-email-input')as HTMLInputElement).value,
             "password":(document.getElementById('register-user-password')as HTMLInputElement).value
         }
-        await(await fetch(`https://localhost:8000/users/register`, {
+        await fetch(`https://localhost:8000/users/register`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
-        })).json()
+        })
     }
 
 export function Register(){
