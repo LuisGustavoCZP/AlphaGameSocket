@@ -25,3 +25,19 @@
     background: var(--cinza);
   }
 }
+
+.animation-background{
+  animation-name: move;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-duration: 50s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes move {
+  0%{
+    background-position: 0 0;
+  }100%{
+    background-position: -1920px -1079px;
+  }
+}
