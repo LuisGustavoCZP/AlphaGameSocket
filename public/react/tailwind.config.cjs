@@ -5,8 +5,12 @@ module.exports = {
     extend: {
       keyframes:{
         animation:{
-            '0%': {'background-img':'dice1'}
+            
         }
+    },
+    backgroundImage: {
+      'loginbg': "url('./src/assets/sprites/loginbg.png')",
+
     }
   },
   },
