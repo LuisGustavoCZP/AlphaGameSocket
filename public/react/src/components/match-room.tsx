@@ -5,45 +5,57 @@ import { Chat } from "./chat";
 import { MatchPlayer } from "./match-player";
 import { UserInfo } from "./userinfo";
 
+interface MatchRoomPlayer 
+{
+    index:number,
+    name:string,
+    character:number,
+    id?:string
+}
+
 export function MatchRoom (props : any)
 {
     const {setPage, setID, getID, server} = useContext(GlobalContext);
-    const [player, setPlayer] = useState(null as any);
-    const [players, setPlayers] = useState(null as any);
-    const [playersNumber, setNumber] = useState (1)
+    const [playerSelf, setPlayerSelf] = useState<MatchRoomPlayer>(null as any);
+    const [players, setPlayers] = useState<MatchRoomPlayer[]>(new Array(4));
+    const [playersNumber, setNumber] = useState (1);
+    const [getSocket, setSocket] = useState<Connection>();
+
     async function startConnection ()
     {
         if(getID) return;
         const newconnection = new Connection(server);
+        
         newconnection.on("onopen", () => 
         {
             newconnection.send("match-init", true)
         }); 
+        
         newconnection.on("match-init", async ({player} : any) => 
         {
-            setPlayer(player);
-            //console.log(player);
-            setID(player.id)
-
+            setPlayerSelf(player);
+            setID(player.id);
         });
-        newconnection.on("match-update", async ({players} : any) => 
+        
+        newconnection.on("match-players", async ({players} : any) => 
         {
             setPlayers(players);
             let x:number = 0 ;
-            //console.log(players)
-            players.forEach((ele : any) => {
+            players.forEach((ele : MatchRoomPlayer) => {
                 if(ele){
                     x++;
                 }
             });
-            //console.log(x)
             setNumber(x)
         });
+
         newconnection.on("match-start", async () => 
         {
             setPage(1);
             newconnection.instance.close();
         });
+
+        setSocket(newconnection);
     }
 
     useEffect(() => 
@@ -53,11 +65,10 @@ export function MatchRoom (props : any)
 
     function renderPlayers ()
     {
-        
-        if(!players || !player) return <></>;
-        return players.map((player : any, index : number) => 
+        return players.map((player : MatchRoomPlayer, index : number) => 
         {
-            return <MatchPlayer key={index} player={player} />;
+            const isSelf = playerSelf && player && playerSelf.index == player.index;
+            return <MatchPlayer key={index} player={player} isSelf={isSelf}/>;
         });
     }
 
@@ -71,9 +82,9 @@ export function MatchRoom (props : any)
             </li>
                 {renderPlayers ()}
 
-                <li className="w-full flex justify-between p-3 bg-[#3E3E3E]">
+                {/* <li className="w-full flex justify-between p-3 bg-[#3E3E3E]">
                     <p>Sprites do jogador vao aqui</p>
-                </li>
+                </li> */}
             </ul>
 
             <Chat/>
