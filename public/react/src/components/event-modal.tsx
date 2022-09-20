@@ -14,28 +14,31 @@ export interface IEventProps
 export interface IEventModalProps 
 {
     title: string,
-    finalTime : number,
-    choose : IEventChoose,
+    finalTime? : number,
+    choose? : IEventChoose,
     children : ReactNode
 }
 
 export function EventModal ({title, finalTime, choose, children} : IEventModalProps)
 {
-    const [totalTime, setTotalTime] = useState(60);
-    const [timeLeft, timeHandler] = useState(totalTime)
+    const [totalTime, setTotalTime] = useState(0);
+    const [timeLeft, timeHandler] = useState(totalTime);
 
     function tick()
     {
+        if(!finalTime) return;
         const timeLeft = Math.max(0, finalTime - Date.now());
         timeHandler(timeLeft);
         if(timeLeft <= 0) 
         {
-            choose();
+            if(choose) choose();
         }
     }
 
     useEffect(()=>
     {
+        if(!finalTime) return;
+
         setTotalTime(finalTime - Date.now());
         const interval = setInterval(()=> tick(), 500);
         return ()=>clearInterval(interval)
@@ -47,7 +50,7 @@ export function EventModal ({title, finalTime, choose, children} : IEventModalPr
                 <div className="w-full text-[58px] bg-[#3E3E3E] pl-10 leading-[80px] flex justify-between">
                     <h2>{title}</h2>
                     <div className='w-20 h-20'>
-                        <CircularProgressbar value={(timeLeft/totalTime)*100} text={`${Math.floor(timeLeft/1000)}s`}  styles={buildStyles({
+                        {finalTime?<CircularProgressbar value={(timeLeft/totalTime)*100} text={`${Math.floor(timeLeft/1000)}s`}  styles={buildStyles({
                             // Rotation of path and trail, in number of turns (0-1)
                             rotation: 1,
 
@@ -68,7 +71,7 @@ export function EventModal ({title, finalTime, choose, children} : IEventModalPr
                             textColor: '#e2e2e2',
                             trailColor: '#757575',
                             backgroundColor: '#3e98c7',
-                        })}/>
+                        })}/>:<></>}
                     </div>
                 </div>
                 {children}

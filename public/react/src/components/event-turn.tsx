@@ -1,6 +1,5 @@
 import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { EventModal, IEventProps } from './event-modal';
-import { DiceRoll } from './dice-animation';
 import itemsName from '../assets/data/items.json';
 
 export function EventTurn({finalTime, choose} : IEventProps)
@@ -10,8 +9,6 @@ export function EventTurn({finalTime, choose} : IEventProps)
    
     async function rollTheDice()
     {
-        // Funçao de jogar o dado e andar vem aqui TODO
-        setModalContent(<DiceRoll diceNumber={1}></DiceRoll>)
         choose(-1);
     }
 
@@ -52,7 +49,7 @@ export function EventTurn({finalTime, choose} : IEventProps)
     }, [])
 
     return (
-        <EventModal title='Pergunta' finalTime={finalTime} choose={choose}>
+        <EventModal title='Sua vez' finalTime={finalTime} choose={choose}>
             {modalContent}
         </EventModal>
     );

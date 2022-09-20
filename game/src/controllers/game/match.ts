@@ -84,14 +84,17 @@ class Match
 
         await this.triggerEvent(player, -1)
 
-        this.send("preparing-move", true);
+        await waitTime(500*Match.deltaSpeed);
+
+        player.send("preparing-move", true);
 
         await waitTime(1000*Match.deltaSpeed);
         const move = Math.ceil(Math.random()*6);
         //player.points += move*10;
         //const direction = Math.random() > 0.5;
-        this.send("starting-move", {playerindex: this.turn, move:move});
+        player.send("starting-move", { move:move });
         //const speed = 0.1;
+        await waitTime(3000*Match.deltaSpeed);
 
         for(let m = 0; m < move; m += 1)
         {
@@ -149,7 +152,8 @@ class Match
             }
         }
 
-        this.send("finish-move", { turn:this.turn, round:this.round });
+        player.send("finish-move", true);
+        this.send("next-move", { turn:this.turn, round:this.round });
         if(nextRound) await waitTime (2000*Match.deltaSpeed);
     }
 
