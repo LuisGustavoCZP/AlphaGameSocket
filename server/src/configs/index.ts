@@ -24,7 +24,7 @@ const sessionConfig = {
 };
 
 const validatorConfig = {
-    password:{min:6, max:6},
+    password:{min:6, max:16},
     username:{min:4, max:8}
 };
 

@@ -3,6 +3,8 @@ import IUserLogin from "./user-login"
 import Session from "./session";
 import SessionCookie from "./session-cookie";
 import IUser from "./user";
-import { IClosedMatch } from "./closed-match";
+import User from "./user-register";
 
-export { APIResponse, IUser, Session, SessionCookie, IUserLogin, IClosedMatch }
+
+export { APIResponse, IUser, Session, SessionCookie, IUserLogin, User, IClosedMatch };
+import { IClosedMatch } from "./closed-match";

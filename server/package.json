@@ -8,7 +8,8 @@
     "start": "node dist/index.js",
     "copy-extra": "copyfiles ./src/security/* ./dist",
     "copy-assets": "copyfiles ./src/assets/* ./dist",
-    "dev": "concurrently \"npx tsc --watch\" \"npm run copy-assets\" \"nodemon -q dist/index.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"npm run copy-assets\" \"nodemon -q dist/index.js\"",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "ioredis": "^5.2.2",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
     "uuid": "^8.3.2",
     "ws": "^8.8.1"
@@ -37,6 +39,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/ioredis": "^4.28.10",
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.7.6",
     "@types/pg": "^8.6.5",
     "@types/uuid": "^8.3.4",

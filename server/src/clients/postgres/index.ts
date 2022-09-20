@@ -35,10 +35,8 @@ class PostgresDB
                 indexes += `${q != ''? ', ' : ''}$${i+1}`;
                 return q + `${q != ''? ', ' : ''}"${key}"`;
             }, '');
-
             const queryString = `INSERT INTO ${table} (${keys}, created_at) VALUES (${indexes}, now()) RETURNING id`;
-
-            //console.log(select_query);
+            console.log(queryString, values);
             
             const result = await this.pool.query(queryString, values);
 

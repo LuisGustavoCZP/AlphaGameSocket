@@ -5,5 +5,54 @@
         "Distractor1": "errada 1",
         "Distractor2": "errada 2",
         "Distractor3": "errada 3"
+    },
+    {
+        "Question":"No JavaScript, qual é o metodo usado para remover os espaços do começo e do fim de uma strign?",
+        "Answer":".trim()",
+        "Distractor1":".substring()",
+        "Distractor2":".reduce()",
+        "Distractor3":".slice()"
+    },
+    {
+        "Question":"Usando o editor vim, qual desses modos nos ajuda a copiar, colar e deletar texto?",
+        "Answer":"visual mode",
+        "Distractor1":"yanking mode",
+        "Distractor2":"insert mode",
+        "Distractor3":"normal mode"
+    },
+    {
+        "Question":"Qual dos items abaixo é usado para implementar Dynamic binding no C++?",
+        "Answer":"Virtual function",
+        "Distractor1":"Friend function",
+        "Distractor2":"Static function",
+        "Distractor3":"Const function"
+    },
+    {
+        "Question":"Qual é a linguagem basica de um computador?",
+        "Answer":"Binário",
+        "Distractor1":"HyperText Markup Language",
+        "Distractor2":"Cascading Style Sheets",
+        "Distractor3":"JavaScript"
+    },
+    {
+        "Question":"Em JavaScript, qual metodo/objeto nativo que retornara os valores unicos de um array?",
+        "Answer":"Set",
+        "Distractor1":"map()",
+        "Distractor2":"reduce()",
+        "Distractor3":"filter()"
+    },
+    {
+        "Question":"Em JavaScript, todos os objetos herdam uma propriedade nativa de um ...?",
+        "Answer":"prototype",
+        "Distractor1":"variavel de instancia",
+        "Distractor2":"node",
+        "Distractor3":"acessor"
+    },
+    {
+        "Question":"Em JavaScript, toda classe tem um metodo ... especial em que é usado para criar uma nova instancia da classe.",
+        "Answer":"constructor",
+        "Distractor1":"starter",
+        "Distractor2":"assign",
+        "Distractor3":"apply"
     }
 ]
