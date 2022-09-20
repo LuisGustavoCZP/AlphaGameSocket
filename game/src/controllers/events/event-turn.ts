@@ -1,20 +1,18 @@
 import { gameSpeed } from "../../configs";
 import { waitUntil } from "../../utils/wait";
+import { gameManager } from "../game";
 import { Item } from "../game/item";
 import { Player } from "../game/player";
 import { GameEvent } from "./event";
 
-export class GameEventPass extends GameEvent
+export class GameEventTurn extends GameEvent
 {
-    eventID = 1;
+    eventID = -1;
     timeout = 10000*(1/gameSpeed);
-    horizontal;
-
-    public constructor (player : Player, horizontal=true)
+    
+    public constructor (player : Player)
     {
         super(player);
-        this.horizontal = horizontal;
-        if(!horizontal) this.eventID = 2;
     }
 
     protected get data () 
@@ -29,11 +27,12 @@ export class GameEventPass extends GameEvent
     
     public async check ()
     {
-        return false;
+        return true;
     }
 
     protected async execute (option : any)
     {
+        
         return true;
     }
 

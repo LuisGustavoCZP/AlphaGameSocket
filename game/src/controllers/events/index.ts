@@ -1,11 +1,14 @@
 import { Player } from "../game/player";
 import { GameEventAsk } from "./event-ask";
 import { GameEventPass } from "./event-pass";
+import { GameEventTurn } from "./event-turn";
 
 export function createEvent (player : Player, eventID : number)
 {
-    switch (eventID) 
+    switch (eventID)
     {
+        case -1:
+            return new GameEventTurn(player)
         case 0:
             return new GameEventAsk(player)
         case 1:

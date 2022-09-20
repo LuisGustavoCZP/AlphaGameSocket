@@ -1,3 +1,4 @@
+import { gameSpeed } from "../../configs";
 import { waitUntil } from "../../utils/wait";
 import { gameManager } from "../game";
 import { Item } from "../game/item";
@@ -7,7 +8,7 @@ import { GameEvent } from "./event";
 export class GameEventAsk extends GameEvent
 {
     eventID = 0;
-    timeout = 10000;
+    timeout = 10000*(1/gameSpeed);
     askID : number;
     
     public constructor (player : Player)

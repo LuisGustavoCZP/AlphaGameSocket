@@ -10,6 +10,8 @@ const isSsl = process.env.SSL ? process.env.SSL == "true" : false;
 const postgres = process.env.POSTGRES;
 const redis = process.env.REDIS || "redis://default:redispw@localhost:6379";
 
+const gameSpeed = 1;
+
 const cripto = {
     saltRounds:10,
     secret:"jacareperneta"
@@ -31,4 +33,4 @@ const corsOptions : CorsOptions = {
     credentials:true,
 }
 
-export { certs, port, isSsl, postgres, redis, corsOptions, cripto, sessionConfig, validatorConfig };
+export { certs, port, isSsl, postgres, redis, corsOptions, cripto, sessionConfig, validatorConfig, gameSpeed };

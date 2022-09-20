@@ -7,6 +7,7 @@ import { IMatch } from "../../models";
 import { BaseMap } from "./basemap";
 import { createEvent } from "../events";
 import { redisSocket } from "../../clients/redis/socket";
+import { gameSpeed } from "../../configs";
 
 class Match 
 {
@@ -18,8 +19,8 @@ class Match
     private map: TileMap;
     private round: number;
     private turn: number;
-    static #speed = 1;
-    static get deltaSpeed () { return 1/Match.#speed; }
+    
+    static get deltaSpeed () { return 1/gameSpeed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
     {
@@ -39,10 +40,10 @@ class Match
         });
     }
 
-    async triggerEvent (player : Player, tileEvent : TileEvent)
+    async triggerEvent (player : Player, eventID : number)
     {
         await waitTime(500*Match.deltaSpeed);
-        const event = createEvent(player, tileEvent.eventID)!;
+        const event = createEvent(player, eventID)!;
         if(!(await event.check())) return false;
         await event.start();
         return true;
@@ -76,10 +77,12 @@ class Match
             confirmed = true;
         });
 
-        const limitTime = Date.now() + 2000*Match.deltaSpeed;
+        /* const limitTime = Date.now() + 2000*Match.deltaSpeed;
         player.send("starting-turn", {limitTime});
 
-        await waitUntil(() => (confirmed || Date.now() >= limitTime));
+        await waitUntil(() => (confirmed || Date.now() >= limitTime)); */
+
+        await this.triggerEvent(player, -1)
 
         this.send("preparing-move", true);
 
@@ -104,7 +107,7 @@ class Match
             }
             else 
             {
-                const result = await this.triggerEvent(player, event);
+                const result = await this.triggerEvent(player, event.eventID);
                 if(result)
                 {
                     const nextTile = tilepos.next[1];
@@ -138,7 +141,7 @@ class Match
         const event = this.map.tile(player.position.toString());
         if(event)
         { 
-            const result = await this.triggerEvent(player, event);
+            const result = await this.triggerEvent(player, event.eventID);
             if(result)
             {
                 player.points += 100;
