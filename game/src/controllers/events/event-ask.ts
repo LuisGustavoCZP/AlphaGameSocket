@@ -8,12 +8,13 @@ export class GameEventAsk extends GameEvent
 {
     eventID = 0;
     timeout = 10000;
-    askID;
-
+    askID : number;
+    
     public constructor (player : Player)
     {
         super(player);
         this.askID = Math.floor(Math.random()*gameManager.questions.length);
+        
     }
 
     protected get data () 
@@ -34,16 +35,18 @@ export class GameEventAsk extends GameEvent
     protected async execute (option : any)
     {
         const question = gameManager.questions[this.askID];
+        console.log(`Answer is ${question.answer} == ${option}`)
         if(question.answer == option)
         {
             const item = Item.loot(0)!;
             this.player.addItem(item);
+            this.items.push(item);
             return true;
         }
         return false;
     }
 
-    public async end (data : {sucess:boolean, items:number[]})
+    public async end (data : {sucess:boolean, items:Item[]})
     {
         await super.end(data);
     }
