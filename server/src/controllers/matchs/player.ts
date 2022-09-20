@@ -21,7 +21,7 @@ export class Player
     {
         this.index = index;
         this.name = `Jogador ${this.index+1}`;
-        this.character = this.index;
+        //this.character = this.index;
     }
 
     public send (type : string, data : any)
