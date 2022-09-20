@@ -23,7 +23,7 @@ export function PlayersState ({round, turn, players} : IPlayerStateProps)
             const turnClass = isTurn ? playerTurnClass : '';
             const selfClass = player.isPlayer? playerSelfClass: '';
             return (
-                <li className={turnClass+selfClass+"flex justify-between pl-2 pr-2 items-center box-border"}>
+                <li className={turnClass+selfClass+"flex justify-between pl-2 pr-2 items-center box-border cursor-default select-none"}>
                     <span className="flex items-center justify-center">
                         <span className="w-6 h-6">
                             {isTurn?(<img className="w-6 h-6 animate-horizontal-bounce" src={seta} alt=">" />):<></>}

@@ -16,10 +16,10 @@ export function InventoryState ({items} : InventoryStateProps)
             const quanty = items[index]?.quanty || 0;
             const itemClass = quanty ? '' : 'text-[#484848] '
             return (
-                <li key={index} className={itemClass + "flex justify-between pl-2 pr-3 items-center"}>
+                <li key={index} className={itemClass + "flex justify-between pl-2 pr-3 items-center cursor-default select-none"} title={itemData.description}>
                     <span>
                         <img src={itemData.icon} />
-                        <span title={itemData.description}>{itemData.name}</span>
+                        <span>{itemData.name}</span>
                     </span>
                     <span>{quanty}</span>
                 </li>
