@@ -12,11 +12,11 @@ export function Login(){
                 <picture className='p-5'><img src={logoname} alt="" /></picture>
             </header>
             <form className='flex flex-col justify-center items-center text-[#1C1C1C] gap-8 py-12'>
-                <div className='flex flex-col w-full px-[15%]'>
+                <div className='flex flex-col w-10/12 '>
                     <label className='text-lg' htmlFor="login-user-input">Usuário:</label>
                     <input className='leading-10 w-full border-2 bg-transparent border-[#1C1C1C]' type="text" placeholder="Usuario" id="login-user-input" />
                 </div>
-                <div className='flex flex-col w-full px-[15%]'>
+                <div className='flex flex-col w-10/12 '>
                     <label className='text-lg' htmlFor="login-user-password">Senha:</label>
                     <input className='leading-10 w-full bg-transparent border-2 border-[#1C1C1C]' type="password" placeholder="Senha" id="login-user-password" />
                 </div>
