@@ -46,7 +46,9 @@ export class Item
 
         for(const chance of loot.chances)
         {
-            if(chance.rate <= r && r > ri)
+            const cr = ri + chance.rate;
+            //console.log(r, cr, ri);
+            if(ri < r && cr >= r)
             {
                 return new Item(chance.id, chance.quanty);
             }

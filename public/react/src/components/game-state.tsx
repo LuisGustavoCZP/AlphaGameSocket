@@ -42,15 +42,19 @@ export function GameState ({connection} : IGameProps)
                 {
                     setDice(move);
                     
-                    connection.on("finish-move", ({turn, round, points, items})=> 
+                    connection.on("finish-move", ({turn, round})=> 
                     {
                         setRound(round);
                         setTurn(turn);
                         //console.log(playerindex)
-                        _players![playerindex].points = points;
                         setPlayers(_players);
                         connection.off("finish-move");
                     });
+                });
+
+                connection.on("player-points", ({playerindex, points}) => 
+                {
+                    _players![playerindex].points = points;
                 });
 
                 connection.on("start-event", (data : {event:number, limitTime:number, data?:any}) => 

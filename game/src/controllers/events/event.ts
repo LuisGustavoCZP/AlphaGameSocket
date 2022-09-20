@@ -1,4 +1,5 @@
 import { waitUntil } from "../../utils/wait";
+import { Item } from "../game/item";
 import { Match } from "../game/match";
 import { Player } from "../game/player";
 
@@ -10,11 +11,13 @@ export abstract class GameEvent
     #executed : boolean;
     //sucess : boolean;
     limitTime? : number;
+    items : Item[];
 
     public constructor (player : Player)
     {
         this.player = player;
         this.#executed = false;
+        this.items = [];
     }
 
     protected get data () 
@@ -36,14 +39,14 @@ export abstract class GameEvent
 
         this.player.send("start-event", this.data);
         await waitUntil(() => (this.#executed || Date.now() >= this.limitTime!));
-        await this.end({sucess:executionSucess, items:[]});
+        await this.end({sucess:executionSucess, items:this.items});
     }
     
     public abstract check () : Promise<boolean>;
 
     protected abstract execute (option : any) : Promise<boolean>;
 
-    public async end (data : {sucess:boolean, items:number[]})
+    public async end (data : {sucess:boolean, items:Item[]})
     {
         this.player!.send("end-event", data);
     }
