@@ -98,7 +98,7 @@ export class MapObject
     {
         for (const {source} of data.tilesets)
         {
-            const tileset = await TileSetObject.load(`${source.replace("..", "src/assets/maps")}`);
+            const tileset = await TileSetObject.load(`${source.replace("..", "/src/assets/maps")}`);
             this.tilesets.push(tileset);
       
             let t = 0;

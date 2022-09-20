@@ -6,6 +6,9 @@ import { Player } from "./player";
 import { IPlayerData } from "./player/models";
 import { waitUntil } from "./utils/wait";
 
+import eventsData from "../assets/data/events.json";
+import charactersData from "../assets/data/characters.json";
+
 export class GameManager 
 {
     public map : MapObject;
@@ -39,7 +42,7 @@ export class GameManager
 
     async setMap (map: any)
     {
-        const eventsData : IGameObjectData[] = await fetch(map.eventsSource).then(resp => resp.json());
+        //const eventsData : IGameObjectData[] = await fetch(map.eventsSource).then(resp => resp.json());
         const eventsObject : GameObject[] = [];
         for (const eventData of eventsData)
         {
@@ -56,7 +59,7 @@ export class GameManager
 
     async setPlayers (players : IPlayerData[])
     {
-        const charactersData : ICharacterData[] = await fetch("./src/assets/data/characters.json").then(resp => resp.json());
+        //const charactersData : ICharacterData[] = characters;
         players.forEach((playerData, index) => 
         {
             const objectid = `player:${index}`;
