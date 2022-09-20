@@ -1,10 +1,13 @@
 import { Route, Routes, Navigate, Link } from 'react-router-dom';
+import GlobalContext from "../contexts/global-context";
+import { useContext, useEffect, useState } from "react";
 import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 
 
 
     async function registerPlayer(){
+        const {server} = useContext(GlobalContext);
         if((document.getElementById('register-user-password')as HTMLInputElement).value != (document.getElementById('register-user-password-confirm') as HTMLInputElement).value ){
             return
         }
@@ -14,11 +17,11 @@ import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
             "email":(document.getElementById('register-email-input')as HTMLInputElement).value,
             "password":(document.getElementById('register-user-password')as HTMLInputElement).value
         }
-        await fetch(`https://localhost:8000/users/register`, {
+        const resposta = await(await fetch(`${server}/users/register`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
-        })
+        })).json()
     }
 
 export function Register(){

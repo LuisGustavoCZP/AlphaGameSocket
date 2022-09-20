@@ -1,22 +1,31 @@
-import { Route, Routes, Navigate, Link } from 'react-router-dom';
-
+import { Route, Routes, Navigate, Link, useNavigate } from 'react-router-dom';
+import GlobalContext from "../contexts/global-context";
+import { useContext, useEffect, useState } from "react";
 import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 import loginbg from '../assets/sprites/loginbg.png'
 
-async function loginPlayer(){
-    const body = {
-        "name":(document.getElementById('login-user-input')as HTMLInputElement).value,
-        "password":(document.getElementById('login-user-password')as HTMLInputElement).value
-    }
-    console.log(await(await fetch(`https://localhost:8000/users/login`, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {"Content-type": "application/json;charset=UTF-8"}
-    })).text())
-}
+
 
 export function Login(){
+    const {server} = useContext(GlobalContext);
+    const navigate = useNavigate()
+    async function loginPlayer(){
+        
+        const body = {
+            "name":(document.getElementById('login-user-input')as HTMLInputElement).value,
+            "password":(document.getElementById('login-user-password')as HTMLInputElement).value
+        }
+        const resposta = (await(await fetch(`${server}/users/login`, {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {"Content-type": "application/json;charset=UTF-8"}
+        })).json());
+        if(!resposta.success){
+            return
+        }
+        navigate('/home', { replace: true })
+    }
     return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-repeat`}>
         <div className='h-5/6 w-2/5 bg-[#D9D9D9] animation-background'>
             <header className='flex items-center h-1/3 bg-[#1C1C1C]'>
