@@ -13,7 +13,6 @@ class ResponseHandler{
     if(!this.body){
       res.sendStatus(this.status);
     }else{
-      console.log(this.body);
       return res.status(this.status).json(this.body);
     }
   }
