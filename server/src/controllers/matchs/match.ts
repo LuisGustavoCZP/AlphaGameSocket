@@ -38,9 +38,16 @@ export class Match
         player.matchIndex = index;
         this.players[index] = player;
         console.log(player.index);
+
         player.send("match-init", { player:player.data });
-        this.send("match-update", { players:this.players });
-        player.onexit(() => {this.remove(player);});
+
+        this.send("match-players", { players:this.players });
+
+        player.onexit(() => 
+        {
+            this.remove(player);
+        });
+
         if(index === Match.maxSize-1) 
         {
             this.isFull = true;
@@ -51,7 +58,7 @@ export class Match
     public remove (player : Player)
     {
         this.players[player.index] = null as any;
-        this.send("match-update", { players:this.players });
+        this.send("match-players", { players:this.players });
         if(this.isFull) this.isFull = false;
     }
 
