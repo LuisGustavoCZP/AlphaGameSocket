@@ -37,7 +37,7 @@ export function GameState ({connection} : IGameProps)
         }
     }
 
-    useEffect(() => 
+    function network ()
     {
         if(connection)
         {
@@ -83,11 +83,14 @@ export function GameState ({connection} : IGameProps)
                     });
                 });
 
-                
-
                 connection.send("match-players", true);
             });
         }
+    }
+
+    useEffect(() => 
+    {
+        network ();
     }, [connection])
     
         

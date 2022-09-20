@@ -11,38 +11,31 @@ export function GameScreen ({connection} : IGameProps)
     const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
-    if(connection)
+    function network ()
     {
-        connection.on("match-players", (_players) => 
+        if(connection)
         {
-            gameManager.setPlayers(_players);
-        });
-        connection.on("starting-move", ({playerindex, move}) => 
-        {
-            const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
-            char.animation = "walk down";
-            connection.on("finish-move", ({turn, round}) => 
+            connection.on("match-players", (_players) => 
             {
-                char.animation = "idle down";
+                gameManager.setPlayers(_players);
             });
-        });
+            connection.on("starting-move", ({playerindex, move}) => 
+            {
+                const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
+                char.animation = "walk down";
+                connection.on("finish-move", ({turn, round}) => 
+                {
+                    char.animation = "idle down";
+                });
+            });
 
-        connection.on("update-move", ({playerindex, position, tile}) => 
-        {
-            const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
-            char.tileIndex = tile;
-        });
+            connection.on("update-move", ({playerindex, position, tile}) => 
+            {
+                const char = gameManager.gameObjects.get(`player:${playerindex}`)! as CharacterObject;
+                char.tileIndex = tile;
+            });
 
-    }
-
-    if(canvasRef && canvasRef.current) 
-    {
-        const canvas = canvasRef.current!;
-        const context = canvas.getContext("2d")!;
-        GameObject.context = context;
-        MapObject.context = context;
-        
-        draw(context, canvas);
+        }
     }
 
     function draw (context : CanvasRenderingContext2D, canvas : HTMLCanvasElement) 
@@ -58,6 +51,21 @@ export function GameScreen ({connection} : IGameProps)
         //console.log("desenhando");
         requestAnimationFrame(() => draw(context, canvas));
     }
+    
+    useEffect(() => 
+    {
+        network();
+
+        if(canvasRef && canvasRef.current) 
+        {
+            const canvas = canvasRef.current!;
+            const context = canvas.getContext("2d")!;
+            GameObject.context = context;
+            MapObject.context = context;
+            
+            draw(context, canvas);
+        }
+    }, []);
 
     return <canvas ref={canvasRef} className="flex bg-black flex-grow aspect-square max-h-screen" width={528} height={528}></canvas>;
 }

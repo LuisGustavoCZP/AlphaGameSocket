@@ -30,6 +30,7 @@ export function GameRoom (props : any)
             newconnection.on("match-ready", () => 
             {
                 setSocket(newconnection);
+                
                 newconnection.on("match-map", async (map) => 
                 {
                     console.log("Recebendo mapa!")
@@ -48,6 +49,7 @@ export function GameRoom (props : any)
         startGame ();
     }, []);
 
+    if(!getSocket) return (<></>);
     return (
         <main className="flex justify-between items-center h-screen w-full p-2">
             <GameState connection={getSocket}/>
