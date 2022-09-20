@@ -14,7 +14,7 @@
       "patterns": [
         "src"
       ],
-      "extensions": "ts,tsx,css,html"
+      "extensions": "ts,tsx,css,html,json,png"
     }
   },
   "dependencies": {

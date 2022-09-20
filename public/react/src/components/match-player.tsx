@@ -1,28 +1,38 @@
+import { ReactNode } from "react";
 import charactersData from "../assets/data/characters.json"
+import randomCharacter from "../assets/personagens/random.png";
 
-export function MatchPlayer ({index, player, isSelf} : any)
+export function MatchPlayer ({index, player, isSelf, nextChar, backChar, ready} : any)
 {  
     if(player)
     {
-        const character = charactersData[player.character];
-        const playerImg = <img src={character.portait} alt="" className=" w-20 h-20" />;
+        const character = player.character >= 0?charactersData[player.character]:null;
+        const playerImg = <img src={character?.portait || randomCharacter} alt="" className=" w-20 h-20" />;
 
-        function isPlayer ()
+        function charSelection (children : ReactNode)
         {
+            if(!isSelf) return children;
             return (
                 <span className="flex">
-                    <button className="w-fit h-fit p-0 bg-transparent text-white">{'<'}</button>
-                    {playerImg}
-                    <button className="w-fit h-fit p-0 bg-transparent text-white">{'>'}</button>
+                    <button className="w-fit h-fit p-0 bg-transparent text-white" onClick={backChar}>{'<'}</button>
+                    {children}
+                    <button className="w-fit h-fit p-0 bg-transparent text-white" onClick={nextChar}>{'>'}</button>
                 </span>
             );
+        }
+
+        function readyElement ()
+        {
+            if(isSelf) return <button onClick={ready}>Pronto?</button>;
+            else return <span>Pronto!</span>
         }
 
         return (
             <li className="w-2/5 h-2/5 bg-[#343434] flex flex-col justify-center items-center content-center gap-3 ">
                 <span>{player.name}</span>
-                {isSelf?isPlayer ():playerImg}
-                <span>{character.name}</span>
+                {charSelection (playerImg)}
+                <span>{character?.name || "Random"}</span>
+                {readyElement()}
             </li>
         )
     }else{

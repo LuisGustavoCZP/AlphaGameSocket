@@ -65,28 +65,33 @@ export function MatchRoom (props : any)
 
     function renderPlayers ()
     {
+        const nextChar = () => 
+        {
+            getSocket?.send("character-next", true);
+        };
+
+        const backChar = () => 
+        {
+            getSocket?.send("character-last", true);
+        };
+
         return players.map((player : MatchRoomPlayer, index : number) => 
         {
             const isSelf = playerSelf && player && playerSelf.index == player.index;
-            return <MatchPlayer key={index} player={player} isSelf={isSelf}/>;
+            return <MatchPlayer key={index} player={player} isSelf={isSelf} nextChar={nextChar} backChar={backChar}/>;
         });
     }
 
     return (
         <div className="match-room flex items-center m-0 justify-evenly h-screen">
             <UserInfo />
-            <ul className=" flex list-none h-screen w-3/5 flex-wrap justify-center content-start gap-5 place-self-start">
-            <li className="w-full flex justify-between p-2 bg-[#3E3E3E]">
-                <p>Partida 1</p>
-                <p>{playersNumber}/4</p>
-            </li>
+            <ul className="flex list-none h-screen w-3/5 flex-wrap justify-center content-start gap-5 place-self-start">
+                <li className="w-full flex justify-between p-2 bg-[#3E3E3E]">
+                    <p>Partida 1</p>
+                    <p>{playersNumber}/4</p>
+                </li>
                 {renderPlayers ()}
-
-                {/* <li className="w-full flex justify-between p-3 bg-[#3E3E3E]">
-                    <p>Sprites do jogador vao aqui</p>
-                </li> */}
             </ul>
-
             <Chat/>
         </div>
     )

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import { IPlayerData } from "../game/player";
 import charactersData from "../assets/data/characters.json"
+import seta from "../assets/sprites/seta.png"
 
 export interface IPlayerStateProps 
 {
@@ -11,19 +12,25 @@ export interface IPlayerStateProps
 
 export function PlayersState ({round, turn, players} : IPlayerStateProps)
 {
-    const playerTurnClass = 'text-[2em] '; //border-2 border-black
+    const playerTurnClass = 'border-2 border-white ';
     const playerSelfClass = 'text-gray-100 ';
 
     function renderPlayers ()
     {
         return players?.map((player, index) => 
         {
-            const turnClass = turn == index ? playerTurnClass : '';
+            const isTurn = turn == index;
+            const turnClass = isTurn ? playerTurnClass : '';
             const selfClass = player.isPlayer? playerSelfClass: '';
             return (
-                <li className={selfClass+"flex justify-between pl-2 pr-2 items-center"}>
-                    <img src={charactersData[player.character].portait}/>
-                    <span className={turnClass}>{player.name}</span>
+                <li className={turnClass+selfClass+"flex justify-between pl-2 pr-2 items-center box-border"}>
+                    <span className="flex items-center justify-center">
+                        <span className="w-6 h-6">
+                            {isTurn?(<img className="w-6 h-6 animate-horizontal-bounce" src={seta} alt=">" />):<></>}
+                        </span>  
+                        <img className="w-7 h-7" src={charactersData[player.character].portait}/>
+                        <span>{player.name}</span>
+                    </span>
                     <span>{player.points}P</span>
                 </li>
             );

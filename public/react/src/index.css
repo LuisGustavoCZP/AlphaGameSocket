@@ -17,10 +17,26 @@
   --cinza2: #3e98c7;
 }
 
+@keyframes horizontal-bounce {
+  0%, 100% {
+      transform: translateX(-12.5%);
+      animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+  50% {
+      transform: translateX(12.5%);
+      animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+}
+
 @layer components {
+  .animate-horizontal-bounce {
+    animation: horizontal-bounce 1s infinite;
+  }
+
   .text-cinza {
     color: var(--cinza);
   }
+
   .bg-cinza {
     background: var(--cinza);
   }

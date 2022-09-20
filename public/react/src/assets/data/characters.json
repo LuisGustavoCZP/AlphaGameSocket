@@ -13,6 +13,18 @@
     },
     {
         "id":1,
+        "name":"Grória",
+        "portait":"/src/assets/personagens/person2.png",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
+            "spriteIndex":12,
+            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
+        },
+        "size":24
+    },
+    {
+        "id":2,
         "name":"Cleber",
         "portait":"/src/assets/personagens/person3.png",
         "sprite": 
@@ -24,7 +36,7 @@
         "size":24
     },
     {
-        "id":2,
+        "id":3,
         "name":"José",
         "portait":"/src/assets/personagens/person4.png",
         "sprite": 
@@ -36,8 +48,20 @@
         "size":24
     },
     {
-        "id":3,
-        "name":"Katrina",
+        "id":4,
+        "name":"Ronaldo",
+        "portait":"/src/assets/personagens/person5.png",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
+            "spriteIndex":48,
+            "animationSet":"/src/assets/data/animationsets/movimento-simples.json"
+        },
+        "size":24
+    },
+    {
+        "id":5,
+        "name":"Monica",
         "portait":"/src/assets/personagens/person6.png",
         "sprite": 
         {
