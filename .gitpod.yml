@@ -37,7 +37,6 @@ tasks:
      alias redis-cli="docker exec -it redis-stack redis-cli" 
      echo "Use redis-cli to interact with Redis here."
      docker-compose up -d
-     psql -h localhost -U gitpod -f sql/start.sql
      gp sync-done finished
     openMode: tab-after
     
