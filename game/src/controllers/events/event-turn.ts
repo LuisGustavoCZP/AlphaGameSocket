@@ -22,7 +22,7 @@ export class GameEventTurn extends GameEvent
 
     public async start ()
     {
-        await super.start();
+        return await super.start();
     }
     
     public async check ()
@@ -38,7 +38,7 @@ export class GameEventTurn extends GameEvent
 
     public async end (data : {sucess:boolean, items:Item[]})
     {
-        await super.end(data);
+        return await super.end(data);
     }
 
 }

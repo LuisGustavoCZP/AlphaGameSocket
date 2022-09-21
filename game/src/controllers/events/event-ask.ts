@@ -25,7 +25,7 @@ export class GameEventAsk extends GameEvent
 
     public async start ()
     {
-        await super.start();
+        return await super.start();
     }
     
     public async check ()
@@ -49,8 +49,9 @@ export class GameEventAsk extends GameEvent
 
     public async end (data : {sucess:boolean, items:Item[]})
     {
-        await super.end(data);
+        const resp = await super.end(data);
         await waitTime(1000*(1/gameSpeed));
+        return resp;
     }
 
 }
