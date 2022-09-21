@@ -5,28 +5,46 @@ import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 import loginbg from '../assets/sprites/loginbg.png'
 import { APIResponse } from '../models';
-
+import { ModalError } from '../components/erro-modal';
 export function Login(){
+    const [slideState, setSlideState] = useState('translate-x-full');
+    const [modalState,setModalState]=useState('hidden')
+    const [modalMessage,setModalMessage] = useState(' ')
     const {server} = useContext(GlobalContext);
     const navigate = useNavigate()
+    function closeModal(){
+        setSlideState('translate-x-full');
+        setTimeout(()=>{
+            setModalState('hidden')
+        }, 500);
+    }
+
     async function loginPlayer(){
         
         const body = {
             "name":(document.getElementById('login-user-input')as HTMLInputElement).value,
             "password":(document.getElementById('login-user-password')as HTMLInputElement).value
         }
-        const resposta : APIResponse = await fetch(`https://${server}/users/login`, {
+
+        //alterei o protocolo https=>http.
+        const resposta : APIResponse = await fetch(`http://${server}/users/login`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
         }).then(resp => resp.json()).catch(err => {console.log(err); return {error:err}});
+        console.log(resposta)
         if(resposta?.error){
+            setTimeout(()=>{
+                setSlideState('translate-x-0');
+            }, 500);
+            setModalState('flex')
+            setModalMessage(resposta.error)
             return
         }
         navigate('/', { replace: true })
     }
-    return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-repeat`}>
-        <div className='h-5/6 w-2/5 bg-[#D9D9D9] animation-background'>
+    return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-repeat animation-background`}>
+        <div className='h-5/6 w-2/5 bg-[#D9D9D9]'>
             <header className='flex items-center h-1/3 bg-[#1C1C1C]'>
                 <picture className='h-full p-4 w-2/5 flex items-center max-h-full'>< img className='max-h-full ' src={logo} alt="" /></picture>
                 <picture className='p-5'><img src={logoname} alt="" /></picture>
@@ -44,7 +62,7 @@ export function Login(){
                 <button onClick={loginPlayer} className='bg-[#1C1C1C] border-2 border-black leading-[35px] text-[25px] text-white cursor-pointer hover:text-[#7A7A7A] hover:bg-white hover:border-white transition-all' type="button">Entrar</button>
             </form>
         </div>
-    
+        <ModalError message={modalMessage} state={modalState} slideState={slideState} closeModal={closeModal}/>
     
     </div>)
 }
