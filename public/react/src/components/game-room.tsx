@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Connection } from "../connection";
-import GlobalContext from "../contexts/global-context";
+import { GlobalContext, PlayerContext } from "../contexts";
 import { gameManager } from "../game/gamedata";
 import { ChatScreen } from "./chat-screen";
 import { GameScreen } from "./game-screen";
@@ -14,12 +14,11 @@ export interface IGameProps
 export function GameRoom (props : any)
 {
     const [getSocket, setSocket] = useState<Connection>(null as any);
-    const {getID, setPage, gameserver} = useContext(GlobalContext);
+    const { gameserver } = useContext(GlobalContext);
+    const { getUserData, setPage } = useContext(PlayerContext);
 
     async function startGame () 
     {
-        /* if(getSocket) return; */
-
         const newconnection = new Connection(gameserver);
         
         newconnection.on("onopen", () => 
@@ -33,7 +32,7 @@ export function GameRoom (props : any)
             {
                 setSocket(newconnection);
             });
-            newconnection.send("player-init", getID);
+            newconnection.send("player-init", getUserData.id);
         });
     }
 

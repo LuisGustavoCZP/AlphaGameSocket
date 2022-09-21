@@ -1,14 +1,17 @@
-import { UserInfo } from "../components/userinfo"
-import { Chat } from "../components/chat"
-import { SelectRoom } from "../components/select-room"
+import { useContext } from "react"
+import { PlayerContext } from "../contexts";
+import { GameRoom } from "../components/game-room";
+import { MatchRoom } from "../components/match-room";
+import { MainRoom } from "../components/main-room";
 
+export function HomePage()
+{
+    const {getPage} = useContext(PlayerContext);
+    const pages = [
+        <MainRoom/>,
+        <MatchRoom/>,
+        <GameRoom/>
+    ];
 
-export function HomePage(){
-    
-    
-    return (<div className="match-room flex items-center m-0 justify-between h-screen">
-            <UserInfo />
-            <SelectRoom />
-            <Chat/>
-    </div>)
+    return pages[getPage];
 }

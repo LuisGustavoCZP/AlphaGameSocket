@@ -10,10 +10,12 @@ export class Connection
     id : string;
     #socket : WebSocket;
     #events : Map<string, SocketEvent>;
+    userid : string;
 
-    constructor (wsocket : WebSocket)
+    constructor (wsocket : WebSocket, userid:string)
     {
         this.id = uuid();
+        this.userid = userid;
         this.#socket = wsocket;
         this.#events = new Map<string, SocketEvent>();
         //this.send("connected", this.id);
@@ -81,11 +83,17 @@ export class Connections
         this.instance = new WebSocketServer(options);
         this.instance.on('connection', (wsocket)  => 
         {
-            const connection = new Connection(wsocket);
-            this.list.set(connection.id, connection);
-            connection.onclose(() =>
+            wsocket.on('message', (msg : {type:string, data:any}) => 
             {
-                this.list.delete(connection.id);
+                if(msg.type == "auth")
+                {
+                    const connection = new Connection(wsocket, msg.data);
+                    this.list.set(connection.id, connection);
+                    connection.onclose(() =>
+                    {
+                        this.list.delete(connection.id);
+                    });
+                }
             });
         });
     }

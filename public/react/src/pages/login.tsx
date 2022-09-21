@@ -23,7 +23,7 @@ export function Login(){
         if(resposta?.error){
             return
         }
-        navigate('/home', { replace: true })
+        navigate('/', { replace: true })
     }
     return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-repeat`}>
         <div className='h-5/6 w-2/5 bg-[#D9D9D9] animation-background'>

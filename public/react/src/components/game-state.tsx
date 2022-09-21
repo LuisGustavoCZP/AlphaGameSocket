@@ -95,7 +95,7 @@ export function GameState ({connection} : IGameProps)
                         closeModal();
                         if(data.items.length > 0)
                         {
-                            openModal(-3, 1000, data.items);
+                            openModal(-3, 5000, data.items);
                         }
                         connection.off("end-event");
                     });

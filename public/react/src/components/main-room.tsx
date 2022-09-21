@@ -1,14 +1,14 @@
-import { useContext } from "react"
-import GlobalContext from "../contexts/global-context"
-import { GameRoom } from "./game-room";
-import { MatchRoom } from "./match-room";
+import { UserInfo } from "./userinfo"
+import { Chat } from "./chat"
+import { MatchsView } from "./matchs-view"
 
 export function MainRoom (props : any)
 {
-    const {getPage} = useContext(GlobalContext);
-    const pages = [
-        <MatchRoom/>,
-        <GameRoom/>
-    ];
-    return pages[getPage];
+    return (
+        <div className="match-room flex items-center m-0 justify-between h-screen">
+            <UserInfo />
+            <MatchsView />
+            <Chat/>
+        </div>
+    );
 }

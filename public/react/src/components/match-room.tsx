@@ -1,5 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import { Connection } from "../connection";
+import { PlayerContext } from "../contexts";
 import GlobalContext from "../contexts/global-context";
 import { Chat } from "./chat";
 import { MatchPlayer } from "./match-player";
@@ -15,30 +16,21 @@ interface MatchRoomPlayer
 
 export function MatchRoom (props : any)
 {
-    const {setPage, setID, getID, server} = useContext(GlobalContext);
+    const {setPage, connection} = useContext(PlayerContext);
     const [playerSelf, setPlayerSelf] = useState<MatchRoomPlayer>(null as any);
     const [players, setPlayers] = useState<MatchRoomPlayer[]>(new Array(4));
     const [playersNumber, setNumber] = useState (1);
     const [ready, setReady] = useState (0);
-    const [getSocket, setSocket] = useState<Connection>();
+    /* const [getSocket, setSocket] = useState<Connection>(); */
 
     async function startConnection ()
     {
-        if(getID) return;
-        const newconnection = new Connection(server);
-        
-        newconnection.on("onopen", () => 
-        {
-            newconnection.send("match-init", true)
-        }); 
-        
-        newconnection.on("match-init", async ({player} : any) => 
+        connection.on("match-init", async ({player} : any) => 
         {
             setPlayerSelf(player);
-            setID(player.id);
         });
         
-        newconnection.on("match-players", async ({players} : any) => 
+        connection.on("match-players", async ({players} : any) => 
         {
             setPlayers(players);
             let x:number = 0 ;
@@ -50,18 +42,18 @@ export function MatchRoom (props : any)
             setNumber(x)
         });
 
-        newconnection.on("match-start", async () => 
+        connection.on("match-start", async () => 
         {
             setPage(1);
-            newconnection.instance.close();
+            connection.instance.close();
         });
 
-        newconnection.on("match-ready", async({ready}) => 
+        connection.on("match-ready", async({ready}) => 
         {
             setReady(ready);
         });
 
-        setSocket(newconnection);
+        connection.send("match-init", true);
     }
 
     useEffect(() => 
@@ -73,17 +65,17 @@ export function MatchRoom (props : any)
     {
         const nextChar = () => 
         {
-            getSocket?.send("character-next", true);
+            connection?.send("character-next", true);
         };
 
         const backChar = () => 
         {
-            getSocket?.send("character-last", true);
+            connection?.send("character-last", true);
         };
 
         const setPlayerReady = (isReady : boolean) => 
         {
-            getSocket?.send("player-ready", isReady);
+            connection?.send("player-ready", isReady);
         };
 
         return players.map((player : MatchRoomPlayer, index : number) => 
