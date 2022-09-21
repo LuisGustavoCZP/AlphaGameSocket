@@ -21,7 +21,7 @@ class HandlerRegister{
       response.send(res);
     }else{
       PostgresDB.insert('users', sanitizeBody).then(result=>{
-        const response = new ResponseHandler(201, {data:null});
+        const response = new ResponseHandler(201, {data:{}});
         response.send(res);
       }).catch(()=>{
         const response = new ResponseHandler(503, {error:"service temporarily unavailable"});
