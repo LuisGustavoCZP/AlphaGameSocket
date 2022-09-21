@@ -26,7 +26,7 @@ export function Register()
         }).then(resp => resp.json()).catch(err => {console.log(err); return null});
     }
 
-    return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-no-repeat`}>
+    return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-no-repeat animation-background`}>
         <div className='h-5/6 w-2/5 bg-[#D9D9D9] overflow-y-scroll'>
             <header className='flex items-center h-1/3 bg-[#1C1C1C]'>
                 <picture className='h-full p-4 w-2/5 flex items-center max-h-full'>< img className='max-h-full ' src={logo} alt="" /></picture>
