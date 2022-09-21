@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 import loginbg from '../assets/sprites/loginbg.png'
+import { APIResponse } from '../models';
 
 export function Login(){
     const {server} = useContext(GlobalContext);
@@ -14,12 +15,12 @@ export function Login(){
             "name":(document.getElementById('login-user-input')as HTMLInputElement).value,
             "password":(document.getElementById('login-user-password')as HTMLInputElement).value
         }
-        const resposta = await fetch(`https://${server}/users/login`, {
+        const resposta : APIResponse = await fetch(`https://${server}/users/login`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
-        }).then(resp => resp.json()).catch(err => {console.log(err); return null});
-        if(!resposta?.data){
+        }).then(resp => resp.json()).catch(err => {console.log(err); return {error:err}});
+        if(resposta?.error){
             return
         }
         navigate('/home', { replace: true })
