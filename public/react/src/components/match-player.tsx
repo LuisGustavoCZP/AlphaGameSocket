@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import charactersData from "../assets/data/characters.json"
 import randomCharacter from "../assets/personagens/random.png";
 
-export function MatchPlayer ({index, player, isSelf, nextChar, backChar, ready} : any)
+export function MatchPlayer ({index, player, isSelf, isReady, nextChar, backChar, setReady} : any)
 {  
     if(player)
     {
@@ -14,17 +14,30 @@ export function MatchPlayer ({index, player, isSelf, nextChar, backChar, ready} 
             if(!isSelf) return children;
             return (
                 <span className="flex">
-                    <button className="w-fit h-fit p-0 bg-transparent text-white" onClick={backChar}>{'<'}</button>
+                    <button className="w-fit h-fit p-0 bg-transparent text-[#ffffffde]" onClick={backChar}>{'<'}</button>
                     {children}
-                    <button className="w-fit h-fit p-0 bg-transparent text-white" onClick={nextChar}>{'>'}</button>
+                    <button className="w-fit h-fit p-0 bg-transparent text-[#ffffffde]" onClick={nextChar}>{'>'}</button>
                 </span>
             );
         }
 
         function readyElement ()
         {
-            if(isSelf) return <button onClick={ready}>Pronto?</button>;
-            else return <span>Pronto!</span>
+            const buttonClass   = "select-none text-[#ffffffde] outline outline-1 outline-[#ffffffde] hover:outline-[#000000] hover:text-[#0000000]";
+            const spanClass     = "py-2 px-4 select-none cursor-default";
+            const redColor      = "bg-[hsl(0,54%,53%)]";
+            const greenColor    = "bg-[hsl(120,37%,46%)]";
+
+            if(isSelf)
+            {
+                if(isReady) return <button className={`${redColor} ${buttonClass}`} onClick={()=>{setReady(false)}}>Esperar</button>;
+                else        return <button className={`${greenColor} ${buttonClass}`} onClick={()=>{setReady(true)}}>Iniciar</button>;
+            }
+            else 
+            {
+                if(isReady) return <span className={`${greenColor} ${spanClass}`}>Pronto!</span>
+                else        return <span className={`${redColor} ${spanClass}`}>Preparando</span>
+            }
         }
 
         return (

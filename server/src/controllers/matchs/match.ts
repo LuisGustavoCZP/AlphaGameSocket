@@ -9,11 +9,13 @@ export class Match
     static maxSize = 4;
     players : Player[];
     isFull : boolean;
+    private _ready : number;
     characters : number[];
 
     public constructor ()
     {
         this.id = uuid();
+        this._ready = 0;
         this.players = [];
         this.isFull = false;
         this.characters = new Array(6).fill(-1);
@@ -118,6 +120,34 @@ export class Match
         this.send("match-players", { players:this.players });
     }
 
+    public isReady (playerID : number)
+    {
+        //if(this._ready == (this._ready | r)) ;
+        return (this._ready & (1 << playerID)) > 0;
+    }
+
+    public ready (playerID : number)
+    {
+        if(!this.isReady(playerID))
+        {
+            this._ready += 1 << playerID;
+            if(this.isFull) 
+            {
+                
+                //console.log("Ready", this._ready, (1 << 4)-1)
+                if(this._ready == (1 << 4)-1) this.start();
+            }
+        }
+    }
+
+    public unready (playerID : number)
+    {
+        if(this.isReady(playerID))
+        {
+            this._ready -= 1 << playerID;
+        }
+    }
+
     public add (player : Player)
     {
         const index = this.players.findIndex(player => !player);
@@ -138,7 +168,16 @@ export class Match
             this.lastCharacter(player);
         });
 
+        player.on("player-ready", async (isReady : boolean) => 
+        {
+            if(isReady) this.ready(player.index);
+            else this.unready(player.index);
+
+            this.send("match-ready", {ready:this._ready});
+        });
+
         this.send("match-players", { players:this.players });
+        player.send("match-ready", {ready:this._ready});
 
         player.onexit(() => 
         {
@@ -148,12 +187,15 @@ export class Match
         if(index === Match.maxSize-1) 
         {
             this.isFull = true;
-            this.start();
+            //
         }
     }
 
     public remove (player : Player)
     {
+        this.unready(player.index);
+        this.send("match-ready", {ready:this._ready});
+
         this.characters[player.character] = -1;
         this.players[player.index] = null as any;
         this.send("match-players", { players:this.players });

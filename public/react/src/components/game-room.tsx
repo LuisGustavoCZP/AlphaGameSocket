@@ -28,18 +28,10 @@ export function GameRoom (props : any)
             {
                 setPage(0);
             });
+
             newconnection.on("match-ready", () => 
             {
                 setSocket(newconnection);
-                
-                newconnection.on("match-map", async (map) => 
-                {
-                    console.log("Recebendo mapa!")
-                    await gameManager.setMap(map);
-                    
-                    newconnection.send("match-map", true);
-                });
-                newconnection.send("match-init", true);
             });
             newconnection.send("player-init", getID);
         });

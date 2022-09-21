@@ -19,6 +19,7 @@ export function MatchRoom (props : any)
     const [playerSelf, setPlayerSelf] = useState<MatchRoomPlayer>(null as any);
     const [players, setPlayers] = useState<MatchRoomPlayer[]>(new Array(4));
     const [playersNumber, setNumber] = useState (1);
+    const [ready, setReady] = useState (0);
     const [getSocket, setSocket] = useState<Connection>();
 
     async function startConnection ()
@@ -55,6 +56,11 @@ export function MatchRoom (props : any)
             newconnection.instance.close();
         });
 
+        newconnection.on("match-ready", async({ready}) => 
+        {
+            setReady(ready);
+        });
+
         setSocket(newconnection);
     }
 
@@ -75,10 +81,16 @@ export function MatchRoom (props : any)
             getSocket?.send("character-last", true);
         };
 
+        const setPlayerReady = (isReady : boolean) => 
+        {
+            getSocket?.send("player-ready", isReady);
+        };
+
         return players.map((player : MatchRoomPlayer, index : number) => 
         {
+            const isReady = (ready & (1 << index)) >  0;
             const isSelf = playerSelf && player && playerSelf.index == player.index;
-            return <MatchPlayer key={index} player={player} isSelf={isSelf} nextChar={nextChar} backChar={backChar}/>;
+            return <MatchPlayer key={index} player={player} isReady={isReady} isSelf={isSelf} nextChar={nextChar} backChar={backChar} setReady={setPlayerReady}/>;
         });
     }
 

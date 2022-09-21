@@ -15,6 +15,15 @@ export function GameScreen ({connection} : IGameProps)
     {
         if(connection)
         {
+            connection.on("match-map", async (map) => 
+            {
+                console.log("Recebendo mapa!")
+                await gameManager.setMap(map);
+                
+                connection.send("match-map", true);
+            });
+            connection.send("match-init", true);
+
             connection.on("match-players", (_players) => 
             {
                 gameManager.setPlayers(_players);
