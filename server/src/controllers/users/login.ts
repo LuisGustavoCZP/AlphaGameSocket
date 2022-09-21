@@ -3,7 +3,7 @@ import ResponseHandler from '../../utils/response';
 import { cripto } from '../../configs';
 import { compareSync } from 'bcrypt';
 import { Request, Response } from 'express';
-import AuthRedis from '../../clients/redis/auth';
+import redis from '../../clients/redis';
 
 class LoginHandler{
   static async init(req:Request, res:Response){
@@ -11,7 +11,7 @@ class LoginHandler{
     let row = (await LoginHandler.getUser(body.name) as any);
 
     if(row.length === 0){
-      const response = new ResponseHandler(404, {error:"Usuario não encontrado"});
+      const response = new ResponseHandler(400, {error:"Usuario não encontrado"});
       response.send(res);
       return
     }
@@ -22,14 +22,13 @@ class LoginHandler{
     
     const isAuth = compareSync(body.password, user.password);
     if(!isAuth){
-      const response = new ResponseHandler(401, {error:"Senha incorreta"});
+      const response = new ResponseHandler(400, {error:"Senha incorreta"});
       response.send(res);
       return;
     }
 
-    const session = new AuthRedis();
-    await session.initSession(user.id);
-    const cookie = await session.createCookie();
+    const session = redis.auth;
+    const cookie = await session.initSession(user.id);
 
     const response = new ResponseHandler(200, {data:{username:row[2]}});
 

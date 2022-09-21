@@ -1,3 +1,4 @@
+import redis from "../../clients/redis";
 import { redisSocket } from "../../clients/redis/socket";
 import { Connection } from "../../connections";
 import { IClosedMatch } from "../../models";
@@ -17,6 +18,18 @@ export class MatchController
     async closeMatch (match : IClosedMatch)
     {
         
+    }
+
+    async getPlayingMatch (userid : string) 
+    {
+        const playerID = await redis.player.get(userid);
+        if(!playerID) return null;
+        
+    }
+
+    async setUserMatch (userid : string, matchid : string) 
+    {
+        const playerID = await redis.player.create(userid);
     }
 
     async getMatch (connection : Connection)

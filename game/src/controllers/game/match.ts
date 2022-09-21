@@ -52,8 +52,8 @@ class Match
         await waitTime(500*Match.deltaSpeed);
         const event = createEvent(player, eventID)!;
         if(!(await event.check())) return false;
-        await event.start();
-        return true;
+        
+        return await event.start();
     }
 
     async start ()

@@ -6,8 +6,8 @@ import usersRouter from './users';
 
 const router = Router();
 
+router.use('/users', usersRouter);
 router.use(mapsRouter);
 router.use(staticRouter);
-router.use(usersRouter);
 
 export default router;

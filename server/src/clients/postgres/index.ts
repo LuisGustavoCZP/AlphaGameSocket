@@ -106,11 +106,12 @@ class PostgresDB
             const viewstring = view.length > 0?`(${view.join(", ")})`:'*';
 
             const queryString = `SELECT ${viewstring} FROM ${table}${filterstring==''?'':' WHERE '+filterstring} ORDER BY created_at DESC`;
-            
+
             const result = await this.pool.query(queryString);
 
             if(result.rows && result.rows.length !== 0) 
             {
+                console.log(result.rows);
                 result.rows.forEach((element : any) => 
                 {
                     for(const key in element)

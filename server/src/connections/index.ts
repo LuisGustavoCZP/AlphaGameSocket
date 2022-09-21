@@ -18,7 +18,10 @@ export class Connection
         this.#events = new Map<string, SocketEvent>();
         //this.send("connected", this.id);
         this.#socket.on("message", (resp : string) => this.message(resp));
-        this.on("match-init", () => matchController.getMatch(this))
+        this.on("match-init", async () => 
+        {
+            const matchid = await matchController.getMatch(this);
+        });
     }
 
     send (type : string, data : any)

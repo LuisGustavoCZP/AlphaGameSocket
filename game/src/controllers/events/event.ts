@@ -39,7 +39,7 @@ export abstract class GameEvent
 
         this.player.send("start-event", this.data);
         await waitUntil(() => (this.#executed || Date.now() >= this.limitTime!));
-        await this.end({sucess:executionSucess, items:this.items});
+        return await this.end({sucess:executionSucess, items:this.items});
     }
     
     public abstract check () : Promise<boolean>;
@@ -49,6 +49,7 @@ export abstract class GameEvent
     public async end (data : {sucess:boolean, items:Item[]})
     {
         this.player!.send("end-event", data);
+        return data.sucess;
     }
 
 }

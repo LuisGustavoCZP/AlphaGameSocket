@@ -1,31 +1,32 @@
 import Redis from "ioredis";
 import { redis, cripto } from "../../configs";
 import { verify, sign } from 'jsonwebtoken';
-import {v4 as uuidv4} from 'uuid';
+import {v4 as uuid} from 'uuid';
 
 class AuthRedis{
   public redis: Redis;
-  public sessionId = uuidv4();
   private timeExpire = String(60*30);
 
   constructor(){
     this.redis = new Redis(redis);
   }
 
-  public async createCookie(){
-    const value = await sign({sessionId:this.sessionId}, cripto.secret);
+  public async createCookie(id : string){
+    //const value = sign({sessionId:id}, cripto.secret);
     const expire = this.timeExpire;
-    return {value, expire};
+    return {value:id, expire};
   }
 
   public async readCookie(cookie:string){
-    const payload = verify(cookie, cripto.secret);
-    return payload;
+    //const payload = verify(cookie, cripto.secret);
+    return await this.redis.get(cookie);
   }
 
   public async initSession(userId:string){
+    const id = uuid();
     const value = this.setValue(userId);
-    await this.redis.setex(this.sessionId, this.timeExpire, JSON.stringify(value));
+    await this.redis.setex(id, this.timeExpire, JSON.stringify(value));
+    return await this.createCookie(id);
   }
 
   public setValue(userId:string){
@@ -43,4 +44,6 @@ class AuthRedis{
   }
 }
 
-export default AuthRedis;
+const authRedis = new AuthRedis();
+
+export default authRedis;

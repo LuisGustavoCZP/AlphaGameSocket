@@ -1,10 +1,13 @@
 import { Router } from "express";
+import { getUserHandler } from "../controllers/users/get";
 import LoginHandler from "../controllers/users/login";
 import HandlerRegister from "../controllers/users/register";
+import { tokenHandler } from "../controllers/users/token";
 
 const router = Router();
 
-router.post('/users/register', HandlerRegister.init);
-router.post('/users/login', LoginHandler.init);
+router.post('/register', HandlerRegister.init);
+router.post('/login', LoginHandler.init);
+router.get('/', tokenHandler, getUserHandler);
 
 export default router;

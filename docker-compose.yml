@@ -5,7 +5,7 @@ services:
       image: postgres
       environment:
         - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=gitpod
+        - POSTGRES_PASSWORD=postgrespw
         - PGDATA=/data/postgres
       volumes: 
         - ./sql/constructor.sql:/docker-entrypoint-initdb.d/constructor.sql
