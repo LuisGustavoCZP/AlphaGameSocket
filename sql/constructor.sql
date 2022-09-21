@@ -1,3 +1,6 @@
+CREATE DATABASE "alphagamesocket";
+\c "alphagamesocket"
+
 CREATE TABLE public.users (
 	"id" serial NOT NULL UNIQUE,
 	"email" varchar(255) NOT NULL,
@@ -84,7 +87,6 @@ ALTER TABLE "user_characters" ADD CONSTRAINT "user_characters_fk0" FOREIGN KEY (
 ALTER TABLE "match_users" ADD CONSTRAINT "match_users_fk0" FOREIGN KEY ("user_id") REFERENCES "users_info"("user_id");
 ALTER TABLE "match_users" ADD CONSTRAINT "match_users_fk1" FOREIGN KEY ("match_id") REFERENCES "matchs"("id");
 ALTER TABLE "match_users" ADD CONSTRAINT "match_users_fk2" FOREIGN KEY ("team") REFERENCES "match_teams"("id");
-ALTER TABLE "match_users" ADD CONSTRAINT "match_users_fk3" FOREIGN KEY ("character") REFERENCES "characters"("id");
 
 ALTER TABLE "match_teams" ADD CONSTRAINT "match_teams_fk0" FOREIGN KEY ("match_id") REFERENCES "matchs"("id");
 
