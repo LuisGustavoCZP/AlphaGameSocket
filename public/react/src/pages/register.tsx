@@ -4,10 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 
-
+export function Register()
+{
+    const {server} = useContext(GlobalContext);
 
     async function registerPlayer(){
-        const {server} = useContext(GlobalContext);
+        
         if((document.getElementById('register-user-password')as HTMLInputElement).value != (document.getElementById('register-user-password-confirm') as HTMLInputElement).value ){
             return
         }
@@ -17,14 +19,13 @@ import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
             "email":(document.getElementById('register-email-input')as HTMLInputElement).value,
             "password":(document.getElementById('register-user-password')as HTMLInputElement).value
         }
-        const resposta = await(await fetch(`${server}/users/register`, {
+        const resposta = await fetch(`https://${server}/users/register`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
-        })).json()
+        }).then(resp => resp.json()).catch(err => {console.log(err); return null});
     }
 
-export function Register(){
     return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-no-repeat`}>
         <div className='h-5/6 w-2/5 bg-[#D9D9D9] overflow-y-scroll'>
             <header className='flex items-center h-1/3 bg-[#1C1C1C]'>

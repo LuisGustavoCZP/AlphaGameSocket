@@ -31,7 +31,7 @@ class LoginHandler{
     await session.initSession(user.id);
     const cookie = await session.createCookie();
 
-    const response = new ResponseHandler(200, {success:"Logado com sucesso.", username:row[2]});
+    const response = new ResponseHandler(200, {data:{username:row[2]}});
 
     response.setCookie(res, {name:'token', ...cookie}).send(res);
   }

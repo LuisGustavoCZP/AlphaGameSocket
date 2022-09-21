@@ -9,7 +9,7 @@ module.exports = {
         }
     },
     backgroundImage: {
-      'loginbg': "url('./src/assets/sprites/loginbg.png')",
+      'loginbg': "url('/src/assets/sprites/loginbg.png')",
 
     }
   },

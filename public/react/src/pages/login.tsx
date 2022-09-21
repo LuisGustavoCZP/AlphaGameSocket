@@ -5,8 +5,6 @@ import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 import loginbg from '../assets/sprites/loginbg.png'
 
-
-
 export function Login(){
     const {server} = useContext(GlobalContext);
     const navigate = useNavigate()
@@ -16,12 +14,12 @@ export function Login(){
             "name":(document.getElementById('login-user-input')as HTMLInputElement).value,
             "password":(document.getElementById('login-user-password')as HTMLInputElement).value
         }
-        const resposta = (await(await fetch(`${server}/users/login`, {
+        const resposta = await fetch(`https://${server}/users/login`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
-        })).json());
-        if(!resposta.success){
+        }).then(resp => resp.json()).catch(err => {console.log(err); return null});
+        if(!resposta?.data){
             return
         }
         navigate('/home', { replace: true })
