@@ -5,10 +5,16 @@ import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 import loginbg from '../assets/sprites/loginbg.png'
 import { APIResponse } from '../models';
-
+import { ModalError } from '../components/erro-modal';
 export function Login(){
+    const [modalState,setModalState]=useState('hidden')
+    const [modalMessage,setModalMessage] = useState(' ')
     const {server} = useContext(GlobalContext);
     const navigate = useNavigate()
+    function closeModal(){
+        setModalState('hidden')
+    }
+
     async function loginPlayer(){
         
         const body = {
@@ -20,7 +26,10 @@ export function Login(){
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
         }).then(resp => resp.json()).catch(err => {console.log(err); return {error:err}});
+        console.log(resposta)
         if(resposta?.error){
+            setModalState('flex')
+            setModalMessage(resposta.error)
             return
         }
         navigate('/home', { replace: true })
@@ -44,7 +53,7 @@ export function Login(){
                 <button onClick={loginPlayer} className='bg-[#1C1C1C] border-2 border-black leading-[35px] text-[25px] text-white cursor-pointer hover:text-[#7A7A7A] hover:bg-white hover:border-white transition-all' type="button">Entrar</button>
             </form>
         </div>
-    
+        <ModalError message={modalMessage} state={modalState} closeModal={closeModal}/>
     
     </div>)
 }
