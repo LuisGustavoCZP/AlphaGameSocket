@@ -1,11 +1,12 @@
 import { Route, Routes, Navigate, Link, useNavigate } from 'react-router-dom';
 
-import { useContext, useEffect, useState } from "react"
+import { ReactNode, useContext, useEffect, useState } from "react"
+import { PlayerContext } from '../contexts';
 
 export function MatchsView()
 {
-    //const navigate = useNavigate()
-    const [allRooms,setRooms] = useState([<li key={0} className='w-full bg-[#3E3E3E] px-6'>Partidas Criadas</li>])
+    const { connection, setMatchID } = useContext(PlayerContext);
+    const [allRooms,setRooms] = useState<ReactNode[]>([])
     const [roomsNames,setRoomsnames]= useState([{"name":'cabeçalho',"players":0,"id":0}])
 
     function singleRoom(roomName:any){
@@ -15,7 +16,8 @@ export function MatchsView()
             </div><button onClick={()=>{/* navigate('/room') */}}>Entrar</button></li>)
     }
 
-    function createRoom(){
+    function createRooms()
+    {
         let rooms = allRooms
         let roomName = roomsNames
         roomName.push({"name":`Partida ${allRooms.length-1}`,"players":1,"id":allRooms.length})
@@ -25,10 +27,35 @@ export function MatchsView()
         console.log(rooms,roomsNames)
     }
 
-    
+    function createRoom ()
+    {
+        console.log("Clicando botão partida");
+        connection.send("match-new", true);
+    }
 
-    return(<div className='w-2/3 h-full flex flex-col overflow-y-scroll px-4 justify-between'>
-        <ul className='w-full flex flex-col gap-2'>{allRooms}</ul>
-        <button className='self-end justify-self-end' onClick={()=>{createRoom()}}>Criar sala </button>
-    </div>)
+    useEffect(() => 
+    {
+        connection.on("match-enter", (matchid) => 
+        {
+            console.log(matchid);
+            setMatchID(matchid);
+        });
+
+        connection.on("matchs", (data) => 
+        {
+
+        });
+    }, []);
+
+    return (
+        <div className='w-2/3 h-full flex flex-col justify-between'>
+            <span className='flex w-full bg-[#3E3E3E] p-2 justify-between items-center'>
+                <h2 className='px-4 text-[24px]'>Partidas Criadas</h2>
+                <button className='self-end justify-self-end text-[14px]' onClick={()=>{createRoom()}}>Criar sala</button>
+            </span>
+            <div className='flex overflow-y-scroll h-full py-2 px-4'>
+                <ul className='w-full flex flex-col gap-2'>{allRooms}</ul>
+            </div>
+        </div>
+    );
 }

@@ -6,6 +6,18 @@ import { SocketEvent, SocketMessage } from "./models";
 import { matchController } from "../controllers";
 import { match } from "assert";
 
+export enum ConnectionStatus
+{
+    Normal = 1000,
+    Away = 1001,
+    Protocol = 1002,
+    Unsuported = 1003,
+    Abnormal = 1006,
+    Invalid = 1007,
+    Restart = 1012,
+    Unauthorized = 3000
+}
+
 export class Connection 
 {
     id : string;
@@ -22,10 +34,16 @@ export class Connection
         //this.send("connected", this.id);
         
         this.#socket.on("message", (resp : string) => this.message(resp));
+        
         /* this.on("match-init", async () => 
         {
-            const matchid = await matchController.getMatch(this);
+            const matchid = 
         }); */
+    }
+
+    close (message? : string, status : ConnectionStatus = ConnectionStatus.Normal)
+    {
+        this.#socket.close(status, message);
     }
 
     send (type : string, data : any)
@@ -42,7 +60,7 @@ export class Connection
     message (resp : string)
     {
         const msg = JSON.parse(resp) as SocketMessage;
-        //console.log(this.events);
+        console.log(msg);
         if(!this.#events.has(msg.type)) return;
         const event = this.#events.get(msg.type)!;
         event(msg.data, this.id);
@@ -88,17 +106,18 @@ export class Connections
             wsocket.on('message', (msg : {type:string, data:any}) => 
             {
                 const msgData = JSON.parse(msg.toString());
-                //console.log(msgData)
                 if(msgData.type == "auth")
                 {
-                    //console.log("Autenticando", msgData.data);
                     const connection = new Connection(wsocket, msgData.data);
                     this.list.set(connection.id, connection);
-                    connection.onclose(() =>
+                    connection.onclose(async () =>
                     {
                         this.list.delete(connection.id);
+                        await matchController.removePlayer(connection.userid);
                     });
+
                     connection.send("auth", connection.id);
+                    matchController.newPlayer(connection);
                 }
             });
         });

@@ -53,7 +53,9 @@ export function MatchRoom (props : any)
             setReady(ready);
         });
 
-        connection.send("match-init", true);
+        //connection.send("match-init", true);
+
+        connection.send("match-entered", true);
     }
 
     useEffect(() => 

@@ -1,18 +1,20 @@
 import { v4 as uuid } from "uuid";
-import { connectionManager } from "../../connections";
+import { Connection, connectionManager } from "../../connections";
 import { SocketEvent } from "../../connections/models";
 
 export class Player 
 {
-    index : number;
-    #id : string;
-    name: string;
-    character: number;
+    public index : number;
+    private _id : string;
+    private connection : Connection;
+    public name: string;
+    public character: number;
 
-    constructor (id : string)
+    constructor (connection : Connection)
     {
         this.index = -1;
-        this.#id = id;
+        this._id = connection.userid;
+        this.connection = connection;
         this.name = '';
         this.character = -1;
     }
@@ -24,26 +26,28 @@ export class Player
         //this.character = this.index;
     }
 
+    public get id ()
+    {
+        return this._id;
+    }
+
     public send (type : string, data : any)
     {
-        const cn = connectionManager.list.get(this.#id);
-        if(cn) cn.send(type, data);
+        if(this.connection) this.connection.send(type, data);
     }
 
     public on (type : string, callback : SocketEvent)
     {
-        const cn = connectionManager.list.get(this.#id);
-        if(cn) cn.on(type, callback);
+        if(this.connection) this.connection.on(type, callback);
     }
 
     public onexit (callback : SocketEvent)
     {
-        const cn = connectionManager.list.get(this.#id);
-        if(cn) cn.onclose(callback);
+        if(this.connection) this.connection.onclose(callback);
     }
 
     public get data ()
     {
-        return {index:this.index, id:this.#id, name:this.name, character:this.character};
+        return {index:this.index, id:this._id, name:this.name, character:this.character};
     }
 }

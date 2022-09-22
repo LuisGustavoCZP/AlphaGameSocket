@@ -32,7 +32,7 @@ export function Login(){
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
         }).then(resp => resp.json()).catch(err => {console.log(err); return {error:err}});
-        console.log(resposta)
+        //console.log(resposta)
         if(resposta?.error){
             setTimeout(()=>{
                 setSlideState('translate-x-0');

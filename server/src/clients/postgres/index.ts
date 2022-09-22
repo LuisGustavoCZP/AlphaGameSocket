@@ -129,7 +129,7 @@ class PostgresDB
                 {
                     return result.rows.map(row => 
                     {
-                        console.log("O row é ", row);
+                        //console.log("O row é ", row);
                         //row = row[0].row.replace(/[()]/g,'').split(',');
                         if(row["row"])
                         {

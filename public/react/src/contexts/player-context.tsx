@@ -18,6 +18,8 @@ export type PlayerContextData =
     setUserData : Dispatch<PlayerData>,
     connection : Connection, 
     setConnection : Dispatch<Connection>,
+    getMatchID : string,
+    setMatchID : Dispatch<string>
 };
 
 const DEFAULT_VALUE = {
@@ -34,6 +36,7 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
     const [getPage, setPage] = useState<number>(page);
     const [getUserData, setUserData] = useState<PlayerData>(null as any);
     const [connection, setConnection] = useState<Connection>(null as any);
+    const [getMatchID, setMatchID] = useState<string>(null as any);
 
     useEffect(() => 
     {
@@ -43,7 +46,7 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
             const json = await resp.json();
             if(resp.status >= 400)
             {
-                throw new Error(json);
+                throw new Error(json.error);
             }
             else 
             {
@@ -59,6 +62,15 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
         });
     }, [])
 
+
+    useEffect(() => 
+    {
+        if(getMatchID && page == 0)
+        {
+            setPage(1);
+        }
+    }, [getMatchID]);
+
     return (
         <PlayerContext.Provider value={{
             getPage,
@@ -66,7 +78,9 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
             getUserData,
             setUserData,
             connection,
-            setConnection
+            setConnection,
+            getMatchID,
+            setMatchID
         }}>
         {children}
         </PlayerContext.Provider>

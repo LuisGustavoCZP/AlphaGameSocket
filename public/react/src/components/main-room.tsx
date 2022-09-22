@@ -9,7 +9,7 @@ import { useContext, useEffect } from "react";
 export function MainRoom (props : any)
 {
     const { server } = useContext(GlobalContext);
-    const { getUserData, setConnection } = useContext(PlayerContext);
+    const { getUserData, setConnection, connection } = useContext(PlayerContext);
 
     async function startConnection ()
     {
@@ -21,22 +21,20 @@ export function MainRoom (props : any)
             newconnection.on("auth", (id) => 
             {
                 console.log("Autenticou!", id);
+                setConnection(newconnection);
             });
             newconnection.send("auth", getUserData.id);
-            setConnection(newconnection);
         });
-
-        
     }
 
     if(!getUserData) return <></>;
 
     useEffect(() => 
     {
-        //if(!getUserData) return;
         startConnection ();
     }, [getUserData])
 
+    if(!connection) return <></>;
     
     return (
         <div className="match-room flex items-center m-0 justify-between h-screen">
