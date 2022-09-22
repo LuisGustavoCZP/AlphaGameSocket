@@ -44,7 +44,7 @@ export function MatchRoom (props : any)
 
         connection.on("match-start", async () => 
         {
-            setPage(1);
+            setPage(2);
             connection.instance.close();
         });
 

@@ -116,9 +116,10 @@ export class MatchController
 
         const onEnter = async (matchID : string) => 
         {
-            this.assignPlayer(player, matchID);
+            await this.assignPlayer(player, matchID);
             player.off("match-enter", onEnter);
             player.off("match-new", onNew);
+            this.send("matchs", this.matchsData);
         };
 
         const onNew = async () => 
@@ -126,9 +127,7 @@ export class MatchController
             console.log("Player para partida", player.id);
             const newMatch = new Match();
             this.matchs.set(newMatch.id, newMatch);
-            this.assignPlayer(player, newMatch.id);
-            player.off("match-enter", onEnter);
-            player.off("match-new", onNew);
+            await onEnter(newMatch.id);
         };
 
         player.onexit(async () => 
@@ -140,7 +139,6 @@ export class MatchController
         player.on("match-new", onNew);
 
         player.send("matchs", this.matchsData);
-
         return true;
     }
 
