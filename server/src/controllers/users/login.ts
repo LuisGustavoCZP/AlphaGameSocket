@@ -16,9 +16,8 @@ class LoginHandler{
       return
     }
 
-    row = row[0].row.replace(/[()]/g,'').split(',');
 
-    const user = {password:row[0], id:row[1]};
+    const user = {password:row[0].password, id:row[0].id};
     
     const isAuth = compareSync(body.password, user.password);
     if(!isAuth){

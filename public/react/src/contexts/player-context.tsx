@@ -45,7 +45,12 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
             {
                 throw new Error(json);
             }
-            else setUserData(json.data);
+            else 
+            {
+                const userData = json.data;
+                console.log(userData);
+                setUserData(userData);
+            }
         })
         .catch(err => 
         {

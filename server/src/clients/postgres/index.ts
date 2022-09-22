@@ -41,7 +41,7 @@ class PostgresDB
                 return q + `${q != ''? ', ' : ''}"${key}"`;
             }, '');
             const queryString = `INSERT INTO ${table} (${keys}, created_at) VALUES (${indexes}, now()) RETURNING id`;
-            console.log(queryString, values);
+            //console.log(queryString, values);
             
             const result = await this.pool.query(queryString, values);
 
@@ -116,7 +116,7 @@ class PostgresDB
 
             if(result.rows && result.rows.length !== 0) 
             {
-                console.log(result.rows);
+                //console.log(result.rows);
                 result.rows.forEach((element : any) => 
                 {
                     for(const key in element)
@@ -124,6 +124,23 @@ class PostgresDB
                         if(element[key] == null) delete element[key]; 
                     }    
                 });
+
+                if(view)
+                {
+                    return result.rows.map(row => 
+                    {
+                        console.log("O row é ", row);
+                        //row = row[0].row.replace(/[()]/g,'').split(',');
+                        if(row["row"])
+                        {
+                            const matchs = row.row.slice(1, -1).split(',');
+                            const obj = Object.fromEntries(view.map((key, index) => [key, matchs[index]]));
+                            return obj as T;
+                        }
+                        else return row;
+                    });
+                }
+                else 
                 return result.rows;
             }
 

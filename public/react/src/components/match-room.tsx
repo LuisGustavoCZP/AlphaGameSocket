@@ -58,6 +58,7 @@ export function MatchRoom (props : any)
 
     useEffect(() => 
     {
+        
         startConnection ();
     }, []);
 

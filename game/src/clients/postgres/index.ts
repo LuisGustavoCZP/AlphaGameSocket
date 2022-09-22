@@ -120,7 +120,17 @@ class PostgresDB
                         if(element[key] == null) delete element[key]; 
                     }    
                 });
-                return result.rows;
+
+                if(view)
+                {
+                    return result.rows.map(row => 
+                    {
+                        const matchs = row.row.slice(1, -1).split(',');
+                        const obj = Object.fromEntries(view.map((key, index) => [key, matchs[index]]));
+                        return obj as T;
+                    });
+                }
+                else result.rows;
             }
 
             return [];
