@@ -17,13 +17,16 @@ export function MainRoom (props : any)
 
         newconnection.on("onopen", () => 
         {
-            setConnection(newconnection);
+            console.log("Abriu conexão!")
             newconnection.on("auth", (id) => 
             {
                 console.log("Autenticou!", id);
             });
             newconnection.send("auth", getUserData.id);
+            setConnection(newconnection);
         });
+
+        
     }
 
     if(!getUserData) return <></>;

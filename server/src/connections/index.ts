@@ -20,6 +20,7 @@ export class Connection
         this.#socket = wsocket;
         this.#events = new Map<string, SocketEvent>();
         //this.send("connected", this.id);
+        
         this.#socket.on("message", (resp : string) => this.message(resp));
         /* this.on("match-init", async () => 
         {
@@ -86,10 +87,12 @@ export class Connections
         {
             wsocket.on('message', (msg : {type:string, data:any}) => 
             {
-                if(msg.type == "auth")
+                const msgData = JSON.parse(msg.toString());
+                //console.log(msgData)
+                if(msgData.type == "auth")
                 {
-                    console.log("Autenticando", msg.data);
-                    const connection = new Connection(wsocket, msg.data);
+                    //console.log("Autenticando", msgData.data);
+                    const connection = new Connection(wsocket, msgData.data);
                     this.list.set(connection.id, connection);
                     connection.onclose(() =>
                     {
