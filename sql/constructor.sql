@@ -5,6 +5,7 @@ CREATE TABLE public.users (
 	"id" varchar(36) NOT NULL UNIQUE,
 	"username" varchar(255) NOT NULL UNIQUE,
 	"password" varchar(255) NOT NULL,
+	"email" varchar(255) NOT NULL UNIQUE,
 	"score" real NOT NULL DEFAULT '0',
 	"last_character" integer,
 	"avatar" varchar(255),

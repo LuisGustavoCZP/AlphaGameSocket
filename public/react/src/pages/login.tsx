@@ -27,7 +27,7 @@ export function Login(){
         }
 
         //alterei o protocolo https=>http.
-        const resposta : APIResponse = await fetch(`http://${server}/users/login`, {
+        const resposta : APIResponse = await fetch(`https://${server}/users/login`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
