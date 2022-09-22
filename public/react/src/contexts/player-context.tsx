@@ -69,6 +69,10 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
         {
             setPage(1);
         }
+        else if(!getMatchID && page == 1)
+        {
+            setPage(0);
+        }
     }, [getMatchID]);
 
     return (

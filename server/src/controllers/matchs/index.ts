@@ -171,7 +171,7 @@ export class MatchController
 
     public send (type : string, data : any, filter? : (player : Player) => boolean)
     {
-        for (const player of this.players.values())
+        for (const player of this.room.values())
         {
             if(player && (filter?filter(player):true))
             {
@@ -182,7 +182,7 @@ export class MatchController
 
     public on (type : string, callback : SocketEvent, filter? : (player : Player) => boolean)
     {
-        for (const player of this.players.values())
+        for (const player of this.room.values())
         {
             if(player && (filter?filter(player):true))
             {

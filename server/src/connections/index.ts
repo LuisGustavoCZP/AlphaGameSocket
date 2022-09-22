@@ -5,6 +5,7 @@ import { port } from "../configs";
 import { SocketEvent, SocketMessage } from "./models";
 import { matchController } from "../controllers";
 import { match } from "assert";
+import postgres from "../clients/postgres";
 
 export enum ConnectionStatus
 {
@@ -122,7 +123,11 @@ export class Connections
                 const msgData = JSON.parse(msg.toString());
                 if(msgData.type == "auth")
                 {
-                    const connection = new Connection(wsocket, msgData.data);
+                    const userid = msgData.data;
+                    const user = postgres.select("users", {id:userid});
+                    if(!user) return wsocket.close(ConnectionStatus.Invalid);
+                    
+                    const connection = new Connection(wsocket, userid);
                     this.list.set(connection.id, connection);
                     connection.onclose(async () =>
                     {
