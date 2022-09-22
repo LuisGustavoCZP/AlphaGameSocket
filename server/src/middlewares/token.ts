@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import redis from '../../clients/redis';
-import ResponseHandler from '../../utils/response';
+import redis from '../clients/redis';
+import ResponseHandler from '../utils/response';
 
 export async function tokenHandler (req : Request, res : Response, next : NextFunction)
 {

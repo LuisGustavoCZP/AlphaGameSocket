@@ -53,7 +53,7 @@ tasks:
     openMode: tab-after
     env:
       PORT: 8000
-      POSTGRES: postgres://postgres:gitpod@localhost/alphagamesocket
+      POSTGRES: postgres://postgres:postgrespw@localhost/alphagamesocket
       REDIS: redis://default:redispw@localhost:6379
       URL: gp url 8000
       SSL: false
@@ -65,7 +65,7 @@ tasks:
     openMode: tab-after
     env:
       PORT: 5000
-      POSTGRES: postgres://postgres:gitpod@localhost/alphagamesocket
+      POSTGRES: postgres://postgres:postgrespw@localhost/alphagamesocket
       REDIS: redis://default:redispw@localhost:6379
       URL: gp url 5000
       SSL: false

@@ -5,7 +5,7 @@ import { cripto } from '../../configs';
 import ResponseHandler from '../../utils/response';
 import PostgresDB from '../../clients/postgres/index';
 import { User } from '../../models';
-
+import { v4 as uuid } from 'uuid';
 //verificar e limpar o body (1)
 //criar instancia de model (2)
 //inserir intancia na tabela (3)
@@ -20,6 +20,11 @@ class HandlerRegister{
       const response = new ResponseHandler(400, {error:sanitizeBody.substring(0,sanitizeBody.length-1)});
       response.send(res);
     }else{
+      (sanitizeBody as any).id = uuid();
+      
+      const avatar = (sanitizeBody as any).avatar;
+      if(avatar) delete (sanitizeBody as any).avatar;
+
       PostgresDB.insert('users', sanitizeBody).then(result=>{
         const response = new ResponseHandler(201, {data:{}});
         response.send(res);

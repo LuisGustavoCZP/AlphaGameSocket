@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getUserHandler } from "../controllers/users/get";
 import LoginHandler from "../controllers/users/login";
 import HandlerRegister from "../controllers/users/register";
-import { tokenHandler } from "../controllers/users/token";
+import { tokenHandler } from "../middlewares/token";
 
 const router = Router();
 
