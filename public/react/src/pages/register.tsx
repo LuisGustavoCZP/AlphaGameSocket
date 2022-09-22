@@ -1,12 +1,25 @@
-import { Route, Routes, Navigate, Link } from 'react-router-dom';
+import { Route, Routes, Navigate, Link, useNavigate } from 'react-router-dom';
 import GlobalContext from "../contexts/global-context";
 import { useContext, useEffect, useState } from "react";
 import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
+import { ModalError } from '../components/erro-modal';
 
 export function Register()
 {
     const {server} = useContext(GlobalContext);
+    const navigate = useNavigate();
+
+    const [slideState, setSlideState] = useState('translate-x-full');
+    const [modalState,setModalState]=useState('hidden')
+    const [modalMessage,setModalMessage] = useState(' ')
+
+    function closeModal(){
+        setSlideState('translate-x-full');
+        setTimeout(()=>{
+            setModalState('hidden')
+        }, 500);
+    }
 
     async function registerPlayer(){
         
@@ -23,7 +36,18 @@ export function Register()
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}
-        }).then(resp => resp.json()).catch(err => {console.log(err); return null});
+        }).then(resp => resp.json())
+        .catch(err => {console.log(err); return null});
+
+        if(!resposta || resposta.error){
+            setTimeout(()=>{
+                setSlideState('translate-x-0');
+            }, 500);
+            setModalState('flex')
+            setModalMessage(resposta.error)
+            return
+        }
+        navigate('/login', { replace: true })
     }
 
     return (<div className={`h-screen w-screen flex justify-center content-center items-center bg-loginbg bg-cover bg-repeat animation-background`}>
@@ -53,7 +77,7 @@ export function Register()
                 <button onClick={registerPlayer} className='bg-[#1C1C1C] border-2 border-black leading-[35px] text-[25px] text-white cursor-pointer hover:text-[#7A7A7A] hover:bg-white hover:border-white transition-all' type="button">Registrar</button>
             </form>
         </div>
-    
+        <ModalError message={modalMessage} state={modalState} slideState={slideState} closeModal={closeModal}/>
     
     </div>)
 }

@@ -7,11 +7,13 @@ import loginbg from '../assets/sprites/loginbg.png'
 import { APIResponse } from '../models';
 import { ModalError } from '../components/erro-modal';
 export function Login(){
+    const {server} = useContext(GlobalContext);
+    const navigate = useNavigate();
+
     const [slideState, setSlideState] = useState('translate-x-full');
     const [modalState,setModalState]=useState('hidden')
     const [modalMessage,setModalMessage] = useState(' ')
-    const {server} = useContext(GlobalContext);
-    const navigate = useNavigate()
+
     function closeModal(){
         setSlideState('translate-x-full');
         setTimeout(()=>{
@@ -33,7 +35,7 @@ export function Login(){
             headers: {"Content-type": "application/json;charset=UTF-8"}
         }).then(resp => resp.json()).catch(err => {console.log(err); return {error:err}});
         //console.log(resposta)
-        if(resposta?.error){
+        if(!resposta || resposta.error){
             setTimeout(()=>{
                 setSlideState('translate-x-0');
             }, 500);
