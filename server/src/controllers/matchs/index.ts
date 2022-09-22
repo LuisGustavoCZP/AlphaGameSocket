@@ -11,12 +11,14 @@ export class MatchController
     matchs : Map<string, Match>;
     players : Map<string, Player>;
     room : Map<string, Player>;
+    playing : Map<string, Player>;
 
     constructor ()
     {
         this.matchs = new Map<string, Match>();
         this.players = new Map<string, Player>();
         this.room = new Map<string, Player>();
+        this.playing = new Map<string, Player>();
         redisSocket.on("end-match", (match) => { this.closeMatch(match); });
     }
 
@@ -51,26 +53,6 @@ export class MatchController
     async setUserMatch (userid : string, matchid : string) 
     {
         const playerID = await redis.player.create(userid);
-    }
-
-    async getMatch (playerID : string)
-    {
-        /* let player;
-        player = this.players.get(playerID)!;
-
-        if(this.matchs.length > 0)
-        {
-            const match = this.matchs.find(match => !match.isFull);
-            if(match)
-            {
-                match.add(player);
-                return;
-            }
-        }
-
-        const newMatch = new Match();
-        this.matchs.push(newMatch);
-        newMatch.add(player); */
     }
 
     async assignPlayer (player : Player, matchID : string)
