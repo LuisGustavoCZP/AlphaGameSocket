@@ -2,13 +2,15 @@ import { v4 as uuid } from "uuid";
 import { redisSocket } from "../../clients/redis/socket";
 import { SocketEvent } from "../../connections/models";
 import { Player } from "./player";
+/* import { matchController } from "./index"; */
 
 export class Match 
 {
     id: string;
     static maxSize = 4;
     players : Player[];
-    isFull : boolean;
+    count : number;
+    full : boolean;
     private _ready : number;
     characters : number[];
 
@@ -16,8 +18,9 @@ export class Match
     {
         this.id = uuid();
         this._ready = 0;
+        this.count = 0;
         this.players = [];
-        this.isFull = false;
+        this.full = false;
         this.characters = new Array(6).fill(-1);
         for(let i = 0; i < Match.maxSize; i++)
         {
@@ -131,7 +134,7 @@ export class Match
         if(!this.isReady(playerID))
         {
             this._ready += 1 << playerID;
-            if(this.isFull) 
+            if(this.full) 
             {
                 
                 //console.log("Ready", this._ready, (1 << 4)-1)
@@ -151,10 +154,12 @@ export class Match
     public add (player : Player)
     {
         const index = this.players.findIndex(player => !player);
-        if(this.isFull || index === -1) return;
+        if(this.full || index === -1) return;
         player.matchIndex = index;
+        player.matchID = this.id;
         this.players[index] = player;
-        console.log(player.index);
+        this.count ++;
+        //console.log(player.index);
 
         player.send("match-init", { player:player.data });
 
@@ -179,27 +184,24 @@ export class Match
         this.send("match-players", { players:this.players });
         player.send("match-ready", {ready:this._ready});
 
-        player.onexit(() => 
+        if(this.count === this.players.length) 
         {
-            this.remove(player);
-        });
-
-        if(index === Match.maxSize-1) 
-        {
-            this.isFull = true;
-            //
+            this.full = true;
         }
     }
 
     public remove (player : Player)
     {
+        player.matchID = null;
         this.unready(player.index);
         this.send("match-ready", {ready:this._ready});
 
         this.characters[player.character] = -1;
+        this.count --;
         this.players[player.index] = null as any;
         this.send("match-players", { players:this.players });
-        if(this.isFull) this.isFull = false;
+
+        if(this.full) this.full = false;
     }
 
     public send (type : string, data : any, filter? : (player : Player) => boolean)

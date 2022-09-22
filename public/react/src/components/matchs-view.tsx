@@ -2,35 +2,38 @@ import { Route, Routes, Navigate, Link, useNavigate } from 'react-router-dom';
 
 import { ReactNode, useContext, useEffect, useState } from "react"
 import { PlayerContext } from '../contexts';
+import { MatchData } from '../models';
 
 export function MatchsView()
 {
     const { connection, setMatchID } = useContext(PlayerContext);
-    const [allRooms,setRooms] = useState<ReactNode[]>([])
-    const [roomsNames,setRoomsnames]= useState([{"name":'cabeçalho',"players":0,"id":0}])
+    const [allRooms, setRooms] = useState<MatchData[]>([])
+    //const [roomsNames, setRoomsnames]= useState([{"name":'cabeçalho',"players":0,"id":0}])
 
-    function singleRoom(roomName:any){
-        return (<li className='flex justify-between px-4 bg-[#3E3E3E]' key={roomName[roomName.length-1].id}>
-            <div className='flex flex-col'><span>Nome</span><span>{roomName[roomName.length-1].name}</span></div>
-            <div className='flex flex-col'><span>Jogadores</span><span>{roomName[roomName.length-1].players}/4</span>
-            </div><button onClick={()=>{/* navigate('/room') */}}>Entrar</button></li>)
+    function singleRoom(index : number, room : MatchData){
+        return (
+        <li className='flex justify-between px-4 bg-[#3E3E3E]' key={room.id}>
+            <div className='flex flex-col'><span>Nome</span><span>Partida {index}</span></div>
+            <div className='flex flex-col'><span>Jogadores</span><span>{room.count}/{room.max}</span></div>
+            <button onClick={()=>{enterRoom(room.id)}}>Entrar</button>
+        </li>
+        );
     }
 
-    function createRooms()
+    function renderRooms()
     {
-        let rooms = allRooms
-        let roomName = roomsNames
-        roomName.push({"name":`Partida ${allRooms.length-1}`,"players":1,"id":allRooms.length})
-        rooms.push(singleRoom(roomName))
-        setRoomsnames(roomName)
-        setRooms(rooms.map((e)=>e))
-        console.log(rooms,roomsNames)
+        return allRooms.map((room, index) => singleRoom(index, room));
     }
 
     function createRoom ()
     {
         console.log("Clicando botão partida");
         connection.send("match-new", true);
+    }
+
+    function enterRoom (roomID : string)
+    {
+        connection.send("match-enter", roomID);
     }
 
     useEffect(() => 
@@ -41,9 +44,9 @@ export function MatchsView()
             setMatchID(matchid);
         });
 
-        connection.on("matchs", (data) => 
+        connection.on("matchs", (data : MatchData[]) => 
         {
-
+            setRooms(data);
         });
     }, []);
 
@@ -54,7 +57,9 @@ export function MatchsView()
                 <button className='self-end justify-self-end text-[14px]' onClick={()=>{createRoom()}}>Criar sala</button>
             </span>
             <div className='flex overflow-y-scroll h-full py-2 px-4'>
-                <ul className='w-full flex flex-col gap-2'>{allRooms}</ul>
+                <ul className='w-full flex flex-col gap-2'>
+                    {renderRooms()}
+                </ul>
             </div>
         </div>
     );

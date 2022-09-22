@@ -7,6 +7,7 @@ export class Player
     public index : number;
     private _id : string;
     private connection : Connection;
+    private _matchID : string | null;
     public name: string;
     public character: number;
 
@@ -14,6 +15,7 @@ export class Player
     {
         this.index = -1;
         this._id = connection.userid;
+        this._matchID = null;
         this.connection = connection;
         this.name = '';
         this.character = -1;
@@ -22,8 +24,16 @@ export class Player
     set matchIndex (index : number)
     {
         this.index = index;
-        this.name = `Jogador ${this.index+1}`;
-        //this.character = this.index;
+    }
+
+    set matchID (matchID)
+    {
+        this._matchID = matchID;
+    }
+
+    get matchID ()
+    {
+        return this._matchID;
     }
 
     public get id ()
@@ -39,6 +49,11 @@ export class Player
     public on (type : string, callback : SocketEvent)
     {
         if(this.connection) this.connection.on(type, callback);
+    }
+
+    public off (type : string, callback? : SocketEvent)
+    {
+        if(this.connection) this.connection.off(type, callback);
     }
 
     public onexit (callback : SocketEvent)

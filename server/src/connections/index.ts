@@ -22,7 +22,7 @@ export class Connection
 {
     id : string;
     #socket : WebSocket;
-    #events : Map<string, SocketEvent>;
+    #events : Map<string, SocketEvent[]>;
     userid : string;
 
     constructor (wsocket : WebSocket, userid:string)
@@ -30,7 +30,7 @@ export class Connection
         this.id = uuid();
         this.userid = userid;
         this.#socket = wsocket;
-        this.#events = new Map<string, SocketEvent>();
+        this.#events = new Map<string, SocketEvent[]>();
         //this.send("connected", this.id);
         
         this.#socket.on("message", (resp : string) => this.message(resp));
@@ -53,29 +53,43 @@ export class Connection
             data,
             date:Date.now()
         }
-        console.log(type, data);
+        //console.log(type, data);
         this.#socket.send(JSON.stringify(msg));
     }
 
     message (resp : string)
     {
         const msg = JSON.parse(resp) as SocketMessage;
-        console.log(msg);
+        //console.log(msg);
         if(!this.#events.has(msg.type)) return;
-        const event = this.#events.get(msg.type)!;
-        event(msg.data, this.id);
+        const events = this.#events.get(msg.type)!;
+        events.forEach(event => 
+        {
+            event(msg.data, this.id);
+        });
     }
 
     on (type : string, event : SocketEvent)
     {
-        this.#events.set(type, event);
+        if(this.#events.has(type)) 
+        {
+            const events = this.#events.get(type)!;
+            events.push(event);
+        }
+        else this.#events.set(type, [event]);
     }
 
-    off (type : string)
+    off (type : string, event? : SocketEvent)
     {
         if(this.#events.has(type)) 
         {
-            return this.#events.delete(type);
+            if(event)
+            {
+                const events = this.#events.get(type)!;
+                events.splice(events.indexOf(event), 1);
+                if(events.length == 0) return this.#events.delete(type);
+            }
+            else this.#events.delete(type);
         }
         return false;
     }
@@ -113,7 +127,6 @@ export class Connections
                     connection.onclose(async () =>
                     {
                         this.list.delete(connection.id);
-                        await matchController.removePlayer(connection.userid);
                     });
 
                     connection.send("auth", connection.id);
