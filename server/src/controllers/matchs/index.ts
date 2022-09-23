@@ -94,13 +94,6 @@ export class MatchController
         player.send("matchs", this.matchsData);
     }
 
-    async getPlayingMatch (userid : string) 
-    {
-        const playerID = await redis.player.get(userid);
-        if(!playerID) return null;
-        
-    }
-
     async assignPlayer (player : Player, matchID : string)
     {
         if(!this.matchs.has(matchID)) return false;
