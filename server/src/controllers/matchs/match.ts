@@ -55,11 +55,15 @@ export class Match
     }
 
     public start ()
-    {   
-        if(this.#onstart) this.#onstart(this);
+    { 
         this.randomUnselectedCharacters();
         const ps = this.players.map(player => player.data);
         redisSocket.send("new-match", {id:this.id, players:ps});
+        if(this.#onstart) 
+        {
+            console.log("Partida", this.id, "iniciada!")
+            this.#onstart(this);
+        }
         this.send("match-start", true);
     }
 

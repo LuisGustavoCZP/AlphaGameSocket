@@ -51,9 +51,13 @@ export class MatchController
         });
     }
 
-    async startMatch (playerID : string) 
+    async startMatch (match : Match) 
     {
-        this.playing.add(playerID);
+        console.log("Playing", match.players);
+        match.players.forEach(player => 
+        {
+            this.playing.add(player.id);
+        });
     }
 
     async initPlayer (player : Player)
@@ -98,7 +102,7 @@ export class MatchController
         if(!this.matchs.has(matchID)) return false;
         const match = this.matchs.get(matchID)!;
 
-        console.log("Adicionando partida", player.id, ">", matchID);
+        console.log("Jogador", player.id, "entrou na", matchID);
 
         player.send("match-enter", matchID);
 
@@ -112,7 +116,7 @@ export class MatchController
             match.add(player);
             redis.auth.expiration(player.id, false);
             this.room.delete(player.id);
-            match.onstart = () => this.startMatch;
+            match.onstart = (match) => this.startMatch(match);
             this.send("matchs", this.matchsData);
         });
 
@@ -134,7 +138,7 @@ export class MatchController
             this.matchs.delete(matchID);
         }
         
-        console.log("Jogador saiu!")
+        console.log("Jogador", player.id, "saiu da", matchID)
         this.send("matchs", this.matchsData);
 
         await this.initPlayer(player);
@@ -156,7 +160,7 @@ export class MatchController
             return true;
         }
 
-        console.log("Adicionando player", connection.userid);
+        //console.log("Adicionando player", connection.userid);
 
         const player = new Player(connection);
         const user = (await postgres.select<Partial<IUser>>("users", {id:connection.userid}, ["username"]))[0];
