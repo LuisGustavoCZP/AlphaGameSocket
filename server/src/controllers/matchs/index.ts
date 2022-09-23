@@ -51,9 +51,9 @@ export class MatchController
         });
     }
 
-    async startMatch (match : Match) 
+    async startMatch (playerID : string) 
     {
-        this.playing.add(match.id);
+        this.playing.add(playerID);
     }
 
     async initPlayer (player : Player)
@@ -65,7 +65,6 @@ export class MatchController
             await this.assignPlayer(player, matchID);
             player.off("match-enter", onEnter);
             player.off("match-new", onNew);
-            player.send("matchs", this.matchsData);
         };
 
         const onNew = async () => 
@@ -83,6 +82,8 @@ export class MatchController
 
         player.on("match-enter", onEnter);
         player.on("match-new", onNew);
+        
+        player.send("matchs", this.matchsData);
     }
 
     async getPlayingMatch (userid : string) 
