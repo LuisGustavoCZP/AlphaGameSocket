@@ -37,7 +37,9 @@ export function PlayersState ({round, turn, players} : IPlayerStateProps)
         }); 
     }
 
-    if(round == undefined|| turn == undefined || players == undefined){
+    if(round == undefined|| turn == undefined || players == undefined)
+    {
+        console.log(`Erro em round:${round}, turno:${turn} ou players:${players?.length}`)
         return <> </>
     }
 

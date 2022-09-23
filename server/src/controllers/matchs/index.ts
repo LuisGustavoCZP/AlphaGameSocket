@@ -20,7 +20,11 @@ export class MatchController
         this.players = new Map<string, Player>();
         this.room = new Map<string, Player>();
         this.playing = new Set<string>();
-        redisSocket.on("end-match", (match) => { this.closeMatch(match); });
+        redisSocket.on("match-end", (match) => 
+        { 
+            this.closeMatch(match);
+            redisSocket.send(`match-ended:${match.id}`, true);
+        });
     }
 
     get matchsData ()
@@ -42,7 +46,7 @@ export class MatchController
 
     async closeMatch (match : IClosedMatch)
     {
-        console.log("Fechando partida", match);
+        //console.log("Fechando partida", match);
         match.players.forEach(playerData => 
         {
             redis.auth.expiration(playerData.id, true);

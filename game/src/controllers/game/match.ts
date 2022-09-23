@@ -19,7 +19,7 @@ class Match
     #map: TileMap;
     #round: number;
     #turn: number;
-    #onend? : () => void;
+    #onend? : (match : Match) => void;
     static get deltaSpeed () { return 1/gameSpeed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
@@ -42,7 +42,7 @@ class Match
         this.countdown ();
     }
 
-    set onend (event : ()=> void)
+    set onend (event : (match : Match)=> void)
     {
         this.#onend = event;
     }
@@ -66,9 +66,6 @@ class Match
     {
         if(this.startedAt) return;
         this.startedAt = new Date().toUTCString();
-        this.send("starting-match", true);
-        this.send("match-round", this.#round);
-        this.send("match-turn", this.#turn);
 
         await waitTime (1000*Match.deltaSpeed);
 
@@ -83,12 +80,15 @@ class Match
     async end ()
     {
         this.endedAt = new Date().toUTCString();
-        if(this.#onend) this.#onend();
-        this.players.forEach(player => 
+        if(this.#onend) this.#onend(this);
+        redisSocket.on(`match-ended:${this.id}`, () => 
         {
-            player.close();
+            this.players.forEach(player => 
+            {
+                player.close();
+            });
         });
-        redisSocket.send("end-match", this);
+        redisSocket.send("match-end", this);
     }
 
     async move ()
@@ -227,6 +227,9 @@ class Match
                         if(allready)
                         {
                             this.start ();
+                            this.send("starting-match", true);
+                            this.send("match-round", this.#round);
+                            this.send("match-turn", this.#turn);
                         }
                     }
                 });

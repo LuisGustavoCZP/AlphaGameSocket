@@ -24,16 +24,20 @@ class GameManager
         this.questions = loadSync<IQuestion[]>("./src/data/questions/questions.json");
         Item.setLoots(loadSync<ILoot[]>("./src/data/items/loots.json"));
 
-        redisSocket.on("new-match", (match) =>
+        redisSocket.on("match-new", (match) =>
         {
             this.createMatch(match);
+            redisSocket.send(`match-got:${match.id}`, true);
         });
     }
 
     public createMatch (matchData : IMatch)
     {
         const match = new Match(matchData, this.baseMap);
-        match.onend = () => {this.destroyMatch(match.id)};
+        match.onend = (match) => 
+        {
+            this.destroyMatch(match.id);
+        };
         this.matchs.set(match.id, match);
         return match;
     }
@@ -47,20 +51,20 @@ class GameManager
     {
         console.log("Rodando aqui", this.matchs);
         const found = false;
-        while(!found)
+        //while(!found)
+        //{
+        for (let match of this.matchs.values())
         {
-            for (let match of this.matchs.values())
+            const p = match.players.find(player => player.equal(id));
+            if(p) 
             {
-                const p = match.players.find(player => player.equal(id));
-                if(p) 
-                {
-                    p.connection = connection;
-                    match.add(p);
-                    return true;
-                }
+                p.connection = connection;
+                match.add(p);
+                return true;
             }
-            await waitTime(500);
         }
+            //await waitTime(500);
+        //}
         return false;
     }
 }

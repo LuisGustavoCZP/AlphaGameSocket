@@ -112,10 +112,8 @@ export function GameState ({connection} : IGameProps)
     useEffect(() => 
     {
         network ();
-    }, [])
+    }, []);
     
-        
-    if(!connection) return <></>;
     return (
     <section className="flex flex-col h-full w-full min-w-[200px] max-w-[400px] gap-4">
         <SpecsUser player={getUserData}/>

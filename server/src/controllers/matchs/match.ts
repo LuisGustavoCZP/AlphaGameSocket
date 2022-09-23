@@ -58,13 +58,17 @@ export class Match
     { 
         this.randomUnselectedCharacters();
         const ps = this.players.map(player => player.data);
-        redisSocket.send("new-match", {id:this.id, players:ps});
-        if(this.#onstart) 
-        {
-            console.log("Partida", this.id, "iniciada!")
-            this.#onstart(this);
-        }
-        this.send("match-start", true);
+
+        redisSocket.on(`match-got:${this.id}`, () => 
+        { 
+            if(this.#onstart) 
+            {
+                //console.log("Partida", this.id, "iniciada!")
+                this.#onstart(this);
+            }
+            this.send("match-start", true);
+        });
+        redisSocket.send("match-new", {id:this.id, players:ps});
     }
 
     private nextCharacter (player : Player)
