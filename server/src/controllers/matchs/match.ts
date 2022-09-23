@@ -9,7 +9,7 @@ export class Match
 {
     id: string;
     name : string;
-    static maxSize = 4;
+    static maxSize = 2;
     players : Player[];
     count : number;
     full : boolean;
@@ -156,7 +156,7 @@ export class Match
             {
                 
                 //console.log("Ready", this._ready, (1 << 4)-1)
-                if(this._ready == (1 << 4)-1) this.start();
+                if(this._ready == (1 << this.players.length)-1) this.start();
             }
         }
     }
