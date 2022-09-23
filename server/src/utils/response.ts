@@ -1,6 +1,6 @@
 import {CookieOptions, Response} from 'express';
 
-const cookieOptions : CookieOptions = 
+export const cookieOptions : CookieOptions = 
 {
     sameSite:'none',
     secure:true,

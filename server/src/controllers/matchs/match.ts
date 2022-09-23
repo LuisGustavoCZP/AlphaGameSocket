@@ -15,7 +15,7 @@ export class Match
     full : boolean;
     private _ready : number;
     characters : number[];
-    #onstart? : (match : Match) => void 
+    #onstart? : (match : Match) => void;
 
     public constructor (name : string)
     {

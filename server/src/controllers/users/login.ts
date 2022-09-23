@@ -1,5 +1,5 @@
 import PostgresDB from '../../clients/postgres/index';
-import ResponseHandler from '../../utils/response';
+import ResponseHandler, { cookieOptions } from '../../utils/response';
 import { cripto } from '../../configs';
 import { compareSync } from 'bcrypt';
 import { Request, Response } from 'express';
@@ -37,7 +37,8 @@ class LoginHandler{
   static async finish (req:Request, res:Response)
   {
     redis.auth.finishSession((req as any).userid);
-    res.clearCookie("token");
+    //res.cookie("token", Object.assign({maxAge:1}, cookieOptions))
+    res.clearCookie("token", cookieOptions);
     res.send({data:{}});
     return true;
   }
