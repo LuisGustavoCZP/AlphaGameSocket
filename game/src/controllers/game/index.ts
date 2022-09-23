@@ -2,7 +2,7 @@ import { Console } from "console";
 import { connections, Connection } from "../../connections";
 import { IMatch, IPlayer } from "../../models";
 import { TileMap } from "./map";
-import { waitUntil } from "../../utils/wait";
+import { waitTime, waitUntil } from "../../utils/wait";
 import { Match } from "./match";
 import { Player } from "./player";
 import { BaseTile, BaseMap } from "./basemap";
@@ -45,16 +45,21 @@ class GameManager
 
     public async initPlayer (id : string, connection : Connection)
     {
-        //console.log("Rodando aqui", this.matchs)
-        for (let match of this.matchs.values())
+        console.log("Rodando aqui", this.matchs);
+        const found = false;
+        while(!found)
         {
-            const p = match.players.find(player => player.equal(id));
-            if(p) 
+            for (let match of this.matchs.values())
             {
-                p.connection = connection;
-                match.add(p);
-                return true;
+                const p = match.players.find(player => player.equal(id));
+                if(p) 
+                {
+                    p.connection = connection;
+                    match.add(p);
+                    return true;
+                }
             }
+            await waitTime(500);
         }
         return false;
     }

@@ -49,7 +49,8 @@ class Match
 
     async countdown ()
     {
-        await waitBut(() => !(!this.startedAt), 10000, 500);
+        await waitBut(() => !(!this.startedAt), 30000, 500);
+        this.start ();
     }
 
     async triggerEvent (player : Player, eventID : number)
@@ -71,7 +72,7 @@ class Match
 
         await waitTime (1000*Match.deltaSpeed);
 
-        while(this.#round < 5)
+        while(this.#round < 1)
         {
             await this.move ();
         }
