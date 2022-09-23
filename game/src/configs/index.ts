@@ -10,7 +10,7 @@ const isSsl = process.env.SSL ? process.env.SSL == "true" : false;
 const postgres = process.env.POSTGRES;
 const redis = process.env.REDIS || "redis://default:redispw@localhost:6379";
 
-const gameSpeed = 1;
+const gameSpeed = 10;
 
 const cripto = {
     saltRounds:10,

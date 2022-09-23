@@ -16,10 +16,10 @@ class Match
     createdAt: string;
     startedAt: string;
     endedAt: string;
-    private map: TileMap;
-    private round: number;
-    private turn: number;
-    
+    #map: TileMap;
+    #round: number;
+    #turn: number;
+    #onend? : () => void;
     static get deltaSpeed () { return 1/gameSpeed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
@@ -30,9 +30,9 @@ class Match
         this.createdAt = new Date().toUTCString();
         this.startedAt = "";
         this.endedAt = "";
-        this.map = new TileMap(baseMap);
-        this.round = 0;
-        this.turn = 0;
+        this.#map = new TileMap(baseMap);
+        this.#round = 0;
+        this.#turn = 0;
         //this.start ();
         matchData.players.forEach((playerData, i) => 
         {
@@ -40,6 +40,11 @@ class Match
         });
 
         this.countdown ();
+    }
+
+    set onend (event : ()=> void)
+    {
+        this.#onend = event;
     }
 
     async countdown ()
@@ -61,23 +66,33 @@ class Match
         if(this.startedAt) return;
         this.startedAt = new Date().toUTCString();
         this.send("starting-match", true);
-        this.send("match-round", this.round);
-        this.send("match-turn", this.turn);
+        this.send("match-round", this.#round);
+        this.send("match-turn", this.#turn);
 
         await waitTime (1000*Match.deltaSpeed);
 
-        while(this.round < 5)
+        while(this.#round < 5)
         {
             await this.move ();
         }
 
+        await this.end();
+    }
+
+    async end ()
+    {
         this.endedAt = new Date().toUTCString();
+        if(this.#onend) this.#onend();
+        this.players.forEach(player => 
+        {
+            player.close();    
+        });
         redisSocket.send("end-match", this);
     }
 
     async move ()
     {
-        const player = this.players[this.turn];
+        const player = this.players[this.#turn];
         let confirmed = false;
         player.on("confirm-turn", () => 
         {
@@ -85,7 +100,7 @@ class Match
         });
 
         /* const limitTime = Date.now() + 2000*Match.deltaSpeed;
-        player.send("starting-turn", {limitTime});
+        player.send("starting-#turn", {limitTime});
 
         await waitUntil(() => (confirmed || Date.now() >= limitTime)); */
 
@@ -110,9 +125,9 @@ class Match
         for(let m = 0; m < move; m += 1)
         {
             await waitTime(1000*Match.deltaSpeed);
-            const tilepos = this.map.base.tile(player.position.toString())!;
+            const tilepos = this.#map.base.tile(player.position.toString())!;
             
-            const event = this.map.tile(player.position.toString());
+            const event = this.#map.tile(player.position.toString());
 
             if(!event || (event.eventID != 1 && event.eventID != 2))
             {
@@ -134,8 +149,8 @@ class Match
                 }
             }
 
-            const tilenext = this.map.base.tile(player.position.toString())!;
-            this.send("update-move", {playerindex: this.turn, tile:tilenext.id, position:player.position});
+            const tilenext = this.#map.base.tile(player.position.toString())!;
+            this.send("update-move", {playerindex: this.#turn, tile:tilenext.id, position:player.position});
         }
         
         await this.nextTurn (player);
@@ -144,17 +159,17 @@ class Match
     async nextTurn (player : Player)
     {
         let nextRound = false;
-        this.turn++;
-        if(this.turn === this.players.length)
+        this.#turn++;
+        if(this.#turn === this.players.length)
         {
-            this.turn = 0;
-            this.round++;
+            this.#turn = 0;
+            this.#round++;
             nextRound = true;
         }
 
         player.send("finish-move", true);
 
-        const event = this.map.tile(player.position.toString());
+        const event = this.#map.tile(player.position.toString());
         if(event)
         { 
             const result = await this.triggerEvent(player, event.eventID);
@@ -165,7 +180,7 @@ class Match
             }
         }
 
-        this.send("next-turn", { turn:this.turn, round:this.round });
+        this.send("next-turn", { turn:this.#turn, round:this.#round });
 
         if(nextRound) await waitTime (2000*Match.deltaSpeed);
     }
@@ -224,13 +239,13 @@ class Match
                 });
                 const ps = this.players.map((_player, index)=>
                 {
-                    const tile = this.map.base.tile(_player.position.toString())!;
+                    const tile = this.#map.base.tile(_player.position.toString())!;
                     const p = {..._player, position:tile.id, isPlayer:_player.index === player.index};
                     return p;
                 });
                 player.send("match-players", ps);
             });
-            player.send("match-map", {mapSource:"/src/assets/maps/tilemaps/tabuleiro.tmj", eventsSource:"/src/assets/data/events.json", data:Array.from(this.map.data.values())});
+            player.send("match-map", {mapSource:"/src/assets/maps/tilemaps/tabuleiro.tmj", eventsSource:"/src/assets/data/events.json", data:Array.from(this.#map.data.values())});
         });
     }
 }

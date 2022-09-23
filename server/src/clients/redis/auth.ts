@@ -1,6 +1,5 @@
 import Redis from "ioredis";
 import { redis, cripto } from "../../configs";
-import { verify, sign } from 'jsonwebtoken';
 import {v4 as uuid} from 'uuid';
 
 class AuthRedis{
@@ -19,27 +18,27 @@ class AuthRedis{
 
   public async readCookie(cookie:string){
     //const payload = verify(cookie, cripto.secret);
-    return await this.redis.get(cookie);
+    return await this.redis.get(`session:${cookie}`);
   }
 
   public async initSession(userId:string){
     const id = uuid();
-    const value = this.setValue(userId);
-    await this.redis.setex(id, this.timeExpire, JSON.stringify(value));
+    await this.redis.setex(`session:${id}`, this.timeExpire, userId);
+    await this.redis.setex(`session-user:${userId}`, this.timeExpire, id);
     return await this.createCookie(id);
   }
 
-  public setValue(userId:string){
-    return {
-      id:userId
-    }
-  }
-
-  public refreshSession(id:string, expire:boolean){
-    if(expire){
-      this.redis.expire(id, this.timeExpire);
-    }else{
-      this.redis.expire(id, -1);
+  public async expiration (userid:string, expire:boolean)
+  {
+    const sessionid = this.redis.get(`session-user:${userid}`);
+    if(!sessionid) return;
+    if(expire)
+    {
+      this.redis.expire(`session:${sessionid}`, this.timeExpire);
+      this.redis.expire(`session-user:${userid}`, this.timeExpire);
+    } else {
+      this.redis.expire(`session:${sessionid}`, -1);
+      this.redis.expire(`session-user:${userid}`, -1);
     }
   }
 }

@@ -6,14 +6,14 @@ import { MatchData } from '../models';
 
 export function MatchsView()
 {
-    const { connection, setMatchID } = useContext(PlayerContext);
+    const { connection, setMatchID, getPage } = useContext(PlayerContext);
     const [allRooms, setRooms] = useState<MatchData[]>([])
     //const [roomsNames, setRoomsnames]= useState([{"name":'cabeçalho',"players":0,"id":0}])
 
     function singleRoom(index : number, room : MatchData){
         return (
         <li className='flex justify-between px-4 bg-[#3E3E3E]' key={room.id}>
-            <div className='flex flex-col'><span>Nome</span><span>Partida {index}</span></div>
+            <div className='flex flex-col'><span>Nome</span><span>{room.name}</span></div>
             <div className='flex flex-col'><span>Jogadores</span><span>{room.count}/{room.max}</span></div>
             <button onClick={()=>{enterRoom(room.id)}}>Entrar</button>
         </li>
@@ -33,6 +33,7 @@ export function MatchsView()
 
     function enterRoom (roomID : string)
     {
+        connection.off("matchs");
         connection.send("match-enter", roomID);
     }
 
@@ -42,13 +43,14 @@ export function MatchsView()
         {
             console.log(matchid);
             setMatchID(matchid);
+            connection.off("match-enter");
         });
 
         connection.on("matchs", (data : MatchData[]) => 
         {
             setRooms(data);
         });
-    }, []);
+    }, [connection]);
 
     return (
         <div className='w-2/3 h-full flex flex-col justify-between'>

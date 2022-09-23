@@ -65,11 +65,11 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
 
     useEffect(() => 
     {
-        if(getMatchID && page == 0)
+        if(getMatchID && getPage == 0)
         {
             setPage(1);
         }
-        else if(!getMatchID && page == 1)
+        else if(!getMatchID && getPage == 1)
         {
             setPage(0);
         }

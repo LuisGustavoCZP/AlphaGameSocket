@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import { Connection, connectionManager } from "../../connections";
 import { SocketEvent } from "../../connections/models";
 

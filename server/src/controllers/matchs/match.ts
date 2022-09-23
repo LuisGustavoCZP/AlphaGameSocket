@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import redis from "../../clients/redis";
 import { redisSocket } from "../../clients/redis/socket";
 import { SocketEvent } from "../../connections/models";
 import { Player } from "./player";
@@ -7,6 +8,7 @@ import { Player } from "./player";
 export class Match 
 {
     id: string;
+    name : string;
     static maxSize = 4;
     players : Player[];
     count : number;
@@ -14,9 +16,10 @@ export class Match
     private _ready : number;
     characters : number[];
 
-    public constructor ()
+    public constructor (name : string)
     {
         this.id = uuid();
+        this.name = name;
         this._ready = 0;
         this.count = 0;
         this.players = [];

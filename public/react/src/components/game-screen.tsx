@@ -8,8 +8,8 @@ import { IGameProps } from "./game-room";
 
 export function GameScreen ({connection} : IGameProps)
 {
-    const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
-    const canvasRef = useRef<HTMLCanvasElement>(null)
+    /* const [getCanvas, setCanvas] = useState<HTMLCanvasElement>();
+    const canvasRef = useRef<HTMLCanvasElement>(null) */
 
     function network ()
     {
@@ -63,18 +63,19 @@ export function GameScreen ({connection} : IGameProps)
     
     useEffect(() => 
     {
-        network();
-
-        if(canvasRef && canvasRef.current) 
+        const canvasEl = document.getElementById("canvas-screen");
+        if(canvasEl) 
         {
-            const canvas = canvasRef.current!;
+            const canvas = canvasEl as HTMLCanvasElement;
             const context = canvas.getContext("2d")!;
             GameObject.context = context;
             MapObject.context = context;
             
             draw(context, canvas);
+            network();
         }
+        
     }, []);
 
-    return <canvas ref={canvasRef} className="flex bg-black flex-grow aspect-square max-h-screen" width={528} height={528}></canvas>;
+    return (<canvas id="canvas-screen" className="flex bg-black flex-grow aspect-square max-h-screen" width={528} height={528}></canvas>);
 }

@@ -1,13 +1,13 @@
 import Redis from "ioredis";
 import { redis, cripto } from "../../configs";
-import { verify, sign } from 'jsonwebtoken';
 import {v4 as uuid} from 'uuid';
 
 class PlayerRedis 
 {
   public redis: Redis;
 
-  constructor(){
+  constructor()
+  {
     this.redis = new Redis(redis);
   }
 

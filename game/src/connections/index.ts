@@ -80,6 +80,11 @@ export class Connection
         this.#socket.on("close", event);
     }
 
+    close ()
+    {
+        this.#socket.close();
+    }
+
     retry ()
     {
         this.#socket = new WebSocket(this.#socket.url);

@@ -17,7 +17,8 @@ export async function tokenHandler (req : Request, res : Response, next : NextFu
         return new ResponseHandler(400, {error:"O cookie é inválido"}).send(res);
     }
 
-    (req as any)["userid"] = JSON.parse(resp).id;
+    console.log(resp);
+    (req as any)["userid"] = resp;
     
     next();
 }

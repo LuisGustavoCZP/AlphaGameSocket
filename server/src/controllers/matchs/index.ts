@@ -1,8 +1,9 @@
 import redis from "../../clients/redis";
+import postgres from "../../clients/postgres";
 import { redisSocket } from "../../clients/redis/socket";
 import { Connection, ConnectionStatus } from "../../connections";
 import { SocketEvent } from "../../connections/models";
-import { IClosedMatch, MatchData } from "../../models";
+import { IClosedMatch, IUser, MatchData } from "../../models";
 import { Match } from "./match";
 import { Player } from "./player";
 
@@ -29,6 +30,7 @@ export class MatchController
         {
             const data = {
                 id:match.id,
+                name:match.name,
                 count:match.count,
                 max:match.players.length,
                 full:match.full
@@ -40,7 +42,42 @@ export class MatchController
 
     async closeMatch (match : IClosedMatch)
     {
-        
+        match.players.forEach(playerData => 
+        {
+            redis.auth.expiration(playerData.id, true);
+            /* const player = this.players.get(playerData.id)!;
+            this.initPlayer(player); */
+        });
+    }
+
+    async initPlayer (player : Player)
+    {
+        this.room.set(player.id, player);
+
+        const onEnter = async (matchID : string) => 
+        {
+            await this.assignPlayer(player, matchID);
+            player.off("match-enter", onEnter);
+            player.off("match-new", onNew);
+        };
+
+        const onNew = async () => 
+        {
+            console.log("Player para partida", player.id);
+            const newMatch = new Match(`Partida ${this.matchs.size+1}`);
+            this.matchs.set(newMatch.id, newMatch);
+            await onEnter(newMatch.id);
+        };
+
+        player.onexit(async () => 
+        {
+            await this.removePlayer(player);
+        });
+
+        player.on("match-enter", onEnter);
+        player.on("match-new", onNew);
+
+        player.send("matchs", this.matchsData);
     }
 
     async getPlayingMatch (userid : string) 
@@ -68,10 +105,13 @@ export class MatchController
         {
             player.on("match-exit", async () => 
             {
+                player.send("match-exit", true);
                 await this.unassignPlayer(player);
             });
             match.add(player);
+            redis.auth.expiration(player.id, false);
             this.room.delete(player.id);
+            this.send("matchs", this.matchsData);
         });
 
         return true;
@@ -93,9 +133,9 @@ export class MatchController
         }
         
         console.log("Jogador saiu!")
-
-        this.room.set(player.id, player);
         this.send("matchs", this.matchsData);
+
+        await this.initPlayer(player);
         return true;
     }
 
@@ -111,34 +151,10 @@ export class MatchController
         console.log("Adicionando player", connection.userid);
 
         const player = new Player(connection);
+        const user = (await postgres.select<Partial<IUser>>("users", {id:connection.userid}, ["username"]))[0];
+        player.name = user.username!;
         this.players.set(player.id, player);
-        this.room.set(player.id, player);
-
-        const onEnter = async (matchID : string) => 
-        {
-            await this.assignPlayer(player, matchID);
-            player.off("match-enter", onEnter);
-            player.off("match-new", onNew);
-            this.send("matchs", this.matchsData);
-        };
-
-        const onNew = async () => 
-        {
-            console.log("Player para partida", player.id);
-            const newMatch = new Match();
-            this.matchs.set(newMatch.id, newMatch);
-            await onEnter(newMatch.id);
-        };
-
-        player.onexit(async () => 
-        {
-            await this.removePlayer(player);
-        });
-
-        player.on("match-enter", onEnter);
-        player.on("match-new", onNew);
-
-        player.send("matchs", this.matchsData);
+        await this.initPlayer(player);
         return true;
     }
 

@@ -13,6 +13,7 @@ export function MainRoom (props : any)
 
     async function startConnection ()
     {
+        if(connection) return;
         const newconnection = new Connection(server);
 
         newconnection.on("onopen", () => 
@@ -22,6 +23,7 @@ export function MainRoom (props : any)
             {
                 console.log("Autenticou!", id);
                 setConnection(newconnection);
+                newconnection.off("auth");
             });
             newconnection.send("auth", getUserData.id);
         });

@@ -16,20 +16,31 @@ interface MatchRoomPlayer
 
 export function MatchRoom (props : any)
 {
-    const {setPage, connection} = useContext(PlayerContext);
+    const {setPage, connection, setConnection, setMatchID} = useContext(PlayerContext);
     const [playerSelf, setPlayerSelf] = useState<MatchRoomPlayer>(null as any);
     const [players, setPlayers] = useState<MatchRoomPlayer[]>(new Array(4));
     const [playersNumber, setNumber] = useState (1);
+    const [matchName, setMatchName] = useState (1);
     const [ready, setReady] = useState (0);
     /* const [getSocket, setSocket] = useState<Connection>(); */
 
     async function startConnection ()
     {
-        connection.on("match-init", async ({player} : any) => 
+        connection.on("match-init", async ({name, player} : any) => 
         {
+            setMatchName(name);
             setPlayerSelf(player);
+            connection.off("match-init");
         });
         
+        connection.on("match-start", async () => 
+        {
+            connection.instance.close();
+            setConnection(null as any);
+            setPage(2);
+            connection.off("match-start");
+        });
+
         connection.on("match-players", async ({players} : any) => 
         {
             setPlayers(players);
@@ -42,18 +53,10 @@ export function MatchRoom (props : any)
             setNumber(x)
         });
 
-        connection.on("match-start", async () => 
-        {
-            setPage(2);
-            connection.instance.close();
-        });
-
         connection.on("match-ready", async({ready}) => 
         {
             setReady(ready);
         });
-
-        //connection.send("match-init", true);
 
         connection.send("match-entered", true);
     }
@@ -89,16 +92,31 @@ export function MatchRoom (props : any)
         });
     }
 
+    function exitRoom ()
+    {
+        connection.send("match-exit", true);
+        connection.on("match-exit", async () => 
+        {
+            setMatchID(null as any);
+            connection.off("match-exit");
+            connection.off("match-ready");
+            connection.off("match-players");
+        });
+    }
+
     return (
-        <div className="match-room flex items-center m-0 justify-evenly h-screen">
+        <div className="match-room flex items-center m-0 justify-evenly h-screen overflow-hidden">
             <UserInfo />
-            <ul className="flex list-none h-screen w-3/5 flex-wrap justify-center content-start gap-5 place-self-start">
-                <li className="w-full flex justify-between p-2 bg-[#3E3E3E]">
-                    <p>Partida 1</p>
+            <div className="flex flex-col list-none h-full w-3/5 justify-center gap-2 content-start place-self-start overflow-hidden">
+                <span className="w-full flex p-2 bg-[#3E3E3E] justify-between items-center">
+                    <button onClick={exitRoom}>Voltar</button>
+                    <h2 className='px-4 text-[24px]'>{matchName}</h2>
                     <p>{playersNumber}/4</p>
-                </li>
-                {renderPlayers ()}
-            </ul>
+                </span>
+                <ul className="flex flex-row list-none flex-grow h-full flex-wrap gap-2 justify-center content-center box-border">
+                    {renderPlayers ()}
+                </ul>
+            </div>
             <Chat/>
         </div>
     )

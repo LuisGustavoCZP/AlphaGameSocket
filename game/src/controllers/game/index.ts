@@ -14,12 +14,12 @@ import { loadSync } from "../../utils/loader";
 class GameManager 
 {
     baseMap : BaseMap;
-    matchs : Match[];
+    matchs : Map<string, Match>;
     questions : IQuestion[]
 
     constructor ()
     {
-        this.matchs = [];
+        this.matchs = new Map<string, Match>();
         this.baseMap = BaseMap.load("./src/data/map/test1.json");
         this.questions = loadSync<IQuestion[]>("./src/data/questions/questions.json");
         Item.setLoots(loadSync<ILoot[]>("./src/data/items/loots.json"));
@@ -28,20 +28,25 @@ class GameManager
         {
             this.createMatch(match);
         });
-        
     }
 
     public createMatch (matchData : IMatch)
     {
         const match = new Match(matchData, this.baseMap);
-        this.matchs.push(match);
+        match.onend = () => {this.destroyMatch(match.id)};
+        this.matchs.set(match.id, match);
         return match;
+    }
+
+    public destroyMatch (matchID : string)
+    {
+        this.matchs.delete(matchID);
     }
 
     public async initPlayer (id : string, connection : Connection)
     {
         //console.log("Rodando aqui", this.matchs)
-        for (let match of this.matchs)
+        for (let match of this.matchs.values())
         {
             const p = match.players.find(player => player.equal(id));
             if(p) 

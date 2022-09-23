@@ -14,7 +14,8 @@ export interface IGameProps
 export function GameRoom (props : any)
 {
     const { gameserver } = useContext(GlobalContext);
-    const { connection, setConnection, setPage, getUserData } = useContext(PlayerContext);
+    const { connection, setConnection, setPage, getUserData, getMatchID } = useContext(PlayerContext);
+    const [ connected, setConnected ] = useState<boolean>(false);
     //const [getSocket, setSocket] = useState<Connection>(null as any);
 
     async function startGame () 
@@ -25,12 +26,15 @@ export function GameRoom (props : any)
         {
             newconnection.on("onclose", () => 
             {
+                gameManager.clear();
+                setConnection(null as any);
                 setPage(0);
             });
 
             newconnection.on("match-ready", () => 
             {
                 setConnection(newconnection);
+                setConnected(true);
             });
             newconnection.send("player-init", getUserData.id);
         });
@@ -41,7 +45,7 @@ export function GameRoom (props : any)
         startGame ();
     }, []);
 
-    if(!connection) return (<></>);
+    if(!connected) return (<></>);
     return (
         <main className="flex justify-between items-center h-screen w-full p-2">
             <GameState connection={connection}/>

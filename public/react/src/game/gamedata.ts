@@ -68,6 +68,15 @@ export class GameManager
             this.addGameObject(gameObject);
         });
     }
+
+    clear()
+    {
+        this.gameObjects.clear();
+        this.players = [];
+        this.map = (null as unknown) as MapObject;
+        this.round = 0;
+        this.turn = 0;
+    }
 }
 
 const gameManager = new GameManager ();
