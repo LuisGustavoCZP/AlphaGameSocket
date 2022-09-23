@@ -4,7 +4,7 @@ import { Item } from "./item";
 
 class Player 
 {
-    #id: string;
+    id: string;
     #connection : Connection;
     #ready : boolean;
     index : number;
@@ -17,7 +17,7 @@ class Player
     constructor (index : number, { id, name, character } : IPlayer)
     {
         this.#ready = false;
-        this.#id = id;
+        this.id = id;
         this.index = index;
         this.name = name;
         this.character = character;
@@ -29,7 +29,7 @@ class Player
 
     get data ()
     {
-        return Object.assign({id:this.#id}, this);
+        return Object.assign({id:this.id}, this);
     }
 
     set position (position : number)
@@ -100,7 +100,7 @@ class Player
 
     equal (id : string)
     {
-        return this.#id == id
+        return this.id == id
     }
 
     send (type : string, data : any)

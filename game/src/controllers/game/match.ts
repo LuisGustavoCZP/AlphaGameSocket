@@ -86,7 +86,7 @@ class Match
         if(this.#onend) this.#onend();
         this.players.forEach(player => 
         {
-            player.close();    
+            player.close();
         });
         redisSocket.send("end-match", this);
     }
@@ -100,11 +100,6 @@ class Match
             confirmed = true;
         });
 
-        /* const limitTime = Date.now() + 2000*Match.deltaSpeed;
-        player.send("starting-#turn", {limitTime});
-
-        await waitUntil(() => (confirmed || Date.now() >= limitTime)); */
-
         await this.triggerEvent(player, -1)
 
         await waitTime(500*Match.deltaSpeed);
@@ -113,12 +108,9 @@ class Match
 
         await waitTime(1000*Match.deltaSpeed);
         const move = Math.ceil(Math.random()*6);
-        //player.points += move*10;
-        //const direction = Math.random() > 0.5;
 
         player.send("starting-turn", { move:move });
         
-        //const speed = 0.1;
         await waitTime(3000*Match.deltaSpeed);
 
         player.send("starting-move", true);
@@ -242,6 +234,7 @@ class Match
                 {
                     const tile = this.#map.base.tile(_player.position.toString())!;
                     const p = {..._player, position:tile.id, isPlayer:_player.index === player.index};
+                    delete (p as any)["id"];
                     return p;
                 });
                 player.send("match-players", ps);

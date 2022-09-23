@@ -42,7 +42,7 @@ export class MatchController
 
     async closeMatch (match : IClosedMatch)
     {
-        console.log("Fechando partida", match.id);
+        console.log("Fechando partida", match);
         match.players.forEach(playerData => 
         {
             redis.auth.expiration(playerData.id, true);
