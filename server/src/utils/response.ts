@@ -1,4 +1,11 @@
-import {Response} from 'express';
+import {CookieOptions, Response} from 'express';
+
+const cookieOptions : CookieOptions = 
+{
+    sameSite:'none',
+    secure:true,
+    httpOnly:true
+}
 
 class ResponseHandler{
   private status:number;
@@ -17,8 +24,11 @@ class ResponseHandler{
     }
   }
 
-  public setCookie(res:Response, cookie:any){
-    res.cookie(cookie.name, cookie.value, { maxAge: Number(cookie.expire)*1000 });
+  public setCookie(res:Response, cookie:any)
+  {
+    const options = Object.assign({ maxAge: Number(cookie.expire)*1000 }, cookieOptions)
+    console.log(options);
+    res.cookie(cookie.name, cookie.value, options);
     return this;
   }
 }

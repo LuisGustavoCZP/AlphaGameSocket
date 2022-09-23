@@ -40,7 +40,14 @@ function PlayerContextProvider ({children, page} : PropsPlayerContext)
 
     useEffect(() => 
     {
-        fetch(`https://${server}/users/`)
+        fetch(`https://${server}/users/`, {
+            method: "GET",
+            headers: 
+            {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        })
         .then(async (resp) => 
         {
             const json = await resp.json();

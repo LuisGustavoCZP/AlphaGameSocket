@@ -105,15 +105,15 @@ export function MatchRoom (props : any)
     }
 
     return (
-        <div className="match-room flex items-center m-0 justify-evenly h-screen overflow-hidden">
+        <div className="match-room flex items-center m-0 justify-evenly h-screen">
             <UserInfo />
-            <div className="flex flex-col list-none h-full w-3/5 justify-center gap-2 content-start place-self-start overflow-hidden">
+            <div className="flex flex-col list-none h-full w-3/5 gap-2 content-start place-self-start">
                 <span className="w-full flex p-2 bg-[#3E3E3E] justify-between items-center">
                     <button onClick={exitRoom}>Voltar</button>
                     <h2 className='px-4 text-[24px]'>{matchName}</h2>
                     <p>{playersNumber}/4</p>
                 </span>
-                <ul className="flex flex-row list-none flex-grow h-full flex-wrap gap-2 justify-center content-center box-border">
+                <ul className="flex flex-row list-none flex-grow h-full flex-wrap gap-2 justify-center box-border pb-2">
                     {renderPlayers ()}
                 </ul>
             </div>

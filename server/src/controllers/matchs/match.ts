@@ -164,7 +164,7 @@ export class Match
         this.count ++;
         //console.log(player.index);
 
-        player.send("match-init", { player:player.data });
+        player.send("match-init", { name:this.name, player:player.data });
 
         player.on("character-next", async () => 
         {

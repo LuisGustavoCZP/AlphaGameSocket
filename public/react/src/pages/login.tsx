@@ -32,7 +32,11 @@ export function Login(){
         const resposta : APIResponse = await fetch(`https://${server}/users/login`, {
             method: "POST",
             body: JSON.stringify(body),
-            headers: {"Content-type": "application/json;charset=UTF-8"}
+            headers: 
+            {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
         }).then(resp => resp.json()).catch(err => {console.log(err); return {error:err}});
         //console.log(resposta)
         if(!resposta || resposta.error){

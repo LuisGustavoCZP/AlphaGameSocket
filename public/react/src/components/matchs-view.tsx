@@ -15,7 +15,7 @@ export function MatchsView()
         <li className='flex justify-between px-4 bg-[#3E3E3E]' key={room.id}>
             <div className='flex flex-col'><span>Nome</span><span>{room.name}</span></div>
             <div className='flex flex-col'><span>Jogadores</span><span>{room.count}/{room.max}</span></div>
-            <button onClick={()=>{enterRoom(room.id)}}>Entrar</button>
+            <button className="disabled:bg-[#8b8b8b] disabled:cursor-default" onClick={()=>{enterRoom(room.id)}} disabled={room.full} >Entrar</button>
         </li>
         );
     }
