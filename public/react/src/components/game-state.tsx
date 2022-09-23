@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 import { InventoryState } from "./inventory-state";
 import { PlayersState } from "./players-state";
 import { SpecsUser } from "./specsuser";
 import { IGameProps } from "./game-room";
 import { IPlayerData } from "../game/player";
+import { PlayerContext } from "../contexts";
 
 import { EventAsk } from "./event-ask";
 import { EventTurn } from "./event-turn";
@@ -20,7 +21,7 @@ export function GameState ({connection} : IGameProps)
     const [players, setPlayers] = useState <IPlayerData[]>();
     const [getItems, setitems] = useState<IItemData[]>([]);
     const [modal, setModal] = useState(<></>);
-
+    const {getUserData} = useContext(PlayerContext);
     function openModal(eventID : number, finalTime : number, data? : any)
     {
         if(eventID == -2) setModal(<EventDice finalTime={finalTime} choose={chooseAction} connection={data} />);
@@ -117,7 +118,7 @@ export function GameState ({connection} : IGameProps)
     if(!connection) return <></>;
     return (
     <section className="flex flex-col h-full w-full min-w-[200px] max-w-[400px] gap-4">
-        <SpecsUser players={players}/>
+        <SpecsUser player={getUserData}/>
         <PlayersState players={players} round={round} turn={turn} />
         <InventoryState items={getItems}/>
         {/* <h1>Voce tirou {diceNumber} no dado</h1> */}
