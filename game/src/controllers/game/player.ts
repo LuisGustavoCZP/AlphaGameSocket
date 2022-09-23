@@ -105,22 +105,22 @@ class Player
 
     send (type : string, data : any)
     {
-        this.#connection.send(type, data);
+        if(this.#connection) this.#connection.send(type, data);
     }
 
     on (type : string, callback : SocketEvent)
     {
-        this.#connection.on(type, callback)
+        if(this.#connection) this.#connection.on(type, callback)
     }
 
     off (type : string)
     {
-        this.#connection.off(type)
+        if(this.#connection) this.#connection.off(type)
     }
 
     close ()
     {
-        this.#connection.close();
+        if(this.#connection) this.#connection.close();
     }
 }
 

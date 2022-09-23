@@ -13,8 +13,10 @@ export function GameScreen ({connection} : IGameProps)
 
     function network ()
     {
+        console.log("Tela Conectando...");
         if(connection)
         {
+            console.log("Tela Conectada!");
             connection.on("match-map", async (map) => 
             {
                 console.log("Recebendo mapa!")
@@ -66,13 +68,14 @@ export function GameScreen ({connection} : IGameProps)
         const canvasEl = document.getElementById("canvas-screen");
         if(canvasEl) 
         {
+            network();
+
             const canvas = canvasEl as HTMLCanvasElement;
             const context = canvas.getContext("2d")!;
             GameObject.context = context;
             MapObject.context = context;
             
             draw(context, canvas);
-            network();
         }
         
     }, []);

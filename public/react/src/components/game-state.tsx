@@ -31,7 +31,7 @@ export function GameState ({connection} : IGameProps)
     }
     function closeModal()
     {
-        setModal(<></>)
+        setModal(<></>);
     }
 
     function chooseAction(option? : number)
@@ -45,8 +45,10 @@ export function GameState ({connection} : IGameProps)
 
     function network ()
     {
+        console.log("Game Conectando...");
         if(connection)
         {
+            console.log("Game Conectado!");
             connection.on("match-players", (_players) => 
             {
                 setPlayers(_players);
@@ -110,7 +112,7 @@ export function GameState ({connection} : IGameProps)
     useEffect(() => 
     {
         network ();
-    }, [connection])
+    }, [])
     
         
     if(!connection) return <></>;

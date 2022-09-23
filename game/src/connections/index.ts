@@ -19,7 +19,7 @@ export class Connection
         /* this.send("connected", this.id); */
         this.#socket.on("message", (resp : string) => this.message(resp));
 
-        this.on("player-init", (id) => 
+        this.on("player-init", async (id) => 
         {
             if(!id)
             {
@@ -27,7 +27,8 @@ export class Connection
                 return;
             }
             this.id = id;
-            if(!gameManager.initPlayer(id, this))
+            const init = await gameManager.initPlayer(id, this);
+            if(!init)
             {
                 this.#socket.close();
                 return;
@@ -48,7 +49,7 @@ export class Connection
             data,
             date:Date.now()
         }
-        console.log(type, data);
+        //console.log(type, data);
         this.#socket.send(JSON.stringify(msg));
     }
 

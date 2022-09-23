@@ -16,7 +16,6 @@ export function GameRoom (props : any)
     const { gameserver } = useContext(GlobalContext);
     const { connection, setConnection, setPage, getUserData, getMatchID } = useContext(PlayerContext);
     const [ connected, setConnected ] = useState<boolean>(false);
-    //const [getSocket, setSocket] = useState<Connection>(null as any);
 
     async function startGame () 
     {

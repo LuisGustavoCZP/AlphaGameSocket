@@ -12,14 +12,14 @@ export class MatchController
     matchs : Map<string, Match>;
     players : Map<string, Player>;
     room : Map<string, Player>;
-    playing : Map<string, Player>;
+    playing : Set<string>;
 
     constructor ()
     {
         this.matchs = new Map<string, Match>();
         this.players = new Map<string, Player>();
         this.room = new Map<string, Player>();
-        this.playing = new Map<string, Player>();
+        this.playing = new Set<string>();
         redisSocket.on("end-match", (match) => { this.closeMatch(match); });
     }
 
@@ -45,9 +45,15 @@ export class MatchController
         match.players.forEach(playerData => 
         {
             redis.auth.expiration(playerData.id, true);
+            this.playing.delete(playerData.id);
             /* const player = this.players.get(playerData.id)!;
             this.initPlayer(player); */
         });
+    }
+
+    async startMatch (playerID : string) 
+    {
+        this.playing.add(playerID);
     }
 
     async initPlayer (player : Player)
@@ -76,7 +82,7 @@ export class MatchController
 
         player.on("match-enter", onEnter);
         player.on("match-new", onNew);
-
+        
         player.send("matchs", this.matchsData);
     }
 
@@ -85,11 +91,6 @@ export class MatchController
         const playerID = await redis.player.get(userid);
         if(!playerID) return null;
         
-    }
-
-    async setUserMatch (userid : string, matchid : string) 
-    {
-        const playerID = await redis.player.create(userid);
     }
 
     async assignPlayer (player : Player, matchID : string)
@@ -111,6 +112,7 @@ export class MatchController
             match.add(player);
             redis.auth.expiration(player.id, false);
             this.room.delete(player.id);
+            match.onstart = () => this.startMatch;
             this.send("matchs", this.matchsData);
         });
 
@@ -148,6 +150,12 @@ export class MatchController
             return false;
         }
         
+        if(this.playing.has(connection.userid))
+        {
+            connection.send("match-start", true);
+            return true;
+        }
+
         console.log("Adicionando player", connection.userid);
 
         const player = new Player(connection);

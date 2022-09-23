@@ -15,6 +15,7 @@ export class Match
     full : boolean;
     private _ready : number;
     characters : number[];
+    #onstart? : (match : Match) => void 
 
     public constructor (name : string)
     {
@@ -29,6 +30,11 @@ export class Match
         {
             this.players.push((null as unknown) as Player);
         }
+    }
+
+    set onstart (startCallback : (match : Match) => void)
+    {
+        this.#onstart = startCallback;
     }
 
     randomUnselectedCharacters() 
@@ -50,6 +56,7 @@ export class Match
 
     public start ()
     {   
+        if(this.#onstart) this.#onstart(this);
         this.randomUnselectedCharacters();
         const ps = this.players.map(player => player.data);
         redisSocket.send("new-match", {id:this.id, players:ps});

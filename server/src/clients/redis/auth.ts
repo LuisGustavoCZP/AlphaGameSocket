@@ -28,6 +28,15 @@ class AuthRedis{
     return await this.createCookie(id);
   }
 
+  public async finishSession(userid:string)
+  {
+    const sessionid = this.redis.get(`session-user:${userid}`);
+    if(!sessionid) return;
+
+    this.redis.del(`session:${sessionid}`);
+    this.redis.del(`session-user:${userid}`);
+  }
+
   public async expiration (userid:string, expire:boolean)
   {
     const sessionid = this.redis.get(`session-user:${userid}`);

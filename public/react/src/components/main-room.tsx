@@ -9,7 +9,7 @@ import { useContext, useEffect } from "react";
 export function MainRoom (props : any)
 {
     const { server } = useContext(GlobalContext);
-    const { getUserData, setConnection, connection } = useContext(PlayerContext);
+    const { connection, getUserData, setPage, setConnection } = useContext(PlayerContext);
 
     async function startConnection ()
     {
@@ -18,7 +18,15 @@ export function MainRoom (props : any)
 
         newconnection.on("onopen", () => 
         {
-            console.log("Abriu conexão!")
+            console.log("Abriu conexão!");
+            newconnection.on("match-start", async () => 
+            {
+                newconnection.instance.close();
+                setConnection(null as any);
+                setPage(2);
+                newconnection.off("match-start");
+            });
+
             newconnection.on("auth", (id) => 
             {
                 console.log("Autenticou!", id);
