@@ -26,9 +26,9 @@ class ResponseHandler{
 
   public setCookie(res:Response, cookie:any)
   {
-    const options = Object.assign({ maxAge: Number(cookie.expire)*1000 }, cookieOptions)
-    console.log(options);
-    res.cookie(cookie.name, cookie.value, options);
+    //const options = Object.assign({ maxAge: Number(cookie.expire)*1000 }, )
+    //console.log(options);
+    res.cookie(cookie.name, cookie.value, cookieOptions);
     return this;
   }
 }
