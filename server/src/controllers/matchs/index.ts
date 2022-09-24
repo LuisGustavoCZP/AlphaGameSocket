@@ -6,6 +6,7 @@ import { SocketEvent } from "../../connections/models";
 import { IClosedMatch, IUser, MatchData } from "../../models";
 import { Match } from "./match";
 import { Player } from "./player";
+import { historyService } from "../../services";
 
 export class MatchController
 {
@@ -51,9 +52,11 @@ export class MatchController
         {
             redis.auth.expiration(playerData.id, true);
             this.playing.delete(playerData.id);
+            
             /* const player = this.players.get(playerData.id)!;
             this.initPlayer(player); */
         });
+        historyService.save(match);
     }
 
     async startMatch (match : Match) 
