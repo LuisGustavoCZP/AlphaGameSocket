@@ -26,10 +26,9 @@ function selectUser(ele:any){
     return user
 }
 function GenerateHistoric(){
-    
-
     const matchs:any = []
     mockData.forEach((ele:any)=>{
+        const [toggleClass,setToggle] = useState(false)
         function handleToggle(){
             if(toggleClass){
                 setToggle(false)
@@ -37,12 +36,12 @@ function GenerateHistoric(){
                 setToggle(true)
             }
         }
-        const [toggleClass,setToggle] = useState(false)
         const user = selectUser(ele)
-        let playersTable:any[] = [];
+        let playersTable:any[] = [<div className="flex justify-between items-center">Jogadores da partida:</div>];
         ele.users.forEach((element:any) => {
             playersTable.push(<div className="flex justify-between items-center"><span>{element.character}</span><span>{element.username}</span><span>{element.score} Pontos</span></div>)
         });
+        playersTable.push(<div>Tempo de partida: 30 minutos</div>)
         matchs.push(<div className="w-full ">
             <tr onClick={()=>{handleToggle()}} className="flex justify-between items-center text-[12px] cursor-pointer"><td>{user.character}</td><td>{user.status}</td><td>{ele.started_at}</td><td>{user.score} P</td></tr>
             <div className={`${toggleClass ? "h-auto" : "h-0"} transition-all overflow-hidden text-[8px]`} >{playersTable}</div>
