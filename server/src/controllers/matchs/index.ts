@@ -6,11 +6,8 @@ import { SocketEvent } from "../../connections/models";
 import { IClosedMatch, IUser, MatchData } from "../../models";
 import { Match } from "./match";
 import { Player } from "./player";
-<<<<<<< HEAD
 import { Chat } from "./chat";
-=======
 import { historyService } from "../../services";
->>>>>>> 27a5dd393235c55cce3c972dd6be761ab004fd75
 
 export class MatchController
 {
