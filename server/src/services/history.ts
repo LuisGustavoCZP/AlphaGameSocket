@@ -28,16 +28,18 @@ async function save (match : IClosedMatch)
 
 async function load (userid : string)
 {
-    const historyMatchs = await postgres.select("history_view", {user_id:userid}) as any[];//, ["match_id", "winner", "started_at", "finished_at", "created_at"]
+    const historyMatchs = await postgres.select("history_view", {user_id:userid}, ["match_id", "started_at", "finished_at", "created_at"]) as any[];//
     const matchs_query = historyMatchs.map(historyMatch => `'${historyMatch.match_id}'`).join(", ");
     console.log("MATCH", matchs_query);
     if(historyMatchs.length == 0) return historyMatchs;
     const users = (await postgres.pool.query(`SELECT * FROM history_player_view WHERE match_id IN (${matchs_query})`)).rows;
     const history = historyMatchs.map(historyMatch => 
     {
-        return Object.assign({
+        return Object.assign(
+        {
             users:users.filter(user => user.match_id == historyMatch.match_id).map(user => 
             {
+                delete user.created_at;
                 delete user.match_id;
                 return user;    
             })
