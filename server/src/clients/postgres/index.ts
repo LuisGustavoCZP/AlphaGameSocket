@@ -22,6 +22,11 @@ class PostgresDB
         return this._pool;
     }
 
+    public get query ()
+    {
+        return this._pool.query;
+    }
+
     /**
      * Função recebe a tabela e um objeto e retorna o objeto inserido
      * @param table string
