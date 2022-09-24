@@ -57,3 +57,22 @@
     background-position: -1920px -1079px;
   }
 }
+
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #3e3e3e #232323;
+}
+
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #232323;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #3e3e3e;
+  border-radius: 0px;
+  border: 0px solid #ffffff;
+}
