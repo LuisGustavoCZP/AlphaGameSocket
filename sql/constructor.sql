@@ -1,3 +1,6 @@
+CREATE DATABASE "alphagamesocket";
+\c "alphagamesocket"
+
 CREATE TABLE public.users (
 	"id" varchar(36) NOT NULL UNIQUE,
 	"username" varchar(255) NOT NULL UNIQUE,
@@ -72,3 +75,9 @@ CREATE or REPLACE VIEW history_view AS
     FROM match_users
     INNER JOIN matchs
     ON match_users.match_id = matchs.id;
+
+CREATE or REPLACE VIEW history_player_view AS
+    SELECT match_id, users.username, "character", match_users.score, "state", match_users.created_at
+    FROM match_users
+    INNER JOIN users
+    ON match_users.user_id = users.id;
