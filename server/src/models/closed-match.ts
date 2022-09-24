@@ -13,5 +13,6 @@ export interface IClosedMatch
     createdAt: string;
     startedAt: string;
     endedAt: string;
+    winner: number;
     players: IClosedPlayer[];
 }

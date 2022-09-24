@@ -1,6 +1,3 @@
-CREATE DATABASE "alphagamesocket";
-\c "alphagamesocket"
-
 CREATE TABLE public.users (
 	"id" varchar(36) NOT NULL UNIQUE,
 	"username" varchar(255) NOT NULL UNIQUE,
@@ -20,10 +17,11 @@ CREATE TABLE public.users (
 
 
 CREATE TABLE public.matchs (
-	"id" serial NOT NULL,
+	"id" varchar(36) NOT NULL UNIQUE,
 	"winner" varchar(36) NOT NULL,
 	"started_at" varchar(255) NOT NULL,
 	"finished_at" varchar(255) NOT NULL,
+	"created_at" TIMESTAMP NOT NULL,
 	CONSTRAINT "matchs_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -32,12 +30,12 @@ CREATE TABLE public.matchs (
 
 
 CREATE TABLE public.match_users (
-	"match_id" integer NOT NULL,
+	"match_id" varchar(36) NOT NULL,
 	"user_id" varchar(36) NOT NULL,
-	"level" real NOT NULL,
-	"score" real NOT NULL,
-	"state" varchar(255) NOT NULL,
 	"character" integer NOT NULL,
+	"score" real NOT NULL,
+	"state" varchar(255),
+	"created_at" TIMESTAMP NOT NULL,
 	CONSTRAINT "match_users_pk" PRIMARY KEY ("match_id","user_id")
 ) WITH (
   OIDS=FALSE
@@ -49,6 +47,8 @@ CREATE TABLE public.ranking (
 	"id" serial NOT NULL,
 	"user_id" varchar(36) NOT NULL UNIQUE,
 	"score" real NOT NULL,
+	"created_at" TIMESTAMP NOT NULL,
+	"updated_at" TIMESTAMP NOT NULL,
 	CONSTRAINT "ranking_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -67,3 +67,8 @@ ALTER TABLE "ranking" ADD CONSTRAINT "ranking_fk0" FOREIGN KEY ("user_id") REFER
 
 
 
+CREATE or REPLACE VIEW history_view AS
+    SELECT user_id, id AS match_id, winner, started_at, finished_at, matchs.created_at
+    FROM match_users
+    INNER JOIN matchs
+    ON match_users.match_id = matchs.id;

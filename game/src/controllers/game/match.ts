@@ -80,6 +80,9 @@ class Match
     async end ()
     {
         this.endedAt = new Date().toUTCString();
+        this.players = this.players.sort((a, b) => b.points - a.points);
+        const winner = this.players[0];
+        
         if(this.#onend) this.#onend(this);
         redisSocket.on(`match-ended:${this.id}`, () => 
         {
