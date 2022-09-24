@@ -22,6 +22,11 @@ class PostgresDB
         return this._pool;
     }
 
+    public get query ()
+    {
+        return this._pool.query;
+    }
+
     /**
      * Função recebe a tabela e um objeto e retorna o objeto inserido
      * @param table string
@@ -40,7 +45,7 @@ class PostgresDB
                 indexes += `${q != ''? ', ' : ''}$${i+1}`;
                 return q + `${q != ''? ', ' : ''}"${key}"`;
             }, '');
-            const queryString = `INSERT INTO ${table} (${keys}, created_at) VALUES (${indexes}, now()) RETURNING id`;
+            const queryString = `INSERT INTO ${table} (${keys}, created_at) VALUES (${indexes}, now()) RETURNING *`;
             //console.log(queryString, values);
             
             const result = await this.pool.query(queryString, values);
@@ -79,7 +84,7 @@ class PostgresDB
                 return q + `${q != ''? ', ' : ''}"${key}" = $${i+1}`;
             }, '');
 
-            const queryString = `UPDATE ${table} SET updated_at=now(), ${keys}${filterstring==''?'':' WHERE '+filterstring} RETURNING id`;
+            const queryString = `UPDATE ${table} SET updated_at=now(), ${keys}${filterstring==''?'':' WHERE '+filterstring} RETURNING *`;
             
             const result = await this.pool.query(queryString, values);
 
@@ -108,7 +113,7 @@ class PostgresDB
             {
                 return q + `${q != ''? ' AND ' : ''}${key} = '${(filter as any)[key]}'`;
             }, '');
-            const viewstring = view.length > 0?`(${view.join(", ")})`:'*';
+            const viewstring = view.length > 0?`${view.join(", ")}`:'*';
 
             const queryString = `SELECT ${viewstring} FROM ${table}${filterstring==''?'':' WHERE '+filterstring} ORDER BY created_at DESC`;
 
@@ -160,7 +165,7 @@ class PostgresDB
      * @param filter T
      * @returns 
      */
-    public async remove <T> (table: string, deletedName: string, deleted_by='', filter: Partial<T> = {}): Promise<T[]>
+    public async remove <T> (table: string, filter: Partial<T> = {}, deletedName: string = "deleted", deleted_by=''): Promise<T[]>
     {
         try 
         {
@@ -169,7 +174,7 @@ class PostgresDB
                 return q + `${q != ''? ' AND ' : ''}${key} = '${(filter as any)[key]}'`;
             }, '');
 
-            const queryString = `UPDATE ${table} SET ${deletedName}_at=now()${deleted_by==''?'':`${deletedName}_by=$1`}${filterstring==''?'':' WHERE '+filterstring} RETURNING id`;
+            const queryString = `UPDATE ${table} SET ${deletedName}_at=now()${deleted_by==''?'':`${deletedName}_by=$1`}${filterstring==''?'':' WHERE '+filterstring} RETURNING *`;
             
             const result = await this.pool.query(queryString, [deleted_by]);
 

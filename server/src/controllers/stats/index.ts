@@ -1,0 +1,1 @@
+export { historyController } from "./history";
