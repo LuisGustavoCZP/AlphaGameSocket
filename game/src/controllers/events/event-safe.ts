@@ -5,17 +5,14 @@ import { Match } from "../game/match";
 import { Player } from "../game/player";
 import { GameEvent } from "./event";
 
-export class GameEventPass extends GameEvent
+export class GameEventSafe extends GameEvent
 {
-    eventID = 1;
+    eventID = 3;
     timeout = 10000*(1/gameSpeed);
-    horizontal;
 
-    public constructor (player : Player, match : Match, horizontal=true)
+    public constructor (player : Player, match : Match)
     {
         super(player, match);
-        this.horizontal = horizontal;
-        if(!horizontal) this.eventID = 2;
     }
 
     protected get data () 
@@ -30,12 +27,12 @@ export class GameEventPass extends GameEvent
     
     public async check ()
     {
-        return this.player.hasItem(0);
+        return this.player.hasItem(1);
     }
 
     protected async execute (option : any)
     {
-        this.player.removeItem({id:0, quanty:1})
+        this.player.removeItem({id:1, quanty:1})
         return true;
     }
 

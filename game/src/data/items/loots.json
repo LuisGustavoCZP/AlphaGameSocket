@@ -1,6 +1,8 @@
 [
     [
-        {"rate":50, "id":0, "quanty":1},
-        {"rate":1, "id":1, "quanty":1}
+        {"rate":5, "id":0, "quanty":1},
+        {"rate":20, "id":1, "quanty":1},
+        {"rate":30, "id":2, "quanty":1},
+        {"rate":30, "id":3, "quanty":1}
     ]
 ]

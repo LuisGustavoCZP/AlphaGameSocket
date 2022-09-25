@@ -2,6 +2,7 @@ import { gameSpeed } from "../../configs";
 import { waitTime, waitUntil } from "../../utils/wait";
 import { gameManager } from "../game";
 import { Item } from "../game/item";
+import { Match } from "../game/match";
 import { Player } from "../game/player";
 import { GameEvent } from "./event";
 
@@ -11,11 +12,10 @@ export class GameEventAsk extends GameEvent
     timeout = 10000*(1/gameSpeed);
     askID : number;
     
-    public constructor (player : Player)
+    public constructor (player : Player, match : Match)
     {
-        super(player);
+        super(player, match);
         this.askID = Math.floor(Math.random()*gameManager.questions.length);
-        
     }
 
     protected get data () 

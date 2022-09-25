@@ -7,20 +7,20 @@
     },
     {
         "id":1,
-        "name":"Bomba",
-        "description":"",
+        "name":"Proteção",
+        "description":"Evitar ter que voltar casas uma vez",
         "icon":""
     },
     {
         "id":2,
-        "name":"Dados duplos",
-        "description":"",
+        "name":"Impedimento",
+        "description":"Impediça que um jogador ande por um turno",
         "icon":""
     },
     {
         "id":3,
-        "name":"Relógio atrasado",
-        "description":"",
+        "name":"Bomba",
+        "description":"Faça um jogador voltar 5 casas uma vez",
         "icon":""
     },
     {

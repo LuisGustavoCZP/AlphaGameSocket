@@ -8,14 +8,16 @@ export abstract class GameEvent
     abstract eventID : number;
     abstract timeout : number;
     player : Player;
+    match : Match;
     #executed : boolean;
     //sucess : boolean;
     limitTime? : number;
     items : Item[];
 
-    public constructor (player : Player)
+    public constructor (player : Player, match : Match)
     {
         this.player = player;
+        this.match = match;
         this.#executed = false;
         this.items = [];
     }

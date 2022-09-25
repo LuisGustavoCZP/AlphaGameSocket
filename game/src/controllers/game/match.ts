@@ -55,7 +55,7 @@ class Match
 
     async triggerEvent (player : Player, eventID : number)
     {
-        const event = createEvent(player, eventID)!;
+        const event = createEvent(player, this, eventID)!;
         if(!(await event.check())) return false;
         await waitTime(500*Match.deltaSpeed);
         return await event.start();
@@ -70,7 +70,7 @@ class Match
 
         while(this.#round < 40 && !this.endedAt)
         {
-            await this.move ();
+            await this.playerTurn ();
         }
 
         await this.end();
@@ -105,7 +105,64 @@ class Match
         redisSocket.send("match-end", this);
     }
 
-    async move ()
+    async playerMove (player : Player, moveTiles : number)
+    {
+        const dir = moveTiles > 0? 1 : -1;
+        for(let m = moveTiles; m != 0; m -= dir)
+        {
+            await waitTime(1000*Match.deltaSpeed);
+            const tilepos = this.#map.base.tile(player.position.toString())!;
+            
+            const event = this.#map.tile(player.position.toString());
+
+            if(!event || (event.eventID != 1 && event.eventID != 2))
+            {
+                if(player.position == 60)
+                {
+                    const playerDir = player.direction <= 2? 0 : 1;
+                    //console.log(playerDir);
+                    const nextTile = dir > 0 ? tilepos.next[playerDir] :  tilepos.back[playerDir];
+                    player.position = nextTile;
+                }
+                else 
+                {
+                    const nextTile = dir > 0 ? tilepos.next[0] : tilepos.back[0];
+                    player.position = nextTile;
+                }
+            }
+            else 
+            {
+                if(dir > 0) 
+                {
+                    const result = await this.triggerEvent(player, event.eventID);
+                    if(result)
+                    {
+                        const nextTile = tilepos.next[1];
+                        player.points += 100;
+                        player.position = nextTile;
+                    }
+                    else 
+                    {
+                        const nextTile = tilepos.next[0];
+                        player.position = nextTile;
+                    }
+                }
+                else player.points -= 100;
+            }
+
+            const tilenext = this.#map.base.tile(player.position.toString())!;
+            this.send("update-move", {playerindex: this.#turn, tile:tilenext.id, position:player.position});
+
+            player.points += dir*10;
+            if(player.points >= 400) 
+            {
+                await this.end();
+                return;
+            }
+        }
+    }
+
+    async playerTurn ()
     {
         const player = this.players[this.#turn];
         let confirmed = false;
@@ -114,7 +171,7 @@ class Match
             confirmed = true;
         });
 
-        await this.triggerEvent(player, -1)
+        await this.triggerEvent(player, -1);
 
         await waitTime(500*Match.deltaSpeed);
 
@@ -129,54 +186,7 @@ class Match
 
         player.send("starting-move", true);
 
-        for(let m = 0; m < move; m += 1)
-        {
-            await waitTime(1000*Match.deltaSpeed);
-            const tilepos = this.#map.base.tile(player.position.toString())!;
-            
-            const event = this.#map.tile(player.position.toString());
-
-            if(!event || (event.eventID != 1 && event.eventID != 2))
-            {
-                if(player.position == 60)
-                {
-                    const dir = player.direction <= 2? 0 : 1;
-                    console.log(dir);
-                    const nextTile = tilepos.next[dir];
-                    player.position = nextTile;
-                }
-                else 
-                {
-                    const nextTile = tilepos.next[0];
-                    player.position = nextTile;
-                }
-            }
-            else 
-            {
-                const result = await this.triggerEvent(player, event.eventID);
-                if(result)
-                {
-                    const nextTile = tilepos.next[1];
-                    player.points += 100;
-                    player.position = nextTile;
-                }
-                else 
-                {
-                    const nextTile = tilepos.next[0];
-                    player.position = nextTile;
-                }
-            }
-
-            const tilenext = this.#map.base.tile(player.position.toString())!;
-            this.send("update-move", {playerindex: this.#turn, tile:tilenext.id, position:player.position});
-
-            player.points += 10;
-            if(player.points >= 400) 
-            {
-                await this.end();
-                return;
-            }
-        }
+        await this.playerMove(player, move)
         
         await this.nextTurn (player);
     }
@@ -260,6 +270,7 @@ class Match
                         {
                             this.start ();
                             this.send("starting-match", true);
+                            
                             this.send("match-round", this.#round);
                             this.send("match-turn", this.#turn);
                         }
@@ -273,6 +284,7 @@ class Match
                     return p;
                 });
                 player.send("match-players", ps);
+                player.updateItems();
             });
             player.send("match-map", {mapSource:"/src/assets/maps/tilemaps/tabuleiro.tmj", eventsSource:"/src/assets/data/events.json", data:Array.from(this.#map.data.values())});
         });

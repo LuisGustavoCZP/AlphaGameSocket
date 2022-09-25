@@ -89,11 +89,11 @@ class Player
         if(this.#items.has(newitem.id))
         {
             const item = this.#items.get(newitem.id)!;
-            item.quanty += newitem.id;
+            item.quanty += newitem.quanty;
         }
         else this.#items.set(newitem.id, newitem);
         
-        this.send("player-items", {items:Array.from(this.#items.values())});
+        this.updateItems();
         return true;
     }
 
@@ -117,6 +117,11 @@ class Player
     equal (id : string)
     {
         return this.id == id
+    }
+
+    updateItems ()
+    {
+        this.send("player-items", {items:Array.from(this.#items.values())});
     }
 
     send (type : string, data : any)

@@ -2,6 +2,7 @@ import { gameSpeed } from "../../configs";
 import { waitUntil } from "../../utils/wait";
 import { gameManager } from "../game";
 import { Item } from "../game/item";
+import { Match } from "../game/match";
 import { Player } from "../game/player";
 import { GameEvent } from "./event";
 
@@ -10,9 +11,9 @@ export class GameEventTurn extends GameEvent
     eventID = -1;
     timeout = 10000*(1/gameSpeed);
     
-    public constructor (player : Player)
+    public constructor (player : Player, match : Match)
     {
-        super(player);
+        super(player, match);
     }
 
     protected get data () 
