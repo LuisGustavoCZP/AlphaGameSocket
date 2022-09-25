@@ -6,6 +6,7 @@ import { SocketEvent } from "../../connections/models";
 import { IClosedMatch, IUser, MatchData } from "../../models";
 import { Match } from "./match";
 import { Player } from "./player";
+import { Chat } from "./chat";
 import { historyService } from "../../services";
 
 export class MatchController
@@ -70,6 +71,9 @@ export class MatchController
     async initPlayer (player : Player)
     {
         this.room.set(player.id, player);
+
+        const chat = new Chat(player, this.room);
+        chat.init();
 
         const onEnter = async (matchID : string) => 
         {
