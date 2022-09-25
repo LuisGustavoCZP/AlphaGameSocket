@@ -29,11 +29,12 @@ export class GameEventPass extends GameEvent
     
     public async check ()
     {
-        return false;
+        return this.player.hasItem(0);
     }
 
     protected async execute (option : any)
     {
+        this.player.removeItem({id:0, quanty:1})
         return true;
     }
 

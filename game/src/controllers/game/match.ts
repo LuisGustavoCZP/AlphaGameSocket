@@ -55,10 +55,9 @@ class Match
 
     async triggerEvent (player : Player, eventID : number)
     {
-        await waitTime(500*Match.deltaSpeed);
         const event = createEvent(player, eventID)!;
         if(!(await event.check())) return false;
-        
+        await waitTime(500*Match.deltaSpeed);
         return await event.start();
     }
 
@@ -69,7 +68,7 @@ class Match
 
         await waitTime (1000*Match.deltaSpeed);
 
-        while(this.#round < 1)
+        while(this.#round < 40 && !this.endedAt)
         {
             await this.move ();
         }
@@ -79,10 +78,22 @@ class Match
 
     async end ()
     {
+        if(this.endedAt) return;
         this.endedAt = new Date().toUTCString();
         this.players = this.players.sort((a, b) => b.points - a.points);
         const winner = this.players[0];
-        
+
+        const pdata = this.players.map(player => ({username:player.name, score:player.points}));
+        this.players.forEach(player => 
+        {
+            this.send("match-result", {
+                result: player.id == winner.id,
+                players: pdata
+            });
+        });
+
+        await waitTime(5000*Match.deltaSpeed);
+
         if(this.#onend) this.#onend(this);
         redisSocket.on(`match-ended:${this.id}`, () => 
         {
@@ -127,8 +138,18 @@ class Match
 
             if(!event || (event.eventID != 1 && event.eventID != 2))
             {
-                const nextTile = tilepos.next[0];
-                player.position = nextTile;
+                if(player.position == 60)
+                {
+                    const dir = player.direction <= 2? 0 : 1;
+                    console.log(dir);
+                    const nextTile = tilepos.next[dir];
+                    player.position = nextTile;
+                }
+                else 
+                {
+                    const nextTile = tilepos.next[0];
+                    player.position = nextTile;
+                }
             }
             else 
             {
@@ -136,6 +157,7 @@ class Match
                 if(result)
                 {
                     const nextTile = tilepos.next[1];
+                    player.points += 100;
                     player.position = nextTile;
                 }
                 else 
@@ -147,9 +169,15 @@ class Match
 
             const tilenext = this.#map.base.tile(player.position.toString())!;
             this.send("update-move", {playerindex: this.#turn, tile:tilenext.id, position:player.position});
+
+            player.points += 10;
+            if(player.points >= 400) 
+            {
+                await this.end();
+                return;
+            }
         }
         
-        player.points += 10*move;
         await this.nextTurn (player);
     }
 
@@ -167,12 +195,12 @@ class Match
         player.send("finish-move", true);
 
         const event = this.#map.tile(player.position.toString());
-        if(event)
+        if(event && (event.eventID != 1 && event.eventID != 2))
         { 
             const result = await this.triggerEvent(player, event.eventID);
             if(result)
             {
-                player.points += 100;
+                //player.points += 100;
             }
         }
 

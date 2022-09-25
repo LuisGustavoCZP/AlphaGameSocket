@@ -51,7 +51,7 @@ async function save (playerScores : PlayerScore[])
 
     const updateQuery = `UPDATE ranking SET score = (CASE ${playerScoreCases} END), user_id = (CASE ${playerIDCases} END), updated_at=now() WHERE id IN (1, 2, 3, 4, 5)`;
 
-    console.log(updateQuery);
+    //console.log(updateQuery);
     await postgres.pool.query(updateQuery);
 }
 

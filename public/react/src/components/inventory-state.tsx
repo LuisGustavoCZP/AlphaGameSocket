@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import itemsData from '../assets/data/items.json';
 import { Connection } from "../connection";
 import { IItemData } from "../models";
+import { Item } from "./item";
 
 type InventoryStateProps = {
     items:IItemData[]
@@ -17,10 +18,7 @@ export function InventoryState ({items} : InventoryStateProps)
             const itemClass = quanty ? '' : 'text-[#484848] '
             return (
                 <li key={index} className={itemClass + "flex justify-between pl-2 pr-3 items-center cursor-default select-none"} title={itemData.description}>
-                    <span>
-                        <img src={itemData.icon} />
-                        <span>{itemData.name}</span>
-                    </span>
+                    <Item itemID={index}/>
                     <span>{quanty}</span>
                 </li>
             );

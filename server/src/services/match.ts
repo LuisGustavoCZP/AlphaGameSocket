@@ -16,9 +16,9 @@ async function save (match : IClosedMatch)
     const playerIDs = players.map(player => `'${player.id}'`).join(',');
     
     const query = `UPDATE users SET score = (CASE ${playerCases} END), updated_at=now() WHERE id IN (${playerIDs}) Returning id, score`;
-    console.log(query)
+    //console.log(query)
     const scoresResp = (await postgres.pool.query(query)).rows;
-    console.log("Salvando scores", scoresResp);
+    console.log("Salvando scores");
 
     await rankingService.save(scoresResp);
 }

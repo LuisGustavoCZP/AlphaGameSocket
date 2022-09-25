@@ -11,6 +11,7 @@ class Player
     name: string;
     character: number;
     #position: number;
+    #lastPostion : number;
     points: number;
     #items : Map<number, Item>;
 
@@ -21,6 +22,7 @@ class Player
         this.index = index;
         this.name = name;
         this.character = character;
+        this.#lastPostion = 111;
         this.#position = 110;
         this.points = 0;
         this.#connection = null as any;
@@ -32,14 +34,28 @@ class Player
         return Object.assign({id:this.id}, this);
     }
 
+    get direction ()
+    {
+        const dir = this.#position - this.#lastPostion;
+        const vertical = dir % 11 == 0;
+        
+        return vertical? (dir > 0? 1 : 2) : (dir > 0? 3 : 4);
+    }
+
     set position (position : number)
     {
+        this.#lastPostion = this.#position;
         this.#position = position;
     }
 
     get position ()
     {
         return this.#position;
+    }
+
+    get lastPostion ()
+    {
+        return this.#lastPostion;
     }
 
     set connection (connection : Connection) 
@@ -64,7 +80,7 @@ class Player
 
     getItem (itemID : number)
     {
-        if(this.#items.has(itemID)) return 0;
+        if(!this.#items.has(itemID)) return 0;
         return this.#items.get(itemID)!.quanty;
     }
 

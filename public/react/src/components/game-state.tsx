@@ -13,6 +13,7 @@ import { EventDice } from "./event-dice";
 import { waitTime } from "../utils/wait";
 import { EventItem } from "./event-item";
 import { IItemData } from "../models";
+import { EventPass } from "./event-pass";
 
 export function GameState ({connection} : IGameProps)
 {
@@ -28,6 +29,8 @@ export function GameState ({connection} : IGameProps)
         else if(eventID == -3) setModal(<EventItem finalTime={finalTime} choose={chooseAction} items={data} />);
         else if(eventID == -1) setModal(<EventTurn finalTime={finalTime} choose={chooseAction} items={data} />);
         else if(eventID == 0) setModal(<EventAsk finalTime={finalTime} choose={chooseAction} questionNumber={data!} />);
+        else if(eventID == 1) setModal(<EventPass finalTime={finalTime} choose={chooseAction} />);
+        else if(eventID == 2) setModal(<EventPass finalTime={finalTime} choose={chooseAction} />);
     }
     function closeModal()
     {
