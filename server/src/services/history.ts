@@ -4,7 +4,7 @@ import { IClosedMatch } from "../models";
 async function save (match : IClosedMatch)
 {
     const winner = match.players[0].id;
-    console.log(match.players);
+    //console.log(match.players);
     const matchData = {
         id:match.id,
         winner,
@@ -30,7 +30,7 @@ async function load (userid : string)
 {
     const historyMatchs = await postgres.select("history_view", {user_id:userid}, ["match_id", "started_at", "finished_at", "created_at"]) as any[];//
     const matchs_query = historyMatchs.map(historyMatch => `'${historyMatch.match_id}'`).join(", ");
-    console.log("MATCH", matchs_query);
+    //console.log("MATCH", matchs_query);
     if(historyMatchs.length == 0) return historyMatchs;
     const users = (await postgres.pool.query(`SELECT * FROM history_player_view WHERE match_id IN (${matchs_query})`)).rows;
     const history = historyMatchs.map(historyMatch => 

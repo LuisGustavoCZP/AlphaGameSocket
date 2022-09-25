@@ -7,7 +7,7 @@ import { IClosedMatch, IUser, MatchData } from "../../models";
 import { Match } from "./match";
 import { Player } from "./player";
 import { Chat } from "./chat";
-import { historyService } from "../../services";
+import { matchService } from "../../services";
 
 export class MatchController
 {
@@ -57,7 +57,7 @@ export class MatchController
             /* const player = this.players.get(playerData.id)!;
             this.initPlayer(player); */
         });
-        historyService.save(match);
+        matchService.save(match);
     }
 
     async startMatch (match : Match) 

@@ -48,10 +48,10 @@ CREATE TABLE public.match_users (
 
 CREATE TABLE public.ranking (
 	"id" serial NOT NULL,
-	"user_id" varchar(36) NOT NULL UNIQUE,
+	"user_id" varchar(36),
 	"score" real NOT NULL,
 	"created_at" TIMESTAMP NOT NULL,
-	"updated_at" TIMESTAMP NOT NULL,
+	"updated_at" TIMESTAMP,
 	CONSTRAINT "ranking_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -67,7 +67,7 @@ ALTER TABLE "match_users" ADD CONSTRAINT "match_users_fk1" FOREIGN KEY ("user_id
 
 ALTER TABLE "ranking" ADD CONSTRAINT "ranking_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
 
-
+INSERT INTO ranking (user_id, score, created_at) VALUES (NULL, 0, now()), (NULL, 0, now()), (NULL, 0, now()), (NULL, 0, now());
 
 
 CREATE or REPLACE VIEW history_view AS

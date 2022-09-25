@@ -149,6 +149,7 @@ class Match
             this.send("update-move", {playerindex: this.#turn, tile:tilenext.id, position:player.position});
         }
         
+        player.points += 10*move;
         await this.nextTurn (player);
     }
 
@@ -172,10 +173,10 @@ class Match
             if(result)
             {
                 player.points += 100;
-                this.send("player-points", {playerindex: player.index, points:player.points});
             }
         }
 
+        this.send("player-points", {playerindex: player.index, points:player.points});
         this.send("next-turn", { turn:this.#turn, round:this.#round });
 
         if(nextRound) await waitTime (2000*Match.deltaSpeed);

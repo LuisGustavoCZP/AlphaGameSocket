@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { GlobalContext, PlayerContext } from "../contexts";
+import { PlayerContext } from "../contexts";
 
 
 export function Chat(){
