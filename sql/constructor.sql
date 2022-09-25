@@ -81,3 +81,9 @@ CREATE or REPLACE VIEW history_player_view AS
     FROM match_users
     INNER JOIN users
     ON match_users.user_id = users.id;
+
+CREATE or REPLACE VIEW ranking_view AS
+    SELECT ranking.id, users.username, ranking.score, ranking.created_at
+    FROM ranking
+    INNER JOIN users
+    ON ranking.user_id = users.id;

@@ -2,13 +2,18 @@ import React, { createContext, Dispatch, ReactElement, useContext, useEffect, us
 import { useNavigate } from "react-router-dom";
 import { Connection } from "../connection";
 import { PlayerData } from "../models";
-import GlobalContext from "./global-context";
+import { APIRequest, APIRequestOptions } from "../utils/request";
 
 export type PropsPlayerContext =
 {
     page : number,
     children: React.ReactNode
 };
+
+export type RequestFunction = 
+{
+
+}
 
 export type PlayerContextData =
 {
@@ -32,43 +37,33 @@ const PlayerContext = createContext<PlayerContextData>(null as any);
 function PlayerContextProvider ({children, page} : PropsPlayerContext) 
 {
     const navigate = useNavigate()
-    const { server } = useContext(GlobalContext);
     const [getPage, setPage] = useState<number>(page);
     const [getUserData, setUserData] = useState<PlayerData>(null as any);
     const [connection, setConnection] = useState<Connection>(null as any);
     const [getMatchID, setMatchID] = useState<string>(null as any);
 
+    async function request(path : string, method : string = 'GET', data? : any) 
+    {
+        const request = await APIRequest.execute({path, method, data});
+        if(!request.sucess) 
+        {
+            navigate('/login', { replace: true }); 
+            return request;
+        }
+        else return request;
+    }
+
+    async function requestUserData ()
+    {
+        const reqUserData = await request('/users');
+        console.log(reqUserData);
+        if(reqUserData.sucess) setUserData(reqUserData.result);
+    }
+
     useEffect(() => 
     {
-        fetch(`https://${server}/users/`, {
-            method: "GET",
-            headers: 
-            {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        })
-        .then(async (resp) => 
-        {
-            const json = await resp.json();
-            if(resp.status >= 400)
-            {
-                throw new Error(json.error);
-            }
-            else 
-            {
-                const userData = json.data;
-                console.log(userData);
-                setUserData(userData);
-            }
-        })
-        .catch(err => 
-        {
-            console.log(err);
-            navigate('/login', { replace: true });
-        });
+        requestUserData ();
     }, [])
-
 
     useEffect(() => 
     {

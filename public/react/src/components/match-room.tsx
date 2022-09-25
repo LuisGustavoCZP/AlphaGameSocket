@@ -1,7 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import { Connection } from "../connection";
 import { PlayerContext } from "../contexts";
-import GlobalContext from "../contexts/global-context";
 import { Chat } from "./chat";
 import { MatchPlayer } from "./match-player";
 import { UserInfo } from "./userinfo";

@@ -3,18 +3,18 @@ import { Chat } from "./chat"
 import { MatchsView } from "./matchs-view"
 
 import { Connection } from '../connection';
-import { PlayerContext, GlobalContext } from '../contexts';
+import { PlayerContext } from '../contexts';
 import { useContext, useEffect } from "react";
+import configs from "../utils/config";
 
 export function MainRoom (props : any)
 {
-    const { server } = useContext(GlobalContext);
     const { connection, getUserData, setPage, setConnection } = useContext(PlayerContext);
 
     async function startConnection ()
     {
         if(connection) return;
-        const newconnection = new Connection(server);
+        const newconnection = new Connection(configs.server);
 
         newconnection.on("onopen", () => 
         {

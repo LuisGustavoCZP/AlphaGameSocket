@@ -1,13 +1,12 @@
 import { Route, Routes, Navigate, Link, useNavigate } from 'react-router-dom';
-import GlobalContext from "../contexts/global-context";
 import { useContext, useEffect, useState } from "react";
 import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 import { ModalError } from '../components/erro-modal';
+import configs from '../utils/config';
 
 export function Register()
 {
-    const {server} = useContext(GlobalContext);
     const navigate = useNavigate();
 
     const [slideState, setSlideState] = useState('translate-x-full');
@@ -32,7 +31,7 @@ export function Register()
             "email":(document.getElementById('register-email-input')as HTMLInputElement).value,
             "password":(document.getElementById('register-user-password')as HTMLInputElement).value
         }
-        const resposta = await fetch(`https://${server}/users/register`, {
+        const resposta = await fetch(`https://${configs.server}/users/register`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json;charset=UTF-8"}

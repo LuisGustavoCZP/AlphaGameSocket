@@ -27,7 +27,9 @@ export function Ranking(){
     return <div>
         <div className="w-full bg-[#343434] flex items-center justify-between p-2"><p className="text-[16px]">Ranking</p></div>
             <table className="w-full bg-[#7A7A7A] flex flex-col text-lg gap-[1px] box-border text-black text-[12px] max-h-48 overflow-y-scroll">
-                <tr className="flex justify-between pl-2 pr-3 items-center m-1"><td>Posição</td><td>Username</td><td>Vitórias</td></tr>
+                <tr className="flex justify-between pl-2 pr-3 items-center m-1">
+                    <td>Posição</td><td>Username</td><td>Vitórias</td>
+                </tr>
                 {generateRanking ()}
             </table>
     </div>;

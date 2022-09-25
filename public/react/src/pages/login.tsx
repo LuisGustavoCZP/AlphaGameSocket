@@ -1,13 +1,14 @@
 import { Route, Routes, Navigate, Link, useNavigate } from 'react-router-dom';
-import GlobalContext from "../contexts/global-context";
 import { useContext, useEffect, useState } from "react";
 import logo from '../assets/sprites/logo.png'
 import logoname from '../assets/sprites/perguntenovamenteescritobranco.png'
 import loginbg from '../assets/sprites/loginbg.png'
 import { APIResponse } from '../models';
 import { ModalError } from '../components/erro-modal';
+import configs from '../utils/config';
+
 export function Login(){
-    const {server} = useContext(GlobalContext);
+    
     const navigate = useNavigate();
 
     const [slideState, setSlideState] = useState('translate-x-full');
@@ -29,7 +30,7 @@ export function Login(){
         }
 
         //alterei o protocolo https=>http.
-        const resposta : APIResponse = await fetch(`https://${server}/users/login`, {
+        const resposta : APIResponse = await fetch(`https://${configs.server}/users/login`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: 

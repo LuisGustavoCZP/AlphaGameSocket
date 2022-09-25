@@ -105,7 +105,7 @@ class PostgresDB
      * @param filter T
      * @returns 
      */
-    public async select <T> (table: string, filter: Partial<T> = {}, view: string[] = []): Promise<T[]>
+    public async select <T> (table: string, filter: Partial<T> = {}, view: string[] = [], ordered : boolean = true): Promise<T[]>
     {
         try 
         {
@@ -115,7 +115,7 @@ class PostgresDB
             }, '');
             const viewstring = view.length > 0?`${view.join(", ")}`:'*';
 
-            const queryString = `SELECT ${viewstring} FROM ${table}${filterstring==''?'':' WHERE '+filterstring} ORDER BY created_at DESC`;
+            const queryString = `SELECT ${viewstring} FROM ${table}${filterstring==''?'':' WHERE '+filterstring}${ordered?'ORDER BY created_at DESC':''}`;
 
             const result = await this.pool.query(queryString);
 
