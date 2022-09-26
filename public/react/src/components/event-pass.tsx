@@ -23,7 +23,7 @@ export function EventPass({finalTime, choose} : IEventPassProps)
                 <p>Deseja se arriscar pelo caminho tortuoso? Isso custará 1 dos seus <Item itemID={0}/></p>
             </div>
             <ul className="text-black leading-[30px] self-start pl-10 w-full flex flex-col justify-center px-8 items-center">
-                <li><button className={btnAwnserClass} onClick={()=>{sendAwnser(0)}}>Continuar em segurança</button></li>
+                <li><button className={btnAwnserClass} onClick={()=>{sendAwnser(-1)}}>Continuar em segurança</button></li>
                 <li><button className={btnAwnserClass} onClick={()=>{sendAwnser(1)}}>Se arriscar</button></li>
             </ul>
         </EventModal>

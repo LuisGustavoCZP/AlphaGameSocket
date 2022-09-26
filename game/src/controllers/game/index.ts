@@ -8,7 +8,7 @@ import { Player } from "./player";
 import { BaseTile, BaseMap } from "./basemap";
 import { redisSocket } from "../../clients/redis/socket";
 import { IQuestion } from "./questions";
-import { ILoot, Item } from "./item";
+import { IItemData, ILoot, Item } from "./item";
 import { loadSync } from "../../utils/loader";
 
 class GameManager 
@@ -23,6 +23,7 @@ class GameManager
         this.baseMap = BaseMap.load("./src/data/map/test1.json");
         this.questions = loadSync<IQuestion[]>("./src/data/questions/questions.json");
         Item.setLoots(loadSync<ILoot[]>("./src/data/items/loots.json"));
+        Item.datas = loadSync<IItemData[]>("./src/data/items/items.json");
 
         redisSocket.on("match-new", (match) =>
         {
@@ -65,6 +66,7 @@ class GameManager
         }
             //await waitTime(500);
         //}
+        redisSocket.send(`match-missing:`, {userid:id});
         return false;
     }
 }

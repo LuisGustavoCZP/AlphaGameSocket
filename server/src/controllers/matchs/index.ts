@@ -27,6 +27,10 @@ export class MatchController
             this.closeMatch(match);
             redisSocket.send(`match-ended:${match.id}`, true);
         });
+        redisSocket.on("match-missing:", ({userid}) => 
+        {
+            this.playing.delete(userid);
+        });
     }
 
     get matchsData ()

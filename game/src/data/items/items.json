@@ -1,0 +1,38 @@
+[
+    {
+        "id":0,
+        "name":"Passe",
+        "usable":false,
+        "target":"self"
+    },
+    {
+        "id":1,
+        "name":"Proteção",
+        "usable":false,
+        "target":"self"
+    },
+    {
+        "id":2,
+        "name":"Impedimento",
+        "usable":true,
+        "target":"other"
+    },
+    {
+        "id":3,
+        "name":"Bomba",
+        "usable":true,
+        "target":"other"
+    },
+    {
+        "id":4,
+        "name":"Relógio adiantado",
+        "usable":true,
+        "target":"self"
+    },
+    {
+        "id":5,
+        "name":"Relógio Mestre",
+        "usable":true,
+        "target":"self"
+    }
+]

@@ -9,7 +9,7 @@ export function UserInfo(){
     const {getUserData } = useContext(PlayerContext);
 
     console.log(getUserData)
-    return <div className="w-1/5 bg-[#232323] h-full flex flex-col justify-between border-solid border-black border-r-2 ">
+    return <div className="w-1/5 bg-[#232323] h-full flex flex-col justify-between border-solid border-black border-r-2">
         <SpecsUser player={getUserData}/>
         <MatchHistoric/>
         <Ranking/>

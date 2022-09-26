@@ -1,6 +1,7 @@
 import itemsData from '../assets/data/items.json';
 import { IItemData } from '../models';
 import { EventModal, IEventProps } from './event-modal';
+import { Item } from './item';
 
 interface IEventItemProps extends IEventProps
 {
@@ -18,9 +19,8 @@ export function EventItem({items, finalTime, choose} : IEventItemProps)
             const itemData = itemsData[item.id];
             console.log("O item ganho foi", item, itemData)
             return (
-                <li key={index} title={itemData.description}>
-                    <img src={itemData.icon} />
-                    <h4>{itemData.name}</h4>
+                <li key={index}>
+                    <Item itemID={itemData.id}/>
                 </li>
             );
         })

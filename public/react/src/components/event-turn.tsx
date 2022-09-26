@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { EventModal, IEventProps } from './event-modal';
-import itemsName from '../assets/data/items.json';
 import { IItemData } from "../models";
+import { Item } from "./item";
 
 interface IEventTurnProps extends IEventProps
 {
@@ -24,12 +24,15 @@ export function EventTurn({finalTime, choose, items} : IEventTurnProps)
     {
         const playerItems = items;
         const renderUsableItems:any = []
-        playerItems.forEach(ele=>{
-            if(ele.quanty>0){
-                renderUsableItems.push(<li className={btnAwnserClass} onClick={()=>{useItem(ele.id)}}>{itemsName[ele.id].name}</li>)
+        playerItems.forEach(ele=>
+        {
+            if(ele.quanty > 0)
+            {
+                renderUsableItems.push(<li className={btnAwnserClass} onClick={()=>{useItem(ele.id)}}><Item itemID={ele.id}/></li>)
             }
         })
-        renderUsableItems.push(<li className={btnAwnserClass} onClick={()=>{
+        renderUsableItems.push(<li className={btnAwnserClass} onClick={()=>
+        {
             setModalContent(        
                 <div className="flex flex-col justify-center items-center w-full gap-8">
                     <input type="button" className={btnAwnserClass} id="resposta1" onClick={()=>{rollTheDice()}} value="Jogar o dado"/>
@@ -52,7 +55,7 @@ export function EventTurn({finalTime, choose, items} : IEventTurnProps)
         setModalContent(        
         <div className="flex flex-col justify-center items-center w-full gap-8">
             <input type="button" className={btnAwnserClass} id="resposta1" onClick={()=>{rollTheDice()}} value="Jogar o dado"/>
-            <input type="button" className={btnAwnserClass} id="resposta2" onClick={()=>{chooseTheItem()}} value="Utilizar item"/>
+            {items.length > 0?<input type="button" className={btnAwnserClass} id="resposta2" onClick={()=>{chooseTheItem()}} value="Utilizar item"/>:<></>}
         </div>)
     }, [])
 

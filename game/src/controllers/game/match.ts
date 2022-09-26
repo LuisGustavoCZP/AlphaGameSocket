@@ -53,9 +53,9 @@ class Match
         this.start ();
     }
 
-    async triggerEvent (player : Player, eventID : number)
+    async triggerEvent (player : Player, eventID : number, data? : any)
     {
-        const event = createEvent(player, this, eventID)!;
+        const event = createEvent(player, this, eventID, data)!;
         if(!(await event.check())) return false;
         await waitTime(500*Match.deltaSpeed);
         return await event.start();
@@ -103,6 +103,24 @@ class Match
             });
         });
         redisSocket.send("match-end", this);
+    }
+
+    async useItem (player : Player, itemID : number)
+    {
+        //const array = Array.from(this.players);
+        //array.sort((a, b) => b.points - a.points);
+        let t = this.#turn + 1;
+        if(t >= this.players.length) t=0;
+        while(true)
+        {
+            if(await this.triggerEvent(this.players[t], -4, itemID))
+            {
+                t++;
+                if(t >= this.players.length) t=0;
+                continue;
+            }
+            break;
+        }
     }
 
     async playerMove (player : Player, moveTiles : number)

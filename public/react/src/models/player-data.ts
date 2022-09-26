@@ -1,5 +1,6 @@
 export interface PlayerData 
 {
     id : string,
-    username : string
+    username : string,
+    score : string
 }
