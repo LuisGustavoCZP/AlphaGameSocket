@@ -22,11 +22,16 @@ export class Chat{
       }
   
       this.group.forEach(e=>{
+        if(!e)return;
         e.send('chat-message-frt', {username, payload, time});
       })
     });
-
+    
     this.player.send('start-chat', '%%ESTOU OUVINDO%%');
+  }
+
+  static removePlayer(player:Player, cb:()=>void) {
+    player.off('chat-message-svr', cb);
   }
 
   private createArrPlayer(group:Map<string, Player>){
