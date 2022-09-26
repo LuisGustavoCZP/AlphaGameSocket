@@ -9,11 +9,11 @@ class PostgresDB
     {
         this._pool = new Pool({
             connectionString:postgres
-            /* user:'postgres',
-            password:'login123',
-            database:'game',
-            host:'localhost',
-            port:2602 */
+            // user:'postgres',
+            // password:'login123',
+            // database:'game',
+            // host:'localhost',
+            // port:2602
         });
     }
 

@@ -3,6 +3,7 @@ import { Connection } from "../connection";
 import { PlayerContext } from "../contexts";
 import { gameManager } from "../game/gamedata";
 import configs from "../utils/config";
+import { Chat } from "./chat";
 import { ChatScreen } from "./chat-screen";
 import { GameScreen } from "./game-screen";
 import { GameState } from "./game-state";
@@ -49,7 +50,7 @@ export function GameRoom (props : any)
         <main className="flex justify-between items-center h-screen w-full p-2">
             <GameState connection={connection}/>
             <GameScreen connection={connection}/>
-            <ChatScreen connection={connection}/>
+            <Chat/>
         </main>
     );
 }
