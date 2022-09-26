@@ -60,7 +60,7 @@ export function EventTurn({finalTime, choose, items} : IEventTurnProps)
     }, [])
 
     return (
-        <EventModal title='Sua vez' finalTime={finalTime} choose={choose}>
+        <EventModal title='Sua vez' finalTime={finalTime} choose={choose} className='h-2/6 w-1/4 min-h-fit min-w-fit'>
             {modalContent}
         </EventModal>
     );

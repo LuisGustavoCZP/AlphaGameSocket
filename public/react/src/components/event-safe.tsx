@@ -31,7 +31,7 @@ export function EventSafe({finalTime, choose, items} : IEventSafeProps)
     }
 
     return (
-        <EventModal title='Cuidado!' finalTime={finalTime} choose={choose}>
+        <EventModal title='Cuidado!' finalTime={finalTime} choose={choose} className='h-2/6 w-2/4 min-h-fit min-w-fit'>
             <div className="flex justify-between pl-6 pr-6 w-full text-black text-[24px] leading-[60px]">
                 <p>O item <Item itemID={0}/> foi usado em você, deseja utilizar um destes items?</p>
             </div>

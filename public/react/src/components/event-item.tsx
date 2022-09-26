@@ -25,9 +25,9 @@ export function EventItem({items, finalTime, choose} : IEventItemProps)
             );
         })
     }
-
+    // 
     return (
-        <EventModal title='Você acertou!' finalTime={finalTime} choose={choose}>
+        <EventModal title='Você acertou!' finalTime={finalTime} choose={choose} className='h-1/4 w-2/5 min-h-fit min-w-fit'> 
             <div className="flex justify-between pl-6 pr-6 w-full text-black text-[36px] leading-[80px]">
                 <p>Você ganhou items:</p>
             </div>

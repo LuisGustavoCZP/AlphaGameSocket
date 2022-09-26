@@ -65,7 +65,7 @@ export function GameState ({connection} : IGameProps)
                     connection.off("starting-turn");
                     connection.off("starting-move");
                     connection.off("finish-move");
-                    openModal(-2, 10000, connection)
+                    openModal(-2, 0, connection)
                 });
 
                 connection.on("player-items", ({items}) => 
@@ -105,7 +105,7 @@ export function GameState ({connection} : IGameProps)
                         connection.off("end-event");
                         if(data.items.length > 0)
                         {
-                            openModal(-3, 10000, data.items);
+                            openModal(-3, Date.now()+5000, data.items);
                         }
                     });
                 });

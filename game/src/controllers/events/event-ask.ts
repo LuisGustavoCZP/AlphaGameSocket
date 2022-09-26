@@ -50,7 +50,7 @@ export class GameEventAsk extends GameEvent
     public async end (data : {sucess:boolean, items:Item[]})
     {
         const resp = await super.end(data);
-        await waitTime(1000*(1/gameSpeed));
+        if(data.sucess) await waitTime(5000*(1/gameSpeed));
         return resp;
     }
 
