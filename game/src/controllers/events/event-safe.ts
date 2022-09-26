@@ -36,7 +36,7 @@ export class GameEventSafe extends GameEvent
     
     public async check ()
     {
-        return this.usableItems.some(item => this.player.hasItem(item.id));
+        return this.usableItems.length > 0;
     }
 
     protected async execute (option : any)
