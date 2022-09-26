@@ -1,61 +1,82 @@
+import { SocketEvent } from "../../connections";
 import { Player } from "./player";
 
-export class Chat{
-  private group: Map<string, Player>|Player[];
-  private player: Player;
+export class Chat
+{
+	private group: Map<string, Player> | Player[];
 
-  constructor(player:Player, group:Map<string, Player>|Player[]){
-    this.group = group;
-    this.player = player
-  }
+	constructor(group:Map<string, Player> | Player[])
+	{
+		this.group = group;
+	}
 
-  public init(){
-    this.player.on('chat-message-svr', (content)=>{
-      if(!content.player || !content.payload){
-        return;
-      }
+	public init(player : Player)
+	{
+		player.onclose(() => {this.removePlayer(player)});
 
-      console.log(content);
-  
-      const {username, payload, time} = this.sanitizeMsg(content);
-  
-      if(this.group instanceof Map){
-        this.group = this.createArrPlayer(this.group);
-      }
-  
-      this.group.forEach(e=>{
-        if(!e)return;
-        e.send('chat-message-frt', {username, payload, time});
-      })
-    });
-    
-    this.player.send('start-chat', '%%ESTOU OUVINDO%%');
-  }
+		player.on('chat-message-svr', (content)=>
+		{
+			console.log('Iniciou chat!', content)
+			if(!content.player || !content.payload)
+			{
+				return;
+			}
+			console.log(content);
 
-  static removePlayer(player:Player) {
-    player.off('chat-message-svr');
-  }
+			const {username, payload, time} = this.sanitizeMsg(content);
+		
+			this.send('chat-message-frt', {username, payload, time});
+		});
+		
+		player.send('start-chat', '%%ESTOU OUVINDO%%');
+	}
 
-  private createArrPlayer(group:Map<string, Player>){
-    let arr:Player[] = [];
+	public removePlayer(player : Player) 
+	{
+		player.off('chat-message-svr');
+	}
 
-    try{
-      arr = Array.from(group.values());
-      return arr;
-    }catch (error){
-      console.log('aconteceu um erro -->', error, group);
-      return arr;
-    }
-  }
+	private sanitizeMsg(content:any)
+	{
+		const {username} = content.player;
+		const payload = content.payload;
 
-  private sanitizeMsg(content:any){
-    const {username} = content.player;
-    const payload = content.payload;
+		const date = new Date();
+		const time = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
 
-    const date = new Date();
-    const time = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+		return {username, payload, time};
+	}
 
-    return {username, payload, time};
-  }
+	public send (type : string, data : any)
+	{
+		this.group.forEach(player => 
+		{
+			player.send(type, data);
+		});
+	}
+
+	public on (type : string, callback : SocketEvent)
+	{
+		this.group.forEach(player => 
+		{
+			player.on(type, callback);
+		});
+	}
+	
+	public off (type : string)
+	{
+		this.group.forEach(player => 
+		{
+			player.off(type);
+		});
+	}
+
+	public onclose (callback : SocketEvent)
+	{
+		this.group.forEach(player => 
+		{
+			player.onclose(() => callback(player));
+		});
+	}
 
 }

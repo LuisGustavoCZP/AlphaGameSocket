@@ -21,6 +21,8 @@ class Match
     #round: number;
     #turn: number;
     #onend? : (match : Match) => void;
+    #chat : Chat;
+
     static get deltaSpeed () { return 1/gameSpeed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
@@ -41,6 +43,8 @@ class Match
         });
 
         this.countdown ();
+
+        this.#chat = new Chat(this.players);
     }
 
     set onend (event : (match : Match)=> void)
@@ -87,7 +91,7 @@ class Match
         const pdata = this.players.map(player => ({username:player.name, score:player.points}));
         this.players.forEach(player => 
         {
-            Chat.removePlayer(player);
+            //Chat.removePlayer(player);
             this.send("match-result", {
                 result: player.id == winner.id,
                 players: pdata
@@ -310,7 +314,7 @@ class Match
                     if(ready)
                     {
                         player.ready = true;
-
+                        this.#chat.init(player);
                         let allready = true;
                         for(const p of this.players)
                         {
@@ -322,9 +326,6 @@ class Match
                         {
                             this.start ();
                             this.send("starting-match", true);
-                            const chat = new Chat(player, this.players);
-                            chat.init();
-                            
                             this.send("match-round", this.#round);
                             this.send("match-turn", this.#turn);
                         }

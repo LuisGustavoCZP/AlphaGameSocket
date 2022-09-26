@@ -165,6 +165,11 @@ class Player
         if(this.#connection) this.#connection.off(type)
     }
 
+    onclose (callback : SocketEvent)
+    {
+        if(this.#connection) this.#connection.onclose(callback);
+    }
+
     close ()
     {
         if(this.#connection) this.#connection.close();

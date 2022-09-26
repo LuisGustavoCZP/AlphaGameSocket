@@ -1,5 +1,6 @@
 
 import charactersData from "../assets/data/characters.json"
+import { EventModal } from "./event-modal";
 function isTheWinner(result:any){
     if(result){
         return <div className="text-black">Vitória !!!</div>
@@ -25,13 +26,9 @@ function renderFinalResult(players:any){
 
 
 export function EndGameModal({result,players}:any){
-    return<div className="flex bg-[#00000099] items-center justify-center w-screen h-screen fixed m-0 ">
-        <div className={`bg-[#D9D9D9] relative flex flex-col content-center items-center}`}>
-        <div className="w-full text-[58px] bg-[#3E3E3E] pl-10 leading-[80px] flex justify-between">
-            <p>Final de Jogo</p>
-        </div>
+    return (
+    <EventModal title="Final de Jogo">
         {isTheWinner(result)}
-
         <div>
             <div className="w-full bg-[#343434] flex items-center justify-between p-2">
                     <p className="text-[16px] text-white">Pontuação final</p>
@@ -42,7 +39,7 @@ export function EndGameModal({result,players}:any){
                 </li>
                 {renderFinalResult(players)}
             </ul>
-            </div>
         </div>
-    </div>
+    </EventModal>
+    );
 }
