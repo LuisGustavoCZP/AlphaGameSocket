@@ -32,8 +32,8 @@ export class Chat{
     this.player.send('start-chat', '%%ESTOU OUVINDO%%');
   }
 
-  static removePlayer(player:Player, cb:()=>void) {
-    player.off('chat-message-svr', cb);
+  static removePlayer(player:Player) {
+    player.off('chat-message-svr');
   }
 
   private createArrPlayer(group:Map<string, Player>){
