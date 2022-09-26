@@ -15,6 +15,7 @@ import { EventItem } from "./event-item";
 import { IItemData } from "../models";
 import { EventPass } from "./event-pass";
 import { EventSafe } from "./event-safe";
+import { EndGameModal } from "./endgame-modal";
 
 export function GameState ({connection} : IGameProps)
 {
@@ -112,6 +113,7 @@ export function GameState ({connection} : IGameProps)
 
                 connection.send("match-players", true);
             });
+            connection.on("match-result", ({result, players}) => {setModal(<EndGameModal result={result} players={players}/>)});
         }
     }
 
