@@ -184,7 +184,12 @@ class Match
                         player.position = nextTile;
                     }
                 }
-                else player.points -= 100;
+                else if(dir < 0 && player.lastPostion == tilepos.next[1]) 
+                {
+                    player.points -= 100;
+                    const nextTile = tilepos.back[0];
+                    player.position = nextTile;
+                }
             }
 
             const tilenext = this.#map.base.tile(player.position.toString())!;
