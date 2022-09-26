@@ -8,12 +8,12 @@ class PostgresDB
     public constructor ()
     {
         this._pool = new Pool({
-            // connectionString:postgres
-            user:'postgres',
-            password:'login123',
-            database:'game',
-            host:'localhost',
-            port:2602
+            connectionString:postgres
+            // user:'postgres',
+            // password:'login123',
+            // database:'game',
+            // host:'localhost',
+            // port:2602
         });
     }
 
