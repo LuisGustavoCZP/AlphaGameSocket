@@ -316,6 +316,7 @@ class Match
                         player.ready = true;
                         this.#chat.init(player);
                         let allready = true;
+                        
                         for(const p of this.players)
                         {
                             console.log(p.ready)

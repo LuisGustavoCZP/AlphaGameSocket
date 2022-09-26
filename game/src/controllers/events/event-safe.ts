@@ -43,10 +43,9 @@ export class GameEventSafe extends GameEvent
         }
         else if (option < this.usableItems.length)
         {
-            console.log("Retirando item", option)
+            console.log("Retirando item", option);
             const item = this.usableItems[option];
-            this.player.removeItem({id:item.id, quanty:1});
-            return item.id == 1? false : true;
+            if(this.player.removeItem({id:item.id, quanty:1})) return item.id == 1? false : true;
         }
         return false;
     }

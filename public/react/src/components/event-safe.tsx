@@ -36,7 +36,7 @@ export function EventSafe({finalTime, choose, items} : IEventSafeProps)
                 <p>O item <Item itemID={0}/> foi usado em você, deseja utilizar um destes items?</p>
             </div>
             <ul className="text-black leading-[30px] self-start pl-10 w-full flex flex-col justify-center px-8 items-center">
-                <li className={btnAwnserClass} onClick={()=>{response(-1)}}>Não, aceito minha derrota!</li>
+                <li className={btnAwnserClass} onClick={()=>{response()}}>Não, aceito minha derrota!</li>
                 {renderItems()}
             </ul>
         </EventModal>
