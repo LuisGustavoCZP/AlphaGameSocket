@@ -32,7 +32,7 @@ async function load (userid : string)
     const matchs_query = historyMatchs.map(historyMatch => `'${historyMatch.match_id}'`).join(", ");
     //console.log("MATCH", matchs_query);
     if(historyMatchs.length == 0) return historyMatchs;
-    const users = (await postgres.pool.query(`SELECT * FROM history_player_view WHERE match_id IN (${matchs_query})`)).rows;
+    const users = (await postgres.pool.query(`SELECT * FROM history_player_view WHERE match_id IN (${matchs_query}) ORDER BY score DESC`)).rows;
     const history = historyMatchs.map(historyMatch => 
     {
         return Object.assign(
