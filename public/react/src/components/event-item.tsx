@@ -1,6 +1,7 @@
 import itemsData from '../assets/data/items.json';
 import { IItemData } from '../models';
 import { EventModal, IEventProps } from './event-modal';
+import { Item } from './item';
 
 interface IEventItemProps extends IEventProps
 {
@@ -18,16 +19,15 @@ export function EventItem({items, finalTime, choose} : IEventItemProps)
             const itemData = itemsData[item.id];
             console.log("O item ganho foi", item, itemData)
             return (
-                <li key={index} title={itemData.description}>
-                    <img src={itemData.icon} />
-                    <h4>{itemData.name}</h4>
+                <li key={index}>
+                    <Item itemID={itemData.id}/>
                 </li>
             );
         })
     }
-
+    // 
     return (
-        <EventModal title='Você acertou!' finalTime={finalTime} choose={choose}>
+        <EventModal title='Você acertou!' finalTime={finalTime} choose={choose} className='h-1/4 w-2/5 min-h-fit min-w-fit'> 
             <div className="flex justify-between pl-6 pr-6 w-full text-black text-[36px] leading-[80px]">
                 <p>Você ganhou items:</p>
             </div>

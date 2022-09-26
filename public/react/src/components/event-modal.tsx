@@ -13,13 +13,14 @@ export interface IEventProps
 
 export interface IEventModalProps 
 {
+    className? : string,
     title: string,
     finalTime? : number,
     choose? : IEventChoose,
     children : ReactNode
 }
 
-export function EventModal ({title, finalTime, choose, children} : IEventModalProps)
+export function EventModal ({title, finalTime, choose, children, className} : IEventModalProps)
 {
     const [totalTime, setTotalTime] = useState(0);
     const [timeLeft, timeHandler] = useState(totalTime);
@@ -46,7 +47,7 @@ export function EventModal ({title, finalTime, choose, children} : IEventModalPr
 
     return (
         <div className="flex bg-[#00000099] items-center justify-center w-screen h-screen fixed m-0 ">
-            <div className="h-3/4 w-4/5 bg-[#D9D9D9] relative flex flex-col content-center items-center transform transition-all ">
+            <div className={`bg-[#D9D9D9] relative flex flex-col content-center items-center transform transition-all ${className?className:''}`}>
                 <div className="w-full text-[58px] bg-[#3E3E3E] pl-10 leading-[80px] flex justify-between">
                     <h2>{title}</h2>
                     <div className='w-20 h-20'>

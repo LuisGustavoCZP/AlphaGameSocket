@@ -2,6 +2,7 @@ import { Connection, connections, SocketEvent } from "../../connections";
 import { IPlayer } from "../../models";
 import { Item } from "./item";
 
+
 class Player 
 {
     id: string;
@@ -117,6 +118,17 @@ class Player
     equal (id : string)
     {
         return this.id == id
+    }
+
+    usableItems ()
+    {
+        const usables : Item[] = [];
+        this.#items.forEach(item => 
+        {
+            const itemData = Item.datas[item.id];
+            if(itemData.usable) usables.push(item);
+        });
+        return usables;
     }
 
     updateItems ()

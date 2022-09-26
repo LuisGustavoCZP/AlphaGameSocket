@@ -18,7 +18,7 @@ export class GameEventTurn extends GameEvent
 
     protected get data () 
     {
-        return {event:this.eventID, limitTime:this.limitTime!};
+        return {event:this.eventID, limitTime:this.limitTime!, data:this.player.usableItems ()};
     }
 
     public async start ()
@@ -33,8 +33,14 @@ export class GameEventTurn extends GameEvent
 
     protected async execute (option : any)
     {
-        
-        return true;
+        if(option == 0) return true;
+    
+        if(this.player.removeItem({id:option, quanty:1}))
+        {
+            await this.match.useItem(this.player, option);
+            return true;
+        }
+        return false;
     }
 
     public async end (data : {sucess:boolean, items:Item[]})

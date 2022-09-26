@@ -2,10 +2,11 @@ import itemsData from '../assets/data/items.json';
 
 export function Item ({itemID} : {itemID : number})
 {
+    const itemData = itemsData[itemID];
     return (
-    <span>
-        <img src={itemsData[itemID].icon} />
-        <span>{itemsData[itemID].name}</span>
+    <span title={itemData.description}>
+        <img src={itemData.icon} />
+        <span>{itemData.name}</span>
     </span>
     );
 }

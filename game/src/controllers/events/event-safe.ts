@@ -7,17 +7,26 @@ import { GameEvent } from "./event";
 
 export class GameEventSafe extends GameEvent
 {
-    eventID = 3;
+    eventID = -4;
     timeout = 10000*(1/gameSpeed);
 
-    public constructor (player : Player, match : Match)
+    itemID : number;
+    usableItems : Item[];
+
+    public constructor (player : Player, match : Match, itemID : number)
     {
         super(player, match);
+        this.itemID = itemID;
+        this.usableItems = this.player.usableItems ().filter(item => 
+        {
+            if(item.id == this.itemID || item.id == 1) return true;
+            return false;
+        });
     }
 
     protected get data () 
     {
-        return {event:this.eventID, limitTime:this.limitTime!};
+        return {event:this.eventID, limitTime:this.limitTime!, data:this.usableItems};
     }
 
     public async start ()
@@ -27,13 +36,23 @@ export class GameEventSafe extends GameEvent
     
     public async check ()
     {
-        return this.player.hasItem(1);
+        return this.usableItems.some(item => this.player.hasItem(item.id));
     }
 
     protected async execute (option : any)
     {
-        this.player.removeItem({id:1, quanty:1})
-        return true;
+        if(option == -1)
+        {
+            return false;
+        }
+        else if (option < this.usableItems.length)
+        {
+            console.log("Retirando item", option)
+            const item = this.usableItems[option];
+            this.player.removeItem({id:item.id, quanty:1});
+            return item.id == 1? false : true;
+        }
+        return false;
     }
 
     public async end (data : {sucess:boolean, items:Item[]})

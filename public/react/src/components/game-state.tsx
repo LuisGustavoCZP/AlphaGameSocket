@@ -14,6 +14,8 @@ import { waitTime } from "../utils/wait";
 import { EventItem } from "./event-item";
 import { IItemData } from "../models";
 import { EventPass } from "./event-pass";
+import { EventSafe } from "./event-safe";
+import { EndGameModal } from "./endgame-modal";
 
 export function GameState ({connection} : IGameProps)
 {
@@ -26,6 +28,7 @@ export function GameState ({connection} : IGameProps)
     function openModal(eventID : number, finalTime : number, data? : any)
     {
         if(eventID == -2) setModal(<EventDice finalTime={finalTime} choose={chooseAction} connection={data} />);
+        else if(eventID == -4) setModal(<EventSafe finalTime={finalTime} choose={chooseAction} items={data} />);
         else if(eventID == -3) setModal(<EventItem finalTime={finalTime} choose={chooseAction} items={data} />);
         else if(eventID == -1) setModal(<EventTurn finalTime={finalTime} choose={chooseAction} items={data} />);
         else if(eventID == 0) setModal(<EventAsk finalTime={finalTime} choose={chooseAction} questionNumber={data!} />);
@@ -63,7 +66,7 @@ export function GameState ({connection} : IGameProps)
                     connection.off("starting-turn");
                     connection.off("starting-move");
                     connection.off("finish-move");
-                    openModal(-2, 10000, connection)
+                    openModal(-2, 0, connection)
                 });
 
                 connection.on("player-items", ({items}) => 
@@ -90,25 +93,27 @@ export function GameState ({connection} : IGameProps)
                     if(data.event == 0)
                     {
                         eventData = data.data as number;
-                    } else if (data.event == -1)
+                    } else if (data.event == -1 || data.event == -4)
                     {
-                        eventData = getItems;
+                        eventData = data.data;
                     }
+
                     openModal(data.event, data.limitTime, eventData);
 
                     connection.on("end-event", (data : {sucess:boolean, items:number[]}) => 
                     {
                         closeModal();
+                        connection.off("end-event");
                         if(data.items.length > 0)
                         {
-                            openModal(-3, 5000, data.items);
+                            openModal(-3, Date.now()+5000, data.items);
                         }
-                        connection.off("end-event");
                     });
                 });
 
                 connection.send("match-players", true);
             });
+            connection.on("match-result", ({result, players}) => {setModal(<EndGameModal result={result} players={players}/>)});
         }
     }
 

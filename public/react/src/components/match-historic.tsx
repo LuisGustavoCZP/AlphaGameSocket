@@ -82,12 +82,16 @@ function HistoryMatch ({data} : {data : HistoryMatchData})
     
     return (
     <div className="flex flex-col flex-grow m-2 bg-[#ffffff79] box-border">
-        <tr onClick={()=>{handleToggle()}} className="flex justify-between items-center text-[12px] cursor-pointer bg-[#ffffffc0] p-1">
-            <td>{characterIcon(user.character)}</td>
-            <td>{status}</td>
-            <td>{iTime.toLocaleDateString()}</td>
-            <td>{user.score} P</td>
-        </tr>
+        <div onClick={()=>{handleToggle()}} className="flex flex-col flex-grow text-[12px] cursor-pointer bg-[#ffffffc0] p-1">
+            <span className="flex justify-start flex-grow items-center text-[18px]">
+                <span>{characterIcon(user.character)}</span>
+                <span>{status}</span>
+            </span>
+            <span className="flex justify-between flex-grow">
+                <span>{iTime.toLocaleDateString()}</span>
+                <span>{user.score} P</span>
+            </span>
+        </div>
         <div className={`${toggleClass ? "h-auto p-2" : "h-0"} transition-all overflow-hidden text-[8px]`}>{playersTable}</div>
     </div>);
 }
@@ -111,10 +115,10 @@ export function MatchHistoric()
         if(getUserData) getHistory ();
     }, [getUserData])
 
-    return <div>
+    return <div className="flex flex-col max-h-full h-fit overflow-hidden">
         <div className="w-full bg-[#343434] flex items-center justify-between p-2"><p className="text-[16px]">Histórico</p></div>
-        <table className="w-full bg-[#7A7A7A] flex flex-col text-lg gap-[1px] box-border text-black text-[12px] max-h-48 overflow-y-scroll">
-            <tr>{matchs}</tr>
-        </table>
+        <ul className="w-full bg-[#7A7A7A] flex flex-col text-lg gap-[1px] box-border text-black text-[12px] flex-grow overflow-y-auto">
+            <li>{matchs}</li>
+        </ul>
     </div>;
 }

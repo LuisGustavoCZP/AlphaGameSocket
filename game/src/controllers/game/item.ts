@@ -19,12 +19,28 @@ class Loot
     }
 }
 
+export enum ItemTarget 
+{
+    None = "none",
+    Self = "self",
+    Other = "other"
+}
+
+export interface IItemData
+{
+    id:number,
+    name:string,
+    usable:boolean,
+    target:ItemTarget
+}
+
 export class Item 
 {
     public id : number;
     public quanty : number;
 
     static loots : Loot[];
+    static datas : IItemData[];
 
     public static setLoots (lootsData : ILoot[])
     {

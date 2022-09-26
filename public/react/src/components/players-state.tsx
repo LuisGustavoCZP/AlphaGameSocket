@@ -46,7 +46,7 @@ export function PlayersState ({round, turn, players} : IPlayerStateProps)
     return (
         <div>
             <div className="w-full bg-[#343434] flex items-center justify-between p-2">
-                <p className="text-[16px]">Jogadores</p><p className="text-[14px]">Round {round}/20</p>
+                <p className="text-[16px]">Jogadores</p><p className="text-[14px]">Round {round}</p>
             </div>
             <ul className="w-full bg-[#7A7A7A] flex flex-col text-lg gap-1 box-border text-black text-[12px]">
                 <li className="flex justify-between pl-2 pr-3 items-center m-1">

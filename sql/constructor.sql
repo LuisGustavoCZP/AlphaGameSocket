@@ -67,7 +67,7 @@ ALTER TABLE "match_users" ADD CONSTRAINT "match_users_fk1" FOREIGN KEY ("user_id
 
 ALTER TABLE "ranking" ADD CONSTRAINT "ranking_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
 
-INSERT INTO ranking (user_id, score, created_at) VALUES (NULL, 0, now()), (NULL, 0, now()), (NULL, 0, now()), (NULL, 0, now(), (NULL, 0, now());
+INSERT INTO ranking (user_id, score, created_at) VALUES (NULL, 0, now()), (NULL, 0, now()), (NULL, 0, now()), (NULL, 0, now()), (NULL, 0, now());
 
 
 CREATE or REPLACE VIEW history_view AS
