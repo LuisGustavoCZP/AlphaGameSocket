@@ -202,6 +202,7 @@ class Match
                 return;
             }
         }
+        this.send("player-points", {playerindex: player.index, points:player.points});
     }
 
     async playerTurn ()
@@ -264,7 +265,6 @@ class Match
             }
         }
 
-        this.send("player-points", {playerindex: player.index, points:player.points});
         this.send("next-turn", { turn:this.#turn, round:this.#round });
 
         if(nextRound) await waitTime (2000*Match.deltaSpeed);
