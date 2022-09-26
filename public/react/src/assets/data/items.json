@@ -3,36 +3,24 @@
         "id":0,
         "name":"Passe",
         "description":"Um passe para entrar nos Caminhos Tortuosos",
-        "icon":""
+        "icon":"../assets/sprites/ticket.png"
     },
     {
         "id":1,
         "name":"Proteção",
         "description":"Evitar ter que voltar casas uma vez",
-        "icon":""
+        "icon":"../assets/sprites/shield.png"
     },
     {
         "id":2,
         "name":"Impedimento",
         "description":"Impediça que um jogador ande por um turno",
-        "icon":""
+        "icon":"../assets/sprites/cancel.png"
     },
     {
         "id":3,
         "name":"Bomba",
         "description":"Faça um jogador voltar 5 casas uma vez",
-        "icon":""
-    },
-    {
-        "id":4,
-        "name":"Relógio adiantado",
-        "description":"",
-        "icon":""
-    },
-    {
-        "id":5,
-        "name":"Relógio Mestre",
-        "description":"",
-        "icon":""
+        "icon":"../assets/sprites/bomb.png"
     }
 ]

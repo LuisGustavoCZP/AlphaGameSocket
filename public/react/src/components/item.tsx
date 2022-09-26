@@ -4,8 +4,8 @@ export function Item ({itemID} : {itemID : number})
 {
     const itemData = itemsData[itemID];
     return (
-    <span title={itemData.description}>
-        <img src={itemData.icon} />
+    <span className='flex items-center' title={itemData.description}>
+        <img className='h-[32px]' src={itemData.icon} />
         <span>{itemData.name}</span>
     </span>
     );
