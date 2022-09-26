@@ -122,6 +122,11 @@ export class MatchController
                 await this.unassignPlayer(player);
             });
             match.add(player);
+
+            Chat.removePlayer(player, ()=>{});
+            const matchChat = new Chat(player, match.players);
+            matchChat.init();
+
             redis.auth.expiration(player.id, false);
             this.room.delete(player.id);
             match.onstart = (match) => this.startMatch(match);
