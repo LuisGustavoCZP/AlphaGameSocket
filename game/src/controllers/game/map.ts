@@ -42,7 +42,7 @@ class TileMap
 
         for (let side = 0; side < 4; side++)
         {
-            const t = Math.floor(Math.random()*6)+3;
+            const t = Math.floor(Math.random()*3)+6;
             for(let i = 0; i < t;)
             {
                 const sideTiles = this.base.side(side);

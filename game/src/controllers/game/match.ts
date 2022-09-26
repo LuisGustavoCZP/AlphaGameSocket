@@ -62,6 +62,7 @@ class Match
     {
         const event = createEvent(player, this, eventID, data)!;
         if(!(await event.check())) return false;
+        
         await waitTime(500*Match.deltaSpeed);
         return await event.start();
     }
@@ -115,6 +116,8 @@ class Match
     {
         //const array = Array.from(this.players);
         //array.sort((a, b) => b.points - a.points);
+        console.log("Usando item", itemID);
+
         let t = this.#turn + 1;
         let pwr = 1;
         if(t >= this.players.length) t=0;
@@ -316,7 +319,7 @@ class Match
                         player.ready = true;
                         this.#chat.init(player);
                         let allready = true;
-                        
+
                         for(const p of this.players)
                         {
                             console.log(p.ready)

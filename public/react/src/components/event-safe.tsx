@@ -26,7 +26,6 @@ export function EventSafe({finalTime, choose, items} : IEventSafeProps)
 
     function response (option = -1)
     {
-        // funçao de usar o item e jogar o dado vem aqui TODO
         choose(option);
     }
 

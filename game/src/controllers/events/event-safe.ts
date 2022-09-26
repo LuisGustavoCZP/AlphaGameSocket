@@ -27,16 +27,20 @@ export class GameEventSafe extends GameEvent
 
     public async start ()
     {
+        console.log("Entrou no evento Safe!")
         return await super.start();
     }
     
     public async check ()
     {
-        return this.usableItems.length > 0;
+        const r = this.usableItems.length > 0;
+        console.log("Checando posse do item", r);
+        return r;
     }
 
     protected async execute (option : any)
     {
+        console.log("Retrucando item", option);
         if(option == -1)
         {
             return false;
@@ -45,7 +49,18 @@ export class GameEventSafe extends GameEvent
         {
             console.log("Retirando item", option);
             const item = this.usableItems[option];
-            if(this.player.removeItem({id:item.id, quanty:1})) return item.id == 1? false : true;
+            if(this.player.removeItem({id:item.id, quanty:1})) 
+            {
+                if(item.id == 1)
+                {
+                    this.player.protection ++;
+                    return false;
+                }
+                else 
+                {
+                    return true;
+                }
+            }
         }
         return false;
     }
