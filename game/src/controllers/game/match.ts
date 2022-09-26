@@ -21,6 +21,8 @@ class Match
     #round: number;
     #turn: number;
     #onend? : (match : Match) => void;
+    #chat : Chat;
+
     static get deltaSpeed () { return 1/gameSpeed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
@@ -41,6 +43,8 @@ class Match
         });
 
         this.countdown ();
+
+        this.#chat = new Chat(this.players);
     }
 
     set onend (event : (match : Match)=> void)
@@ -58,6 +62,7 @@ class Match
     {
         const event = createEvent(player, this, eventID, data)!;
         if(!(await event.check())) return false;
+        
         await waitTime(500*Match.deltaSpeed);
         return await event.start();
     }
@@ -87,7 +92,7 @@ class Match
         const pdata = this.players.map(player => ({username:player.name, score:player.points}));
         this.players.forEach(player => 
         {
-            Chat.removePlayer(player);
+            //Chat.removePlayer(player);
             this.send("match-result", {
                 result: player.id == winner.id,
                 players: pdata
@@ -111,6 +116,8 @@ class Match
     {
         //const array = Array.from(this.players);
         //array.sort((a, b) => b.points - a.points);
+        console.log("Usando item", itemID);
+
         let t = this.#turn + 1;
         let pwr = 1;
         if(t >= this.players.length) t=0;
@@ -310,8 +317,9 @@ class Match
                     if(ready)
                     {
                         player.ready = true;
-
+                        this.#chat.init(player);
                         let allready = true;
+
                         for(const p of this.players)
                         {
                             console.log(p.ready)
@@ -322,9 +330,6 @@ class Match
                         {
                             this.start ();
                             this.send("starting-match", true);
-                            const chat = new Chat(player, this.players);
-                            chat.init();
-                            
                             this.send("match-round", this.#round);
                             this.send("match-turn", this.#turn);
                         }

@@ -104,13 +104,13 @@ class Player
 
     removeItem (newitem : Item)
     {
-        if(this.#items.has(newitem.id))
+        if(this.hasItem(newitem.id, newitem.quanty))
         {
             const item = this.#items.get(newitem.id)!;
             item.quanty -= newitem.quanty;
             if(item.quanty <= 0)
             {
-                this.#items.delete(newitem.id)
+                this.#items.delete(newitem.id);
             }
 
             this.send("player-items", {items:Array.from(this.#items.values())});
@@ -140,7 +140,7 @@ class Player
         const usables : Item[] = [];
         this.#items.forEach(item => 
         {
-            if(item.id == itemID || item.id == 1) usables.push(item);
+            if(item.id == 1 || item.id == itemID) usables.push(item);
         });
         return usables;
     }
@@ -163,6 +163,11 @@ class Player
     off (type : string)
     {
         if(this.#connection) this.#connection.off(type)
+    }
+
+    onclose (callback : SocketEvent)
+    {
+        if(this.#connection) this.#connection.onclose(callback);
     }
 
     close ()

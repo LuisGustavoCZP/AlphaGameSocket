@@ -43,7 +43,7 @@ export function GameState ({connection} : IGameProps)
     function chooseAction(option? : number)
     {
         closeModal();
-        if(option)
+        if(option != null && option != undefined)
         {
             connection.send("execute-event", option);
         }

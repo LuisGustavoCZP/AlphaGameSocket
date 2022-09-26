@@ -7,18 +7,22 @@ export function Chat(){
     const [msg, setMsg] = useState('');
     const { connection, getUserData } = useContext(PlayerContext);
 
-    useEffect(()=>{
+    useEffect(()=>
+    {
         if(!connection) return;
 
         const chatConnection = connection;
-        chatConnection.on('start-chat', (res)=>{
-
-            chatConnection.on('chat-message-frt', (content)=>{
-                const {username, time, payload} = content
+        chatConnection.on('start-chat', (res)=>
+        {
+            console.log('Iniciou chat!')
+            chatConnection.on('chat-message-frt', (content)=>
+            {
+                console.log(content);
+                const {username, time, payload} = content;
                 messages.push(<Message name={username} time={time} content={payload}/>);
                 setMessage(messages.map((e: any)=>e));
                 console.log('consteudo', content);
-            })
+            });
             
             chatConnection.send('chat-message-svr', 'TESTE DE CONVERSA');
         })
