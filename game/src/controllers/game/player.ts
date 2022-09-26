@@ -15,6 +15,8 @@ class Player
     #lastPostion : number;
     points: number;
     #items : Map<number, Item>;
+    protection : number;
+    impeachment : number;
 
     constructor (index : number, { id, name, character } : IPlayer)
     {
@@ -28,6 +30,8 @@ class Player
         this.points = 0;
         this.#connection = null as any;
         this.#items = new Map<number, Item>();
+        this.protection = 0;
+        this.impeachment = 0;
     }
 
     get data ()

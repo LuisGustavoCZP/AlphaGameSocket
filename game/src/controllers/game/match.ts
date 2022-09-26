@@ -112,16 +112,35 @@ class Match
         //const array = Array.from(this.players);
         //array.sort((a, b) => b.points - a.points);
         let t = this.#turn + 1;
+        let pwr = 1;
         if(t >= this.players.length) t=0;
         while(true)
         {
             if(await this.triggerEvent(this.players[t], -4, itemID))
             {
+                pwr++;
                 t++;
                 if(t >= this.players.length) t=0;
                 continue;
             }
             break;
+        }
+
+        const target = this.players[t];
+
+        if(target.protection)
+        {
+            target.protection--;
+            return;
+        }
+
+        if(itemID == 2) 
+        {
+            target.impeachment += pwr;
+        }
+        else if(itemID == 3) 
+        {
+            await this.playerMove(target, -5*pwr);
         }
     }
 
@@ -167,11 +186,16 @@ class Match
                         player.position = nextTile;
                     }
                 }
-                else player.points -= 100;
+                else if(dir < 0 && player.lastPostion == tilepos.next[1]) 
+                {
+                    player.points -= 100;
+                    const nextTile = tilepos.back[0];
+                    player.position = nextTile;
+                }
             }
 
             const tilenext = this.#map.base.tile(player.position.toString())!;
-            this.send("update-move", {playerindex: this.#turn, tile:tilenext.id, position:player.position});
+            this.send("update-move", {playerindex: player.index, tile:tilenext.id, position:player.position});
 
             player.points += dir*10;
             if(player.points >= 400) 
@@ -180,11 +204,20 @@ class Match
                 return;
             }
         }
+        this.send("player-points", {playerindex: player.index, points:player.points});
     }
 
     async playerTurn ()
     {
         const player = this.players[this.#turn];
+
+        if(player.impeachment > 0)
+        {
+            player.impeachment--;
+            await this.nextTurn (player);
+            return;
+        }
+
         let confirmed = false;
         player.on("confirm-turn", () => 
         {
@@ -234,7 +267,6 @@ class Match
             }
         }
 
-        this.send("player-points", {playerindex: player.index, points:player.points});
         this.send("next-turn", { turn:this.#turn, round:this.#round });
 
         if(nextRound) await waitTime (2000*Match.deltaSpeed);
