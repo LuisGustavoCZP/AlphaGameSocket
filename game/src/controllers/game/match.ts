@@ -8,6 +8,7 @@ import { BaseMap } from "./basemap";
 import { createEvent } from "../events";
 import { redisSocket } from "../../clients/redis/socket";
 import { gameSpeed } from "../../configs";
+import { Chat } from "./chat";
 
 class Match 
 {
@@ -86,6 +87,7 @@ class Match
         const pdata = this.players.map(player => ({username:player.name, score:player.points}));
         this.players.forEach(player => 
         {
+            Chat.removePlayer(player);
             this.send("match-result", {
                 result: player.id == winner.id,
                 players: pdata
@@ -288,6 +290,8 @@ class Match
                         {
                             this.start ();
                             this.send("starting-match", true);
+                            const chat = new Chat(player, this.players);
+                            chat.init();
                             
                             this.send("match-round", this.#round);
                             this.send("match-turn", this.#turn);

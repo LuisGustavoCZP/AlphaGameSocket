@@ -17,7 +17,7 @@ export function Chat(){
                 const {username, time, payload} = content
                 messages.push(<Message name={username} time={time} content={payload}/>);
                 setMessage(messages.map((e: any)=>e));
-                // console.log('consteudo', content);
+                console.log('consteudo', content);
             })
             
             chatConnection.send('chat-message-svr', 'TESTE DE CONVERSA');
