@@ -17,11 +17,7 @@ export class GameEventSafe extends GameEvent
     {
         super(player, match);
         this.itemID = itemID;
-        this.usableItems = this.player.usableItems ().filter(item => 
-        {
-            if(item.id == this.itemID || item.id == 1) return true;
-            return false;
-        });
+        this.usableItems = this.player.reflectionItems (itemID);
     }
 
     protected get data () 

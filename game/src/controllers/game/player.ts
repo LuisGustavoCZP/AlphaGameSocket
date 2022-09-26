@@ -135,6 +135,16 @@ class Player
         return usables;
     }
 
+    reflectionItems (itemID : number)
+    {
+        const usables : Item[] = [];
+        this.#items.forEach(item => 
+        {
+            if(item.id == itemID || item.id == 1) usables.push(item);
+        });
+        return usables;
+    }
+
     updateItems ()
     {
         this.send("player-items", {items:Array.from(this.#items.values())});
