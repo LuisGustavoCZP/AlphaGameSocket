@@ -32,7 +32,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./server/security/:/ssl/
-      - ./public/react/dist/:/etc/nginx/html    
+      - ./public/react/dist/:/etc/nginx/html
+      - ./public/react/src/assets/:/etc/nginx/html/src/assets/
 
 networks:
   postgres:
