@@ -1,23 +1,122 @@
 [
     {
         "question":"O que é Javascript?",
-        "answer4": {"resposta":"Quem nasce no pais de Java","respostaId":0},
+        "answer1": {"resposta":"Quem nasce no pais de Java","respostaId":0},
         "answer2": {"resposta":"Uma marca de carro","respostaId":1},
-        "answer1": {"resposta":"Uma linguagem de programação","respostaId":2},
-        "answer3": {"resposta":"Um filhote de javali","respostaId":3}
+        "answer3": {"resposta":"Uma linguagem de programação","respostaId":2},
+        "answer4": {"resposta":"Um filhote de javali","respostaId":3}
     },
     {
-        "question":"Enunciado",
-        "answer4": {"resposta":"texto da resposta 1","respostaId":0},
-        "answer2": {"resposta":"texto da resposta 2","respostaId":1},
-        "answer1": {"resposta":"texto da resposta 3","respostaId":2},
-        "answer3": {"resposta":"texto da resposta 4","respostaId":3}
+        "Question":"No JavaScript, qual é o metodo usado para remover os espaços do começo e do fim de uma strign?",
+        "answer1":{"resposta":".trim()","respostaId":0},
+        "answer2":{"resposta":".substring()","respostaId":1},
+        "answer3":{"resposta":".reduce()","respostaId":2},
+        "answer4":{"resposta":".slice()","respostaId":3}
     },
     {
-        "question":"Enunciado",
-        "answer4": {"resposta":"texto da resposta 1","respostaId":0},
-        "answer2": {"resposta":"texto da resposta 2","respostaId":1},
-        "answer1": {"resposta":"texto da resposta 3","respostaId":2},
-        "answer3": {"resposta":"texto da resposta 4","respostaId":3}
+        "Question":"Usando o editor vim, qual desses modos nos ajuda a copiar, colar e deletar texto?",
+        "answer1":{"resposta":"visual mode", "respostaId":0},
+        "answer2":{"resposta":"yanking mode", "respostaId":1},
+        "answer3":{"resposta":"insert mode", "respostaId":2},
+        "answer4":{"resposta":"normal mode", "respostaId":3}
+    },
+    {
+        "Question": "Qual dos items abaixo é usado para implementar Dynamic binding no C++?",
+        "answer1":{"resposta":"Const function", "respostaId":0},
+        "answer2":{"resposta":"Friend function", "respostaId":1},
+        "answer3":{"resposta":"Virtual function", "respostaId":2},
+        "answer4":{"resposta":"Static function", "respostaId":3}
+    },
+    {
+        "Question": "Qual é a linguagem basica de um computador?",
+        "answer1":{"resposta":"Binário", "respostaId":0},
+        "answer2":{"resposta":"HyperText Markup Language", "respostaId":1},
+        "answer3":{"resposta":"Cascading Style Sheets", "respostaId":2},
+        "answer4":{"resposta":"JavaScript", "respostaId":3}
+    },
+    {
+        "Question":"Em JavaScript, qual metodo/objeto nativo que retornara os valores unicos de um array?",
+        "answer1":{"resposta":"reduce()", "respostaId":0},
+        "answer2":{"resposta":"Set","respostaId":1},
+        "answer3":{"resposta":"map()", "respostaId":2},
+        "answer4":{"resposta":"filter()", "respostaId":3}
+    },
+    {
+        "Question":"Em JavaScript, todos os objetos herdam uma propriedade nativa de um ...?",
+        "answer1":{"resposta":"variavel de instancia", "respostaId":0},
+        "answer2":{"resposta":"node", "respostaId":1},
+        "answer3":{"resposta":"acessor", "respostaId":2},
+        "answer4":{"resposta":"prototype", "respostaId":3}
+    },
+    {
+        "Question":"Em JavaScript, toda classe tem um metodo ... especial em que é usado para criar uma nova instancia da classe.",
+        "answer1":{"resposta":"apply","respostaId":0},
+        "answer2":{"resposta":"constructor","respostaId":1},
+        "answer3":{"resposta":"starter", "respostaId":2},
+        "answer4":{"resposta":"assign", "respostaId":3}
+    },
+    {
+        "Question":"Por que é dito que o Javascript é a 'linguagem da web'?",
+        "answer1":{"resposta":"Porque foi determinado por grandes empresas como Google e Mozila.", "respostaId":0},
+        "answer2":{"resposta":"É apenas uma convenção entre os desenvolvedores.", "respostaId":1},
+        "answer3":{"resposta":"Esta afirmação é falsa Javascript não é a linguagem mais popular entre desenvolvedores web.", "respostaId":2},
+        "answer4":{"resposta":"Porque é a linguagem que os browsers entendem.", "respostaId":3}
+    },
+    {
+        "Question":"Qual a tag utilizada para importar um arquivo javaScript em um página HTML?",
+        "answer1":{"resposta":"<meta>", "respostaId":0},
+        "answer2":{"resposta":"<head>", "respostaId":1},
+        "answer3":{"resposta":"<link>", "respostaId":2},
+        "answer4":{"resposta":"<script>", "respostaId":3}
+    },
+    {
+        "Question":"Em um projeto web pequeno, é comum que os arquivos Javascript e CSS estejam em qual pasta?",
+        "answer1":{"resposta":"vendor", "respostaId":0},
+        "answer2":{"resposta":"files", "respostaId":1},
+        "answer3":{"resposta":"assets", "respostaId":2},
+        "answer4":{"resposta":"src","respostaId":3}
+    },
+    {
+        "Question":"Sobre o console, é correto afirmar que:",
+        "answer1":{"resposta":"É possível utiliza-lo no terminal e no navegador nativamente.", "respostaId":0},
+        "answer2":{"resposta":"é Possível utilizá-lo no navegador nativamente e no terminal instalando o Node.Js", "respostaId":1},
+        "answer3":{"resposta":"Apenas é possível utilizá-lo no navegador", "respostaId":2},
+        "answer4":{"resposta":"Apenas é possível utilizá-lo no terminal", "respostaId":3}
+    },
+    {
+        "Question":"Qual a diferença entre Javascript e ECMAScript?",
+        "answer1":{"resposta":"Javascript é uma linguagem de programação, enquanto ECMAScript é uma linguagem de marcação", "respostaId":0},
+        "answer2":{"resposta":"O ECMAScript é um padrçao tuilizado especificadamente para tratar do desenvolvimento e evolução do Javascript", "respostaId":1},
+        "answer3":{"resposta":"Não existem diferenças significativas", "respostaId":2},
+        "answer4":{"resposta":"O javaScript é uma linguagem de programação e o ECMAScript é um padrão utilizado tanto por ela quanto por outras linguagens.","respostaId":3}
+    },
+    {
+        "Question":"Qual o comando para executar arquivos javascript no terminal?", 
+        "answer1":{"resposta":"js", "respostaId":0},
+        "answer2":{"resposta":"js run", "respostaId":1},
+        "answer3":{"resposta":"node", "respostaId":2},
+        "answer4":{"resposta":"nodejs", "respostaId":3}
+    },
+    {
+        "Question":"As atualizações do ECMAScript são sempre muito comentadas. Sobre elas, podemos afirmar que:",
+        "answer1":{"resposta":"Acontecem sob demanda", "respostaId":0},
+        "answer2":{"resposta":"A partir do ECMAScript 6 não existem mais atualizações", "respostaId":1},
+        "answer3":{"resposta":"Acontecem a cada 5 anos.", "respostaId":2},
+        "answer4":{"resposta":"Acontecem anualmente.", "respostaId":3}
+    }, 
+    {
+        "Question":"Dentre as opções,qual NÃO é uma das principais características do javascript?",
+        "answer1":{"resposta":"Compilada", "respostaId":0},
+        "answer2":{"resposta":"Interpretada", "respostaId":1},
+        "answer3":{"resposta":"Multiparadigma", "respostaId":2},
+        "answer4":{"resposta":"Baseada em Protótipos", "respostaId":3}
+    },
+    {
+        "Question":"Qual a diferença entre variáveis e constantes?",
+        "answer1":{"resposta":"Constantes são decladas em camel-case.", "respostaId":0},
+        "answer2":{"resposta":"Em javascript apenas é possível utilizar variáveis", "respostaId":1},
+        "answer3":{"resposta":"Variáveis são valores fixos e constantes são valores dinâmicos.", "respostaId":2},
+        "answer4":{"resposta":"Constantes são valores fixos e variáveis são valores dinâmicos.", "respostaId":3}
     }
+ 
 ]
