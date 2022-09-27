@@ -4,6 +4,7 @@ import { PlayerContext } from "../contexts";
 import { APIRequest } from "../utils/request";
 
 import charactersData from "../assets/data/characters.json";
+import { Character } from "./character";
 
 const theUser = "felipe1"
 const mockData= [{match_id:1, users:[
@@ -57,7 +58,7 @@ function HistoryMatch ({data} : {data : HistoryMatchData})
 
     function characterIcon (index : number)
     {
-        return <img src={`${charactersData[index].portait}`} alt={charactersData[index].name} title={charactersData[index].name} />;
+        return <Character charID={index} title={charactersData[index].name} />;
     }
 
     let playersTable:any[] = [<div className="flex justify-between items-center">Jogadores da partida:</div>];

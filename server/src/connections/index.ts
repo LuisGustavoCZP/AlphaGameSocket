@@ -60,14 +60,19 @@ export class Connection
 
     message (resp : string)
     {
-        const msg = JSON.parse(resp) as SocketMessage;
-        //console.log(msg);
-        if(!this.#events.has(msg.type)) return;
-        const events = this.#events.get(msg.type)!;
-        events.forEach(event => 
+        try {
+            const msg = JSON.parse(resp) as SocketMessage;
+            //console.log(msg);
+            if(!this.#events.has(msg.type)) return;
+            const events = this.#events.get(msg.type)!;
+            events.forEach(event => 
+            {
+                event(msg.data, this.id);
+            });
+        } catch (error) 
         {
-            event(msg.data, this.id);
-        });
+            this.close("A mensagem enviada não é suportada!", ConnectionStatus.Unsuported);   
+        }
     }
 
     on (type : string, event : SocketEvent)

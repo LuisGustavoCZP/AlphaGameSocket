@@ -9,7 +9,8 @@
     "copy-extra": "copyfiles ./src/security/* ./dist",
     "copy-assets": "copyfiles ./src/assets/* ./dist",
     "dev": "concurrently \"npx tsc --watch\" \"npm run copy-assets\" \"nodemon -q dist/index.js\"",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "start:dev": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",

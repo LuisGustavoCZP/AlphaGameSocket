@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import { IPlayerData } from "../game/player";
-import charactersData from "../assets/data/characters.json"
 import seta from "../assets/sprites/seta.png"
+import { Character } from "./character";
 
 export interface IPlayerStateProps 
 {
@@ -27,8 +27,8 @@ export function PlayersState ({round, turn, players} : IPlayerStateProps)
                     <span className="flex items-center justify-center">
                         <span className="w-6 h-6">
                             {isTurn?(<img className="w-6 h-6 animate-horizontal-bounce" src={seta} alt=">" />):<></>}
-                        </span>  
-                        <img className="w-7 h-7" src={charactersData[player.character].portait}/>
+                        </span>
+                        <Character charID={player.character} size={7}/>
                         <span>{player.name}</span>
                     </span>
                     <span>{player.points}P</span>

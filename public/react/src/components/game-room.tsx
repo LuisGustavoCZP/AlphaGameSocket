@@ -3,6 +3,7 @@ import { Connection } from "../connection";
 import { PlayerContext } from "../contexts";
 import { gameManager } from "../game/gamedata";
 import configs from "../utils/config";
+import { masterAudio, AudioControl } from "./audiocontrol";
 import { Chat } from "./chat";
 import { ChatScreen } from "./chat-screen";
 import { GameScreen } from "./game-screen";
@@ -43,11 +44,15 @@ export function GameRoom (props : any)
     useEffect(() => 
     {
         startGame ();
+        masterAudio.play('gamesoundtrack','./src/assets/sounds/soudtrack06jazz.mp3')
+        masterAudio.loop('gamesoundtrack')
+        return ()=>{masterAudio.stop('gamesoundtrack')}
     }, []);
 
     if(!connected) return (<></>);
     return (
         <main className="flex justify-between items-center h-screen w-full p-2">
+            <AudioControl/>
             <GameState connection={connection}/>
             <GameScreen connection={connection}/>
             <Chat/>

@@ -6,15 +6,19 @@
     "install:react": "cd public/react && npm i",
     "install:server": "cd server && npm i",
     "install:game": "cd game && npm i",
-    "install": "npm run install:game && npm run install:react && npm run install:server",
+    "install": "npm i pm2 -g && npm run install:game && npm run install:react && npm run install:server",
     "dev:game": "cd game && npm run dev",
     "test:react": "cd public/react && npm run dev",
     "dev:react": "cd public/react && npm run devbuild",
     "dev:server": "cd server && npm run dev",
-    "build:game": "cd game && npm run build",
+    "build:game": "cd game && npm run build && npm run start",
     "build:react": "cd public/react && npm run build",
-    "build:server": "cd server && npm run build",
-    "dev":"start npm run dev:server && start npm run dev:game && npm run dev:react"
+    "build:server": "cd server && npm run build && npm run start",
+    "dev": "npm run dev:server && npm run dev:game && npm run dev:react",
+    "start": "npm run build:react && pm2 start npm --name 'Server' -- run 'build:server' && pm2 start npm --name 'Game' -- run 'build:game'",
+    "stop": "pm2 kill",
+    "status": "pm2 status",
+    "monitor": "pm2 monit"
   },
   "repository": {
     "type": "git",
@@ -25,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/LuisGustavoCZP/AlphaGameSocket/issues"
   },
-  "homepage": "https://github.com/LuisGustavoCZP/AlphaGameSocket#readme"
+  "homepage": "https://github.com/LuisGustavoCZP/AlphaGameSocket#readme",
+  "dependencies": {
+    "pm2": "^5.2.0"
+  }
 }

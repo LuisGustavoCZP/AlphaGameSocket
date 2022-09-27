@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../assets/dice/dice.css'
+import { masterAudio, AudioControl } from "./audiocontrol";
+
 type DiceType = {
   diceNumber:Number | undefined,
 
@@ -20,8 +22,12 @@ function rollDice() {
     die.classList.toggle("even-roll");
   }
   useEffect(() => {
+
      rollDice()
   },[diceNumber])
+  useEffect(() => {
+    masterAudio.play('dicesound','./src/assets/sounds/diceroll.mp3')
+  },[])
 
     return(
         <div className="  ">

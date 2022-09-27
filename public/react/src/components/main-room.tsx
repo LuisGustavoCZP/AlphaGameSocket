@@ -1,11 +1,12 @@
 import { UserInfo } from "./userinfo"
 import { Chat } from "./chat"
 import { MatchsView } from "./matchs-view"
-
+import { masterAudio,AudioControl } from "./audiocontrol";
 import { Connection } from '../connection';
 import { PlayerContext } from '../contexts';
 import { useContext, useEffect } from "react";
 import configs from "../utils/config";
+import { AudioMixer } from "./audio";
 
 export function MainRoom (props : any)
 {
@@ -43,11 +44,17 @@ export function MainRoom (props : any)
     {
         startConnection ();
     }, [getUserData])
+    useEffect(()=>{
+        masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3')
+        masterAudio.loop('mainroomsoundtrack')
+        return ()=>{masterAudio.stop('mainroomsoundtrack')}
+    },[])
 
     if(!connection) return <></>;
     
     return (
         <div className="match-room flex items-center m-0 justify-between h-screen">
+            <AudioControl/>
             <UserInfo />
             <MatchsView />
             <Chat/>

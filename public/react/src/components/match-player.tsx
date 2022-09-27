@@ -1,13 +1,14 @@
 import { ReactNode } from "react";
 import charactersData from "../assets/data/characters.json"
 import randomCharacter from "../assets/personagens/random.png";
+import { Character } from "./character";
 
 export function MatchPlayer ({index, player, isSelf, isReady, nextChar, backChar, setReady} : any)
 {  
     if(player)
     {
         const character = player.character >= 0?charactersData[player.character]:null;
-        const playerImg = <img src={character?.portait || randomCharacter} alt="" className=" w-20 h-20" />;
+        /* const playerImg = <img src={character?.portait || randomCharacter} alt="" className=" w-20 h-20" />; */
 
         function charSelection (children : ReactNode)
         {
@@ -43,7 +44,7 @@ export function MatchPlayer ({index, player, isSelf, isReady, nextChar, backChar
         return (
             <li className="w-2/5 min-w-[220px] aspect-square bg-[#343434] flex flex-col justify-center items-center content-center gap-3 ">
                 <span>{player.name}</span>
-                {charSelection (playerImg)}
+                {charSelection (<Character charID={player.character} size={20} />)}
                 <span>{character?.name || "Random"}</span>
                 {readyElement()}
             </li>
