@@ -11,7 +11,7 @@ const router = Router();
 
 router.use('/stats', tokenHandler, statsRouter);
 router.use('/users', usersRouter);
-router.use(mapsRouter);
-router.use(staticRouter);
+//router.use(mapsRouter);
+//router.use(staticRouter);
 
 export default router;
