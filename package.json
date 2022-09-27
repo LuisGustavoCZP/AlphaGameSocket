@@ -14,7 +14,8 @@
     "build:game": "cd game && npm run build",
     "build:react": "cd public/react && npm run build",
     "build:server": "cd server && npm run build",
-    "dev":"start npm run dev:server && start npm run dev:game && npm run dev:react"
+    "dev": "start npm run dev:server && start npm run dev:game && npm run dev:react",
+    "start": "concurrently --kill-others \"npm run build:react\" \"npm run dev:server\" \"npm run dev:game\""
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/LuisGustavoCZP/AlphaGameSocket/issues"
   },
-  "homepage": "https://github.com/LuisGustavoCZP/AlphaGameSocket#readme"
+  "homepage": "https://github.com/LuisGustavoCZP/AlphaGameSocket#readme",
+  "devDependencies": {
+    "concurrently": "^7.4.0"
+  }
 }
