@@ -5,5 +5,12 @@
         "answer2": {"resposta":"Uma marca de carro","respostaId":1},
         "answer3": {"resposta":"Uma linguagem de programação","respostaId":2},
         "answer4": {"resposta":"Um filhote de javali","respostaId":3}
+    },
+    {
+        "Question":"No JavaScript, qual é o metodo usado para remover os espaços do começo e do fim de uma strign?",
+        "answer1":{"resposta":".trim()","respostaId":0},
+        "answer2":{"resposta":".substring()","respostaId":1},
+        "answer3":{"resposta":".reduce()","respostaId":2},
+        "answer4":{"resposta":".slice()","respostaId":3}
     }
 ]
