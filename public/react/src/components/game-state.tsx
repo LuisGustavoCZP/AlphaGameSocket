@@ -16,6 +16,7 @@ import { IItemData } from "../models";
 import { EventPass } from "./event-pass";
 import { EventSafe } from "./event-safe";
 import { EndGameModal } from "./endgame-modal";
+import { AudioMixer } from "./audio";
 
 export function GameState ({connection} : IGameProps)
 {
@@ -79,6 +80,19 @@ export function GameState ({connection} : IGameProps)
                     setRound(round);
                     setTurn(turn);
                     setPlayers(_players);
+                    console.log("aqui felipe",_players)
+                    let thisUserTurn = {index:-1}
+                    _players.forEach((ele:any)=>{
+                        if(ele.name == getUserData.username){
+                            thisUserTurn = ele
+                        }
+                    })
+                    console.log(thisUserTurn,turn)
+                    if(thisUserTurn.index==turn){
+                        console.log('entrou')
+                        const diceSound = new AudioMixer(['yourTurn'])
+                        diceSound.play('yourTurn','./src/assets/sounds/yourturnsound.mp3')
+                    }
                 });
 
                 connection.on("player-points", ({playerindex, points}) => 

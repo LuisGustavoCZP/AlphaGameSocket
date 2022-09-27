@@ -6,6 +6,7 @@ import { Connection } from '../connection';
 import { PlayerContext } from '../contexts';
 import { useContext, useEffect } from "react";
 import configs from "../utils/config";
+import { AudioMixer } from "./audio";
 
 export function MainRoom (props : any)
 {
@@ -43,6 +44,12 @@ export function MainRoom (props : any)
     {
         startConnection ();
     }, [getUserData])
+    useEffect(()=>{
+        const diceSound = new AudioMixer (['mainroomsoundtrack'])
+        diceSound.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3')
+        diceSound.loop('mainroomsoundtrack')
+        return ()=>{diceSound.stop('mainroomsoundtrack')}
+    },[])
 
     if(!connection) return <></>;
     
