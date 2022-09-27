@@ -16,7 +16,7 @@ import { IItemData } from "../models";
 import { EventPass } from "./event-pass";
 import { EventSafe } from "./event-safe";
 import { EndGameModal } from "./endgame-modal";
-import { AudioMixer } from "./audio";
+import { masterAudio } from "./audiocontrol";
 
 export function GameState ({connection} : IGameProps)
 {
@@ -90,8 +90,8 @@ export function GameState ({connection} : IGameProps)
                     console.log(thisUserTurn,turn)
                     if(thisUserTurn.index==turn){
                         console.log('entrou')
-                        const diceSound = new AudioMixer(['yourTurn'])
-                        diceSound.play('yourTurn','./src/assets/sounds/yourturnsound.mp3')
+                        
+                        masterAudio.play('yourturn','./src/assets/sounds/yourturnsound.mp3')
                     }
                 });
 

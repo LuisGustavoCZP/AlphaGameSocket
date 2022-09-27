@@ -31,6 +31,12 @@ export class AudioMixer
     {
         if(!this.tracks.has(track)) return false;
         const audio = this.tracks.get(track)!;
-        audio.loop = true
+        audio.loop = true;
+    }
+    volume(vol:number)
+    {
+        this.tracks.forEach(track=>{
+            track.volume = vol;
+        })
     }
 }

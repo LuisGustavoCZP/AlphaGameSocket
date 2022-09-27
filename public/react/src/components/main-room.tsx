@@ -1,7 +1,7 @@
 import { UserInfo } from "./userinfo"
 import { Chat } from "./chat"
 import { MatchsView } from "./matchs-view"
-
+import { masterAudio,AudioControl } from "./audiocontrol";
 import { Connection } from '../connection';
 import { PlayerContext } from '../contexts';
 import { useContext, useEffect } from "react";
@@ -45,16 +45,16 @@ export function MainRoom (props : any)
         startConnection ();
     }, [getUserData])
     useEffect(()=>{
-        const diceSound = new AudioMixer (['mainroomsoundtrack'])
-        diceSound.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3')
-        diceSound.loop('mainroomsoundtrack')
-        return ()=>{diceSound.stop('mainroomsoundtrack')}
+        masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3')
+        masterAudio.loop('mainroomsoundtrack')
+        return ()=>{masterAudio.stop('mainroomsoundtrack')}
     },[])
 
     if(!connection) return <></>;
     
     return (
         <div className="match-room flex items-center m-0 justify-between h-screen">
+            <AudioControl/>
             <UserInfo />
             <MatchsView />
             <Chat/>
