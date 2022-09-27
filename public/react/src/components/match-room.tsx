@@ -1,6 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import { Connection } from "../connection";
 import { PlayerContext } from "../contexts";
+import { AudioMixer } from "./audio";
 import { Chat } from "./chat";
 import { MatchPlayer } from "./match-player";
 import { UserInfo } from "./userinfo";
@@ -62,7 +63,11 @@ export function MatchRoom (props : any)
 
     useEffect(() => 
     {
+        const diceSound = new AudioMixer (['matchroomsoundtrack'])
+        diceSound.play('matchroomsoundtrack','./src/assets/sounds/soudtrack04strongtechno.mp3')
+        diceSound.loop('matchroomsoundtrack')
         startConnection ();
+        return ()=>{diceSound.stop('matchroomsoundtrack')}
     }, []);
 
     function renderPlayers ()

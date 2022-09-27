@@ -27,4 +27,10 @@ export class AudioMixer
         audio.pause();
         return true;
     }
+    loop(track:string)
+    {
+        if(!this.tracks.has(track)) return false;
+        const audio = this.tracks.get(track)!;
+        audio.loop = true
+    }
 }
