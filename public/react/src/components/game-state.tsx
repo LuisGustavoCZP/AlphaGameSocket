@@ -17,6 +17,7 @@ import { EventPass } from "./event-pass";
 import { EventSafe } from "./event-safe";
 import { EndGameModal } from "./endgame-modal";
 import { masterAudio } from "./audiocontrol";
+import { EventTrap } from "./event-trap";
 
 export function GameState ({connection} : IGameProps)
 {
@@ -35,6 +36,7 @@ export function GameState ({connection} : IGameProps)
         else if(eventID == 0) setModal(<EventAsk finalTime={finalTime} choose={chooseAction} questionNumber={data!} />);
         else if(eventID == 1) setModal(<EventPass finalTime={finalTime} choose={chooseAction} />);
         else if(eventID == 2) setModal(<EventPass finalTime={finalTime} choose={chooseAction} />);
+        else if(eventID == 3) setModal(<EventTrap finalTime={finalTime} choose={chooseAction} />);
     }
     function closeModal()
     {

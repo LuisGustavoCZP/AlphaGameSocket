@@ -28,5 +28,25 @@
             "spriteIndex":5
         },
         "size":48
+    },
+    {
+        "id":3,
+        "name":"Setença",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/events.json",
+            "spriteIndex":1
+        },
+        "size":48
+    },
+    {
+        "id":3,
+        "name":"Tesouro",
+        "sprite": 
+        {
+            "spriteSheet":"/src/assets/data/spritesheets/events.json",
+            "spriteIndex":6
+        },
+        "size":48
     }
 ]

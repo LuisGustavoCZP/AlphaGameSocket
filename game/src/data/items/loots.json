@@ -1,8 +1,16 @@
 [
     [
-        {"rate":10, "id":0, "quanty":1},
-        {"rate":15, "id":1, "quanty":1},
+        {"rate":100, "id":0, "quanty":1},
+        {"rate":5, "id":1, "quanty":1},
         {"rate":40, "id":2, "quanty":1},
-        {"rate":35, "id":3, "quanty":1}
+        {"rate":40, "id":3, "quanty":1}
+    ],
+    [
+        {"rate":35, "id":1, "quanty":1},
+        {"rate":5, "id":1, "quanty":2},
+        {"rate":20, "id":2, "quanty":1},
+        {"rate":10, "id":2, "quanty":2},
+        {"rate":20, "id":3, "quanty":1},
+        {"rate":10, "id":3, "quanty":2}
     ]
 ]

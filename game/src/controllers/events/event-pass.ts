@@ -35,6 +35,7 @@ export class GameEventPass extends GameEvent
 
     protected async execute (option : any)
     {
+        if(option == 0) return false;
         this.player.removeItem({id:0, quanty:1})
         return true;
     }

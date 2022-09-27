@@ -135,12 +135,12 @@ class Player
         return usables;
     }
 
-    reflectionItems (itemID : number)
+    reflectionItems (itemID? : number)
     {
         const usables : Item[] = [];
         this.#items.forEach(item => 
         {
-            if(item.id == 1 || item.id == itemID) usables.push(item);
+            if(item.id == 1 || (itemID && item.id == itemID)) usables.push(item);
         });
         return usables;
     }
