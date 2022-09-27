@@ -23,11 +23,24 @@ services:
       - "6379:6379"
       - "8001:8001"
 
+  nginx:
+    image: nginx:latest
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./server/security/:/ssl/
+      - ./public/react/dist/:/etc/nginx/html    
+
 networks:
   postgres:
+    driver: bridge
+  minha-rede:
     driver: bridge
 
 volumes:
   db:
     driver: local
-  sql:
+  sql: 

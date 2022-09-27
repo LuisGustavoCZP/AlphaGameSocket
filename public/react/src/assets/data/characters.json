@@ -2,7 +2,7 @@
     {
         "id":0,
         "name":"Tobias",
-        "portait":"/src/assets/personagens/person1.png",
+        "portait":1,
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
@@ -14,7 +14,7 @@
     {
         "id":1,
         "name":"Grória",
-        "portait":"/src/assets/personagens/person2.png",
+        "portait":2,
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
@@ -26,7 +26,7 @@
     {
         "id":2,
         "name":"Cleber",
-        "portait":"/src/assets/personagens/person3.png",
+        "portait":3,
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
@@ -38,7 +38,7 @@
     {
         "id":3,
         "name":"José",
-        "portait":"/src/assets/personagens/person4.png",
+        "portait":4,
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
@@ -50,7 +50,7 @@
     {
         "id":4,
         "name":"Ronaldo",
-        "portait":"/src/assets/personagens/person5.png",
+        "portait":5,
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",
@@ -62,7 +62,7 @@
     {
         "id":5,
         "name":"Monica",
-        "portait":"/src/assets/personagens/person6.png",
+        "portait":6,
         "sprite": 
         {
             "spriteSheet":"/src/assets/data/spritesheets/personagens.json",

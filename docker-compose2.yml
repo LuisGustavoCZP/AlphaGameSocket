@@ -1,0 +1,66 @@
+version: "3.9"
+services:
+  postgres:
+      container_name: postgres-stack
+      image: postgres
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgrespw
+        - PGDATA=/data/postgres
+      volumes: 
+        - ./sql/constructor.sql:/docker-entrypoint-initdb.d/constructor.sql
+        - db:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+      networks:
+        - postgres
+      restart: unless-stopped
+
+  redis:
+    container_name: redis-stack
+    image: redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+
+  nginx:
+      build:
+        dockerfile: ./nginx/nginx.dockerfile
+        context: .
+      image: nginx
+      container_name: container-nginx
+      ports:
+        - "80:80"
+        - "443:443"
+      
+          
+  web:
+      build:
+        context: ./server
+        dockerfile: Dockerfile
+      container_name: nodejs
+      volumes:
+        - ./server/:/src
+      command: npm run dev
+      ports:
+        - "8000:3000"
+      restart: unless-stopped
+      environment:
+        - PORT=8000
+        - SSL=true
+        - POSTGRES=postgres://postgres:postgrespw@localhost:5432/alphagamesocket
+        - REDIS=redis://default:redispw@localhost:6379
+      networks:
+        - app-network
+
+networks:
+  postgres:
+    driver: bridge
+  app-network:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local
+  sql:
+  node_modules:  

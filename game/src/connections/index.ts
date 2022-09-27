@@ -5,6 +5,18 @@ import { SocketEvent, SocketMessage } from "./models";
 import { gameManager, GameManager } from "../controllers/game";
 import { waitTime } from "../utils/wait";
 
+export enum ConnectionStatus
+{
+    Normal = 1000,
+    Away = 1001,
+    Protocol = 1002,
+    Unsuported = 1003,
+    Abnormal = 1006,
+    Invalid = 1007,
+    Restart = 1012,
+    Unauthorized = 3000
+}
+
 export class Connection 
 {
     id : string;
@@ -55,11 +67,16 @@ export class Connection
 
     message (resp : string)
     {
-        const msg = JSON.parse(resp) as SocketMessage;
-        //console.log(this.events);
-        if(!this.#events.has(msg.type)) return;
-        const event = this.#events.get(msg.type)!;
-        event(msg.data, this.id);
+        try {
+            const msg = JSON.parse(resp) as SocketMessage;
+            //console.log(this.events);
+            if(!this.#events.has(msg.type)) return;
+            const event = this.#events.get(msg.type)!;
+            event(msg.data, this.id);
+        } catch (error) 
+        {
+            this.close("A mensagem enviada não é suportada!", ConnectionStatus.Unsuported);   
+        }
     }
 
     on (type : string, event : SocketEvent)
@@ -81,9 +98,9 @@ export class Connection
         this.#socket.on("close", event);
     }
 
-    close ()
+    close (message? : string, status : ConnectionStatus = ConnectionStatus.Normal)
     {
-        this.#socket.close();
+        this.#socket.close(status, message);
     }
 
     retry ()
