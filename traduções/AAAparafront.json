@@ -1,9 +1,9 @@
 [
     {
         "question":"O que é Javascript?",
-        "answer4": {"resposta":"Quem nasce no pais de Java","respostaId":0},
+        "answer1": {"resposta":"Quem nasce no pais de Java","respostaId":0},
         "answer2": {"resposta":"Uma marca de carro","respostaId":1},
-        "answer1": {"resposta":"Uma linguagem de programação","respostaId":2},
-        "answer3": {"resposta":"Um filhote de javali","respostaId":3}
+        "answer3": {"resposta":"Uma linguagem de programação","respostaId":2},
+        "answer4": {"resposta":"Um filhote de javali","respostaId":3}
     }
 ]
