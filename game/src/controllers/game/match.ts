@@ -23,6 +23,7 @@ class Match
     #onend? : (match : Match) => void;
     #chat : Chat;
 
+    static victoryPoints = 2000;
     static get deltaSpeed () { return 1/gameSpeed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
@@ -74,7 +75,7 @@ class Match
 
         await waitTime (1000*Match.deltaSpeed);
 
-        while(this.#round < 40 && !this.endedAt)
+        while(this.#round < 200 && !this.endedAt)
         {
             await this.playerTurn ();
         }
@@ -205,7 +206,7 @@ class Match
             this.send("update-move", {playerindex: player.index, tile:tilenext.id, position:player.position});
 
             player.points += dir*10;
-            if(player.points >= 400) 
+            if(player.points >= Match.victoryPoints) 
             {
                 await this.end();
                 return;
