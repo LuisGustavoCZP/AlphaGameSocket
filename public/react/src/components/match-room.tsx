@@ -5,7 +5,7 @@ import { AudioMixer } from "./audio";
 import { Chat } from "./chat";
 import { MatchPlayer } from "./match-player";
 import { UserInfo } from "./userinfo";
-
+import { masterAudio,AudioControl } from "./audiocontrol";
 interface MatchRoomPlayer 
 {
     index:number,
@@ -63,11 +63,10 @@ export function MatchRoom (props : any)
 
     useEffect(() => 
     {
-        const diceSound = new AudioMixer (['matchroomsoundtrack'])
-        diceSound.play('matchroomsoundtrack','./src/assets/sounds/soudtrack04strongtechno.mp3')
-        diceSound.loop('matchroomsoundtrack')
+        masterAudio.play('matchroomsoundtrack','./src/assets/sounds/soudtrack04strongtechno.mp3')
+        masterAudio.loop('matchroomsoundtrack')
         startConnection ();
-        return ()=>{diceSound.stop('matchroomsoundtrack')}
+        return ()=>{masterAudio.stop('matchroomsoundtrack')}
     }, []);
 
     function renderPlayers ()
@@ -109,6 +108,7 @@ export function MatchRoom (props : any)
 
     return (
         <div className="match-room flex items-center m-0 justify-evenly h-screen">
+            <AudioControl/>
             <UserInfo />
             <div className="flex flex-col list-none h-full w-3/5 gap-2 content-start place-self-start">
                 <span className="w-full flex p-2 bg-[#3E3E3E] justify-between items-center">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../assets/dice/dice.css'
-import { AudioMixer } from "./audio"
+import { masterAudio, AudioControl } from "./audiocontrol";
+
 type DiceType = {
   diceNumber:Number | undefined,
 
@@ -25,8 +26,7 @@ function rollDice() {
      rollDice()
   },[diceNumber])
   useEffect(() => {
-    const diceSound = new AudioMixer(['dicesound'])
-    diceSound.play('dicesound','./src/assets/sounds/diceroll.mp3')
+    masterAudio.play('dicesound','./src/assets/sounds/diceroll.mp3')
   },[])
 
     return(
