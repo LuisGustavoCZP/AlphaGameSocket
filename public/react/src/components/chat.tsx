@@ -49,7 +49,7 @@ export function Chat(){
     }, [messages])
 //max-h-[75%]
     return (
-        <div className="min-w-1/4 portrait:w-full bg-[#7A7A7A] break-all h-full flex items-center justify-start flex-col portrait:h-1/4">
+        <div className="max-w-[25%] min-w-1/4 portrait:w-full bg-[#7A7A7A] break-all h-full flex items-center justify-start flex-col portrait:h-1/4">
             <h2 className="p-3 text-2xl">Chat</h2>
             <div className="flex flex-col w-full h-full break-all portrait:flex-row items-center overflow-hidden ">
                 <div id="msgs" className="flex w-full bg-transparent h-4/5 max-h-full overflow-y-scroll">
