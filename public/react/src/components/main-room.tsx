@@ -45,23 +45,18 @@ export function MainRoom (props : any)
         startConnection ();
     }, [getUserData])
 
-    let playingMusic = false;
     function musicPlay ()
     {
-        if(playingMusic) return;
-        
         masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3').then(() => 
         {
-            playingMusic = true;
             masterAudio.loop('mainroomsoundtrack')
             window.removeEventListener("click", musicPlay);
-        });
+        }).catch(() => window.addEventListener("click", musicPlay));
     }
 
     useEffect(()=>
     {
         musicPlay ();
-        if(!playingMusic) window.addEventListener("click", musicPlay);
         
         return ()=>
         {
