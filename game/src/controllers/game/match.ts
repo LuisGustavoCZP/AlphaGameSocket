@@ -248,6 +248,16 @@ class Match
 
         await this.playerMove(player, move)
         
+        const event = this.#map.tile(player.position.toString());
+        if(event && (event.eventID != 1 && event.eventID != 2))
+        { 
+            const result = await this.triggerEvent(player, event.eventID);
+            if(result)
+            {
+                //player.points += 100;
+            }
+        }
+
         await this.nextTurn (player);
     }
 
@@ -263,16 +273,6 @@ class Match
         }
 
         player.send("finish-move", true);
-
-        const event = this.#map.tile(player.position.toString());
-        if(event && (event.eventID != 1 && event.eventID != 2))
-        { 
-            const result = await this.triggerEvent(player, event.eventID);
-            if(result)
-            {
-                //player.points += 100;
-            }
-        }
 
         this.send("next-turn", { turn:this.#turn, round:this.#round });
 

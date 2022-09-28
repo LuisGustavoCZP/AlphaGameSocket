@@ -9,7 +9,7 @@ import { GameEvent } from "./event";
 export class GameEventTrap extends GameEvent
 {
     eventID = 3;
-    timeout = 500*(1/gameSpeed);
+    timeout = 5000*(1/gameSpeed);
 
     public constructor (player : Player, match : Match)
     {
@@ -60,7 +60,7 @@ export class GameEventTrap extends GameEvent
         else this.player.impeachment += 2;
         
         const resp = await super.end(data);
-        if(data.sucess) await waitTime(5000*(1/gameSpeed));
+        //if(data.sucess) await waitTime(5000*(1/gameSpeed));
         return resp;
     }
 
