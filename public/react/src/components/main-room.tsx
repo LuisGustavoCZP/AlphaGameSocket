@@ -45,16 +45,23 @@ export function MainRoom (props : any)
         startConnection ();
     }, [getUserData])
 
-    async function musicPlay ()
+    let playingMusic = false;
+    function musicPlay ()
     {
-        masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3')
-        masterAudio.loop('mainroomsoundtrack')
-        window.removeEventListener("click", musicPlay);
+        if(playingMusic) return;
+        
+        masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3').then(() => 
+        {
+            playingMusic = true;
+            masterAudio.loop('mainroomsoundtrack')
+            window.removeEventListener("click", musicPlay);
+        });
     }
 
     useEffect(()=>
     {
-        window.addEventListener("click", musicPlay);
+        musicPlay ();
+        if(!playingMusic) window.addEventListener("click", musicPlay);
         
         return ()=>
         {
