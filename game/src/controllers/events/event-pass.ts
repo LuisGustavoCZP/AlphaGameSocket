@@ -8,7 +8,7 @@ import { GameEvent } from "./event";
 export class GameEventPass extends GameEvent
 {
     eventID = 1;
-    timeout = 20000*(1/gameSpeed);
+    timeout = 10000*(1/gameSpeed);
     horizontal;
 
     public constructor (player : Player, match : Match, horizontal=true)

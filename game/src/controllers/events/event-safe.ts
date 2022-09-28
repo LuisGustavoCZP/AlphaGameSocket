@@ -8,7 +8,7 @@ import { GameEvent } from "./event";
 export class GameEventSafe extends GameEvent
 {
     eventID = -4;
-    timeout = 10000*(1/gameSpeed);
+    timeout = 8000*(1/gameSpeed);
 
     itemID : number;
     usableItems : Item[];
