@@ -24,10 +24,10 @@ export function EventAsk({questionNumber, finalTime, choose} : IEventAskProps)
                 <p>{question.question} </p>
             </div>
             <ul className="text-black leading-[30px] text-[14px] self-start pl-10 w-full flex flex-col justify-center px-8 items-center">
-                <li className='flex w-full break-words'><input type="button" className={btnAwnserClass} id="resposta1" onClick={()=>{sendAwnser(question.answer1.respostaId)}} value={question.answer1.resposta}/></li>
-                <li className='flex w-full break-words'><input type="button" className={btnAwnserClass} id="resposta2" onClick={()=>{sendAwnser(question.answer2.respostaId)}} value={question.answer2.resposta}/></li>
-                <li className='flex w-full break-words'><input type="button" className={btnAwnserClass} id="resposta3" onClick={()=>{sendAwnser(question.answer3.respostaId)}} value={question.answer3.resposta}/></li>
-                <li className='flex w-full break-words'><input type="button" className={btnAwnserClass} id="resposta4" onClick={()=>{sendAwnser(question.answer4.respostaId)}} value={question.answer4.resposta}/></li>
+                <li className='flex w-full break-all'><input type="button" className={btnAwnserClass} id="resposta1" onClick={()=>{sendAwnser(question.answer1.respostaId)}} value={question.answer1.resposta}/></li>
+                <li className='flex w-full break-all'><input type="button" className={btnAwnserClass} id="resposta2" onClick={()=>{sendAwnser(question.answer2.respostaId)}} value={question.answer2.resposta}/></li>
+                <li className='flex w-full break-all'><input type="button" className={btnAwnserClass} id="resposta3" onClick={()=>{sendAwnser(question.answer3.respostaId)}} value={question.answer3.resposta}/></li>
+                <li className='flex w-full break-all'><input type="button" className={btnAwnserClass} id="resposta4" onClick={()=>{sendAwnser(question.answer4.respostaId)}} value={question.answer4.resposta}/></li>
             </ul>
         </EventModal>
     );
