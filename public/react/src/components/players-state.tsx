@@ -14,11 +14,14 @@ export function PlayersState ({round, turn, players} : IPlayerStateProps)
 {
     const playerTurnClass = 'border-2 border-white ';
     const playerSelfClass = 'text-gray-100 ';
-
+    
+    let prob = 1;
     function renderPlayers ()
     {
+        let thisPlayer = players!.find(player => player.isPlayer)!;
         return players?.map((player, index) => 
         {
+            if(!player.isPlayer && player.points > thisPlayer?.points) prob++;
             const isTurn = turn == index;
             const turnClass = isTurn ? playerTurnClass : '';
             const selfClass = player.isPlayer? playerSelfClass: '';
@@ -43,16 +46,18 @@ export function PlayersState ({round, turn, players} : IPlayerStateProps)
         return <> </>
     }
 
+    const playerRenders = renderPlayers();
+
     return (
         <div>
             <div className="w-full bg-[#343434] flex items-center justify-between p-2">
-                <p className="text-[16px]">Jogadores</p><p className="text-[14px]">Round {round}</p>
+                <p className="text-[16px]">Jogadores</p><p className="text-[14px]">{prob}</p>
             </div>
             <ul className="w-full bg-[#7A7A7A] flex flex-col text-lg gap-1 box-border text-black text-[12px]">
                 <li className="flex justify-between pl-2 pr-3 items-center m-1">
                     <span>Username</span><span>Pontuação</span>
                 </li>
-                {renderPlayers ()}
+                {playerRenders}
             </ul>
         </div>
     )

@@ -11,6 +11,7 @@ export abstract class GameEvent
     match : Match;
     #executed : boolean;
     //sucess : boolean;
+    initTime? : number;
     limitTime? : number;
     items : Item[];
 
@@ -24,12 +25,13 @@ export abstract class GameEvent
 
     protected get data () 
     {
-        return {event:this.eventID, limitTime:this.limitTime!};
+        return {event:this.eventID, limitTime:((this.limitTime!))};
     }
 
     public async start ()
     {
-        this.limitTime = Date.now() + this.timeout*Match.deltaSpeed;
+        this.initTime = Date.now();
+        this.limitTime = this.timeout*Match.deltaSpeed;
 
         let executionSucess = false;
         this.player.on("execute-event", async (option) => 
@@ -40,7 +42,7 @@ export abstract class GameEvent
         });
 
         this.player.send("start-event", this.data);
-        await waitUntil(() => (this.#executed || Date.now() >= this.limitTime!));
+        await waitUntil(() => (this.#executed || Date.now() >= (this.initTime!)+(this.limitTime!)));
         return await this.end({sucess:executionSucess, items:this.items});
     }
     

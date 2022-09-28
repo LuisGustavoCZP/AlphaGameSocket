@@ -1,7 +1,8 @@
 
 import charactersData from "../assets/data/characters.json"
 import { EventModal } from "./event-modal";
-function isTheWinner(result:any){
+function isTheWinner(result:any)
+{
     if(result){
         return <div className="text-black">Vitória !!!</div>
     }
@@ -25,7 +26,7 @@ function renderFinalResult(players:any){
 }
 
 
-export function EndGameModal({result,players}:any){
+export function EndGameModal({result, players}:any){
     return (
     <EventModal title="Final de Jogo" className="h-3/4 w-2/5 min-h-fit min-w-fit">
         {isTheWinner(result)}

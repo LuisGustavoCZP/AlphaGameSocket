@@ -44,16 +44,31 @@ export function MainRoom (props : any)
     {
         startConnection ();
     }, [getUserData])
-    useEffect(()=>{
-        masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3')
-        masterAudio.loop('mainroomsoundtrack')
-        return ()=>{masterAudio.stop('mainroomsoundtrack')}
+
+    function musicPlay ()
+    {
+        masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3').then(() => 
+        {
+            masterAudio.loop('mainroomsoundtrack')
+            window.removeEventListener("click", musicPlay);
+        }).catch(() => window.addEventListener("click", musicPlay));
+    }
+
+    useEffect(()=>
+    {
+        musicPlay ();
+        
+        return ()=>
+        {
+            window.removeEventListener("click", musicPlay);
+            masterAudio.stop('mainroomsoundtrack')
+        }
     },[])
 
     if(!connection) return <></>;
     
     return (
-        <div className="match-room flex items-center m-0 justify-between h-screen">
+        <div className="match-room flex items-center m-0 h-screen portrait:flex-col ">
             <AudioControl/>
             <UserInfo />
             <MatchsView />
