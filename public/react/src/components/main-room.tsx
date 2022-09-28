@@ -44,10 +44,23 @@ export function MainRoom (props : any)
     {
         startConnection ();
     }, [getUserData])
-    useEffect(()=>{
+
+    async function musicPlay ()
+    {
         masterAudio.play('mainroomsoundtrack','./src/assets/sounds/sondtrack03calm.mp3')
         masterAudio.loop('mainroomsoundtrack')
-        return ()=>{masterAudio.stop('mainroomsoundtrack')}
+        window.removeEventListener("click", musicPlay);
+    }
+
+    useEffect(()=>
+    {
+        window.addEventListener("click", musicPlay);
+        
+        return ()=>
+        {
+            window.removeEventListener("click", musicPlay);
+            masterAudio.stop('mainroomsoundtrack')
+        }
     },[])
 
     if(!connection) return <></>;

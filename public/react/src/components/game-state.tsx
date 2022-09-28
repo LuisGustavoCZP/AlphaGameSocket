@@ -29,14 +29,14 @@ export function GameState ({connection} : IGameProps)
     const {getUserData} = useContext(PlayerContext);
     function openModal(eventID : number, finalTime : number, data? : any)
     {
-        if(eventID == -2) setModal(<EventDice finalTime={finalTime} choose={chooseAction} connection={data} />);
-        else if(eventID == -4) setModal(<EventSafe finalTime={finalTime} choose={chooseAction} items={data} />);
-        else if(eventID == -3) setModal(<EventItem finalTime={finalTime} choose={chooseAction} items={data} />);
-        else if(eventID == -1) setModal(<EventTurn finalTime={finalTime} choose={chooseAction} items={data} />);
-        else if(eventID == 0) setModal(<EventAsk finalTime={finalTime} choose={chooseAction} questionNumber={data!} />);
-        else if(eventID == 1) setModal(<EventPass finalTime={finalTime} choose={chooseAction} />);
-        else if(eventID == 2) setModal(<EventPass finalTime={finalTime} choose={chooseAction} />);
-        else if(eventID == 3) setModal(<EventTrap finalTime={finalTime} choose={chooseAction} />);
+        if(eventID == -2) setModal(<EventDice finalTime={Date.now()+finalTime} choose={chooseAction} connection={data} />);
+        else if(eventID == -4) setModal(<EventSafe finalTime={Date.now()+finalTime} choose={chooseAction} items={data} />);
+        else if(eventID == -3) setModal(<EventItem finalTime={Date.now()+finalTime} choose={chooseAction} items={data} />);
+        else if(eventID == -1) setModal(<EventTurn finalTime={Date.now()+finalTime} choose={chooseAction} items={data} />);
+        else if(eventID == 0) setModal(<EventAsk finalTime={Date.now()+finalTime} choose={chooseAction} questionNumber={data!} />);
+        else if(eventID == 1) setModal(<EventPass finalTime={Date.now()+finalTime} choose={chooseAction} />);
+        else if(eventID == 2) setModal(<EventPass finalTime={Date.now()+finalTime} choose={chooseAction} />);
+        else if(eventID == 3) setModal(<EventTrap finalTime={Date.now()+finalTime} choose={chooseAction} />);
     }
     function closeModal()
     {
@@ -122,7 +122,7 @@ export function GameState ({connection} : IGameProps)
                         connection.off("end-event");
                         if(data.items.length > 0)
                         {
-                            openModal(-3, Date.now()+5000, data.items);
+                            openModal(-3, 5000, data.items);
                         }
                     });
                 });
