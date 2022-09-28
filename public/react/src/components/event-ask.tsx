@@ -20,10 +20,10 @@ export function EventAsk({questionNumber, finalTime, choose} : IEventAskProps)
 
     return (// className='h-3/4 w-2/5 max-w-fit min-h-fit min-w-fit'
         <EventModal title='Pergunta' finalTime={finalTime} choose={choose}>
-            <div className="flex justify-between pl-6 pr-6 w-full text-black text-[24px] leading-[30px]">
+            <div className="flex justify-between pl-6 pr-6 w-full text-black text-[24px] leading-[30px] max-w-[90%]">
                 <p>{question.question} </p>
             </div>
-            <ul className="text-black leading-[30px] text-[14px] self-start pl-10 w-full flex flex-col justify-center px-8 items-center">
+            <ul className="text-black leading-[30px] text-[14px] self-start pl-10 w-full flex flex-col justify-center px-8 items-center max-w-[90%]">
                 <li className='flex w-full break-all'><input type="button" className={btnAwnserClass} id="resposta1" onClick={()=>{sendAwnser(question.answer1.respostaId)}} value={question.answer1.resposta}/></li>
                 <li className='flex w-full break-all'><input type="button" className={btnAwnserClass} id="resposta2" onClick={()=>{sendAwnser(question.answer2.respostaId)}} value={question.answer2.resposta}/></li>
                 <li className='flex w-full break-all'><input type="button" className={btnAwnserClass} id="resposta3" onClick={()=>{sendAwnser(question.answer3.respostaId)}} value={question.answer3.resposta}/></li>
