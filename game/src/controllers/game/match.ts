@@ -89,13 +89,12 @@ class Match
         this.endedAt = new Date().toUTCString();
         this.players = this.players.sort((a, b) => b.points - a.points);
         const winner = this.players[0];
-
         const pdata = this.players.map(player => ({username:player.name, score:player.points}));
-        this.players.forEach(player => 
+        this.players.forEach((player, index) => 
         {
-            //Chat.removePlayer(player);
-            this.send("match-result", {
-                result: player.id == winner.id,
+            const win = player.id == winner.id;
+            player.send("match-result", {
+                result: win,
                 players: pdata
             });
         });
