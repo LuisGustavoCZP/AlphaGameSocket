@@ -41,7 +41,7 @@ export function Ranking(){
         generateRanking(setRanking)
     },[])
     
-    return <div className="h-fit">
+    return <div className="h-full max-h-fit overflow-y-auto">
         <div className="w-full bg-[#343434] flex items-center justify-between p-2"><p className="text-[16px]">Ranking</p></div>
             <table className="w-full bg-[#7A7A7A] flex flex-col text-lg gap-[1px] box-border text-black text-[12px] max-h-48">
                 <tr className="flex justify-between pl-2 pr-3 items-center m-1">

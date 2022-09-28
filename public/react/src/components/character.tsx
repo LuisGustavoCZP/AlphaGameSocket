@@ -18,13 +18,13 @@ const icons = [
     person6,
 ];
 
-export function Character ({charID, size, title} : {charID : number, size? : number, title? : string})
+export function Character ({charID, size, title, className} : {charID : number, className?: string, size? : number, title? : string})
 {
     const character = charID >= 0?charactersData[charID] : null;
     const playerImg = character? icons[character.portait] : randomCharacter;
     return (
-    <span className='flex items-center' title={title}>
-        <img className={size?`w-${size} h-${size}`:''} src={playerImg} />
+    <span className={'flex items-center'+(className?` ${className}`:'')} title={title}>
+        <img className={size?`w-${size} h-${size}`:'w-full h-full aspect-square'} src={playerImg} />
     </span>
     );
 }
