@@ -51,7 +51,7 @@ export function GameRoom (props : any)
 
     if(!connected) return (<></>);
     return (
-        <main className="flex justify-between items-center h-screen w-full p-2">
+        <main className="flex justify-between items-center h-screen w-full p-2 portrait:flex-col">
             <AudioControl/>
             <GameState connection={connection}/>
             <GameScreen connection={connection}/>

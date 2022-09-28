@@ -18,8 +18,8 @@ export function EventAsk({questionNumber, finalTime, choose} : IEventAskProps)
         choose(choosenAwnser)
     }
 
-    return (
-        <EventModal title='Pergunta' finalTime={finalTime} choose={choose} className='h-3/4 w-2/5 max-w-fit min-h-fit min-w-fit'>
+    return (// className='h-3/4 w-2/5 max-w-fit min-h-fit min-w-fit'
+        <EventModal title='Pergunta' finalTime={finalTime} choose={choose}>
             <div className="flex justify-between pl-6 pr-6 w-full text-black text-[24px] leading-[30px]">
                 <p>{question.question} </p>
             </div>

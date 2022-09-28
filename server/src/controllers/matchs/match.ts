@@ -9,7 +9,7 @@ export class Match
 {
     id: string;
     name : string;
-    static maxSize = 4;
+    static maxSize = 2;
     players : Player[];
     count : number;
     full : boolean;

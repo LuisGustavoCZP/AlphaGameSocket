@@ -139,8 +139,8 @@ export function GameState ({connection} : IGameProps)
     }, []);
     
     return (
-    <section className="flex flex-col h-full w-full min-w-[200px] max-w-[400px] gap-4">
-        <SpecsUser player={getUserData}/>
+    <section className="flex flex-col h-full min-w-fit portrait:w-full gap-4 portrait:flex-row">
+        <SpecsUser player={getUserData} className="portrait:hidden" inGame={true}/>
         <PlayersState players={players} round={round} turn={turn} />
         <InventoryState items={getItems}/>
         {/* <h1>Voce tirou {diceNumber} no dado</h1> */}

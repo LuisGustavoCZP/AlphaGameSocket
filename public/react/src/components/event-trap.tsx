@@ -28,8 +28,8 @@ export function EventTrap({finalTime, choose} : IEventTrapProps)
         choose(option);
     }
 
-    return (
-        <EventModal title='Oh não!' finalTime={finalTime} choose={choose} className='h-2/6 w-2/4 min-h-fit min-w-fit'>
+    return (// className='h-2/6 w-2/4 min-h-fit min-w-fit'
+        <EventModal title='Oh não!' finalTime={finalTime} choose={choose}>
             <div className="flex justify-between pl-6 pr-6 w-full text-black text-[24px] leading-[60px]">
                 <p>Você caiu numa armadilha! Ficará 2 rodadas sem jogar!!!</p>
             </div>

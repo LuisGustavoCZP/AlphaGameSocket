@@ -80,5 +80,5 @@ export function GameScreen ({connection} : IGameProps)
         
     }, []);
 
-    return (<canvas id="canvas-screen" className="flex bg-black flex-grow aspect-square max-h-screen" width={528} height={528}></canvas>);
+    return (<canvas id="canvas-screen" className="flex bg-black flex-grow aspect-square portrait:h-[90%] landscape:w-[90%] portrait:max-w-full landscape:max-h-full" width={528} height={528}></canvas>);
 }

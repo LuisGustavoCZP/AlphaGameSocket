@@ -27,8 +27,8 @@ function renderFinalResult(players:any){
 
 
 export function EndGameModal({result, players}:any){
-    return (
-    <EventModal title="Final de Jogo" className="h-3/4 w-2/5 min-h-fit min-w-fit">
+    return (// className="h-3/4 w-2/5 min-h-fit min-w-fit"
+    <EventModal title="Final de Jogo">
         {isTheWinner(result)}
         <div>
             <div className="w-full bg-[#343434] flex items-center justify-between p-2">

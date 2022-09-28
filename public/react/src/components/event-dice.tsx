@@ -49,9 +49,9 @@ export function EventDice({connection, finalTime, choose} : IEventDiceProps)
 
     }, [])
 
-    return (
-        <EventModal title='Jogando dado' className='h-80 w-80 min-h-fit min-w-fit'>
-            <div className='flex flex-grow justify-center items-center'>
+    return (//className='h-80 w-80 min-h-fit min-w-fit'
+        <EventModal title='Jogando dado'>
+            <div className='flex flex-grow justify-center items-center pb-6'>
                 <DiceRoll diceNumber={diceNumber}></DiceRoll>
             </div>
         </EventModal>
