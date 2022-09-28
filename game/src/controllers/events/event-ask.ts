@@ -9,7 +9,7 @@ import { GameEvent } from "./event";
 export class GameEventAsk extends GameEvent
 {
     eventID = 0;
-    timeout = 25000*(1/gameSpeed);
+    timeout = 50000*(1/gameSpeed);
     askID : number;
     
     public constructor (player : Player, match : Match)

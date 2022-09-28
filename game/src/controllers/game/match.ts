@@ -23,7 +23,7 @@ class Match
     #onend? : (match : Match) => void;
     #chat : Chat;
 
-    static victoryPoints = 2000;
+    static victoryPoints = 1200;
     static get deltaSpeed () { return 1/gameSpeed; }
 
     constructor (matchData : IMatch, baseMap : BaseMap)
