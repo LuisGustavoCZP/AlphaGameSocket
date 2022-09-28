@@ -30,7 +30,7 @@ class Player
         this.points = 0;
         this.#connection = null as any;
         this.#items = new Map<number, Item>();
-        this.#items.set(0, {id:0, quanty:1});
+        //this.#items.set(0, {id:0, quanty:1});
         this.protection = 0;
         this.impeachment = 0;
     }
