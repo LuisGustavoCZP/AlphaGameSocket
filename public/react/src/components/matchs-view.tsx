@@ -53,7 +53,7 @@ export function MatchsView()
     }, [connection]);
 
     return (
-        <div className='w-2/3 h-full flex flex-col justify-between'>
+        <div className='w-full h-full flex flex-col flex-grow content-start place-self-start'>
             <span className='flex w-full bg-[#3E3E3E] p-2 justify-between items-center'>
                 <h2 className='px-4 text-[24px]'>Partidas Criadas</h2>
                 <button className='self-end justify-self-end text-[14px]' onClick={()=>{createRoom()}}>Criar sala</button>

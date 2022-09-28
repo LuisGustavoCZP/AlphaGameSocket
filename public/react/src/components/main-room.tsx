@@ -68,7 +68,7 @@ export function MainRoom (props : any)
     if(!connection) return <></>;
     
     return (
-        <div className="match-room flex items-center m-0 justify-between h-screen">
+        <div className="match-room flex items-center m-0 h-screen portrait:flex-col ">
             <AudioControl/>
             <UserInfo />
             <MatchsView />
