@@ -1,0 +1,40 @@
+{
+  "name": "gameserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/ioredis": "^4.28.10",
+    "@types/node": "^18.7.6",
+    "@types/pg": "^8.6.5",
+    "@types/uuid": "^8.3.4",
+    "@types/ws": "^8.5.3",
+    "concurrently": "^7.3.0",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "ioredis": "^5.2.2",
+    "node": "^16.17.0",
+    "pg": "^8.7.3",
+    "uuid": "^8.3.2",
+    "ws": "^8.8.1"
+  }
+}
