@@ -4,7 +4,6 @@ import {env} from "process";
 dotenv.config();
 
 export const {
-	PORT,
 	NODE_ENV="production",
 	DB_HOST="localhost",
 	DB_PORT="5432",

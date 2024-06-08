@@ -1,14 +1,13 @@
 import {CorsOptions} from 'cors';
 import {database} from "./database";
 import {
-    PORT,
     REDIS_AUTH,
     GAME_HOST,
     JWT_SECRET,
     BODY_LIMIT,
 } from "./envs";
 
-const port = parseInt(PORT || "8080");
+const port = 8080;
 
 const redis = REDIS_AUTH;
 const serverUrl = GAME_HOST;
@@ -31,7 +30,7 @@ const validatorConfig = {
 };
 
 const corsOptions : CorsOptions = {
-    origin: () => true, //["http://localhost:8000", "http://localhost:5173", "http://127.0.0.1:8000", "http://127.0.0.1:5173", "http://192.168.0.113:8000", "https://207.246.123.33", "https://localhost"],
+    origin: ["http://localhost:8000", "http://localhost:5173", "https://localhost"],
     credentials:true,
 }
 

@@ -15,6 +15,9 @@ services:
   redis:
     container_name: redis
     image: redis
+    volumes:
+      # - redis-data:/data
+      - ./redis/data:/data
     networks:
       - main
     ports:
@@ -34,7 +37,8 @@ services:
       - PGDATA=/data/postgres
     volumes: 
       - ./sql/constructor.sql:/docker-entrypoint-initdb.d/constructor.sql
-      - db:/var/lib/postgresql/data
+      #- db:/var/lib/postgresql/data
+      - ./postgres/data:/data/postgres
     ports:
       - "${DB_PORT}:5432"
     networks:
@@ -42,43 +46,43 @@ services:
     restart: unless-stopped
 
   api-server:
-    env_file:
-      - .env
-    environment:
-      - PORT=8080
-      - GAME_HOST=http://game-server/game
     build:
       context: ./api-server
       dockerfile: Dockerfile
-    ports:
-        - "${LOGIN_PORT}:8080"
-    networks:
-        - main
-    depends_on:
-      - redis
-      - postgres
-      - game-server
-    deploy:
-      replicas: 1
-
-  game-server:
     env_file:
       - .env
     environment:
-      - PORT=5000
-      - LOGIN_HOST=http://api-server/api
+      - GAME_HOST=/game
+    ports:
+      - 8080
+    networks:
+      main:
+        aliases:
+          - api-server
+    depends_on:
+      - redis
+      - postgres
+    # deploy:
+    #   replicas: 4
+
+  game-server:
+    container_name: game-server
+    env_file:
+      - .env
+    environment:
+      - LOGIN_HOST=/api
     build:
       context: ./game-server
       dockerfile: Dockerfile
     ports:
-        - "${GAME_PORT}:5000"
+      - "${GAME_PORT}:5000"
     depends_on:
       - redis
       - postgres
     networks:
       - main
-    deploy:
-      replicas: 1
+    # deploy:
+    #   replicas: 1
 
   nginx:
     container_name: webserver
@@ -89,8 +93,12 @@ services:
     depends_on:
       - game-server
       - api-server
+    links:
+      - game-server:game-server
+      - api-server:api-server
     ports:
       - 443:443
+      - 80:80
     networks:
       - main
     volumes:
@@ -103,6 +111,10 @@ networks:
   main:
     driver: bridge
 
-volumes:
-  db:
-    driver: local
+# volumes:
+#   redis-data:
+#     driver: local
+
+#volumes:
+#  db:
+#    driver: local

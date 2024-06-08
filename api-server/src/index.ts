@@ -6,18 +6,22 @@ import router from './routes';
 import { Server } from './server';
 import { connectionManager, /* gameManager */ } from './connections';
 
-const app = express();
 
-app.use(express.urlencoded({ limit: bodyLimit, extended: true }));
-app.use(express.json({limit: bodyLimit}));
+const server = new Server(({server, app}) =>
+{
+    app.use(express.urlencoded({ limit: bodyLimit, extended: true }));
+    app.use(express.json({limit: bodyLimit}));
 
-app.use(cookieParser());
+    app.use(cookieParser());
 
-app.use(cors(corsOptions));
+    app.use(cors(corsOptions));
 
-app.use("/api", router);
-
-const server = new Server(app);
+    app.get("/", (req, res) => {
+        console.log("Requisição veio para", req.url);
+        res.status(200).send("Online");
+    })
+    app.use("/api", router);
+});
 /* gameManager.start(); */
 connectionManager.start(server);
 

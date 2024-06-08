@@ -127,3 +127,6 @@ dist
 .pnp.*
 
 public/
+postgres/
+redis/
+build/

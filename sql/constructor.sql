@@ -1,7 +1,7 @@
-CREATE DATABASE "alphagamesocket";
-\c "alphagamesocket"
+/* CREATE DATABASE "alphagamesocket";
+\c "alphagamesocket" */
 
-CREATE TABLE public.users (
+CREATE TABLE users (
 	"id" varchar(36) NOT NULL UNIQUE,
 	"username" varchar(255) NOT NULL UNIQUE,
 	"password" varchar(255) NOT NULL,
@@ -13,26 +13,21 @@ CREATE TABLE public.users (
 	"updated_at" TIMESTAMP,
 	"logged_at" TIMESTAMP,
 	CONSTRAINT "users_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
 );
+CREATE UNIQUE INDEX users_email_index ON "users"("email");
 
 
-
-CREATE TABLE public.matchs (
+CREATE TABLE matchs (
 	"id" varchar(36) NOT NULL UNIQUE,
 	"winner" varchar(36) NOT NULL,
 	"started_at" varchar(255) NOT NULL,
 	"finished_at" varchar(255) NOT NULL,
 	"created_at" TIMESTAMP NOT NULL,
 	CONSTRAINT "matchs_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
 );
 
 
-
-CREATE TABLE public.match_users (
+CREATE TABLE match_users (
 	"match_id" varchar(36) NOT NULL,
 	"user_id" varchar(36) NOT NULL,
 	"character" integer NOT NULL,
@@ -40,24 +35,19 @@ CREATE TABLE public.match_users (
 	"state" varchar(255),
 	"created_at" TIMESTAMP NOT NULL,
 	CONSTRAINT "match_users_pk" PRIMARY KEY ("match_id","user_id")
-) WITH (
-  OIDS=FALSE
 );
+CREATE UNIQUE INDEX match_users_index ON "match_users"("user_id");
 
 
-
-CREATE TABLE public.ranking (
+CREATE TABLE ranking (
 	"id" serial NOT NULL,
 	"user_id" varchar(36),
 	"score" real NOT NULL,
 	"created_at" TIMESTAMP NOT NULL,
 	"updated_at" TIMESTAMP,
 	CONSTRAINT "ranking_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
 );
-
-
+CREATE UNIQUE INDEX ranking_user_index ON "ranking"("user_id");
 
 
 ALTER TABLE "matchs" ADD CONSTRAINT "matchs_fk0" FOREIGN KEY ("winner") REFERENCES "users"("id");

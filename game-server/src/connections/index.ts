@@ -30,7 +30,8 @@ export class Connection
         this.#events = new Map<string, SocketEvent>();
         /* this.send("connected", this.id); */
         this.#socket.on("message", (resp : string) => this.message(resp));
-
+        this.#socket.on("ping", (resp : string) =>  setTimeout(() => this.#socket.pong(), 100));
+        this.#socket.on("pong", (resp : string) => setTimeout(() => this.#socket.ping(), 100));
         this.on("player-init", async (id) => 
         {
             if(!id)

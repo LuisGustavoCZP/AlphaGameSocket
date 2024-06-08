@@ -1,11 +1,12 @@
 import { Server } from "../server";
 import { v4 as uuid } from "uuid";
-import { WebSocket, WebSocketServer } from "ws";
+import { ServerOptions, WebSocket, WebSocketServer } from "ws";
 import { port } from "../configs";
 import { SocketEvent, SocketMessage } from "./models";
 import { matchController } from "../controllers";
 import { match } from "assert";
 import postgres from "../clients/postgres";
+import { SocketOptions } from "dgram";
 
 export enum ConnectionStatus
 {
@@ -119,7 +120,7 @@ export class Connections
 
     public start (server? : Server)
     {
-        const options = server ? {server:server.instance} : {port:port+10};
+        const options : any = server ? {server:server.instance, path: "/api"} : {port:port+10};
         this.instance = new WebSocketServer(options);
         this.instance.on('connection', (wsocket)  => 
         {
