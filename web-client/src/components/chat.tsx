@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { PlayerContext } from "../contexts";
+import { Box, Button, TextField } from "@mui/material";
 
 
 export function Chat(){
@@ -57,10 +58,33 @@ export function Chat(){
                         {messages}
                     </ul>
                 </div>
-                <div className="flex flex-col h-fit w-11/12 bg-[#3E3E3E] p-2 mx-4 my-2 text-white portrait:flex-col-reverse">
-                    <textarea onKeyDown={keyPressHandler} onChange={(e)=>setMsg(e.target.value||'')} className="resize-none outline-none h-2/3 w-full bg-[#3E3E3E] placeholder:text-white" name="chat-textarea" id="chat-textarea" cols={30} rows={4} placeholder="Escreva sua mensagem..." value={msg}></textarea>
-                    <button onClick={sendMessage} className="w-full text-base p-1">Enviar</button>
-                </div>
+                <Box 
+                    /* className="flex flex-col h-fit w-11/12 bg-[#3E3E3E] p-2 mx-4 my-2 text-white portrait:flex-col-reverse" */
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "5px",
+                        minWidth: "400px",
+                        padding: "1rem",
+                    }}
+                >
+                    <TextField
+                        color="primary"
+                        variant="filled"
+                        multiline
+                        onKeyDown={keyPressHandler}
+                        onChange={(e)=>setMsg(e.target.value||'')}
+                        name="chat-textarea"
+                        id="chat-textarea"
+                        rows={4}
+                        placeholder="Escreva sua mensagem..."
+                        value={msg}
+                        sx={{
+                            background: "white",
+                        }}
+                    />
+                    <Button variant="contained" onClick={sendMessage} sx={{width: "100%"}}>Enviar</Button>
+                </Box>
             </div>
         </div>
     )

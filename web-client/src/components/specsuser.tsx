@@ -1,9 +1,11 @@
+import { Fragment, useState } from "react";
+import { Avatar, Box, Button, Typography } from "@mui/material";
+
 import { IPlayerData } from "../game/player";
 import { PlayerData } from "../models";
 import { logOut } from "../utils/logout";
 import configs from "../utils/config";
 import { TutorialModal } from "./tutorial-modal";
-import { useState } from "react";
 
 export interface IPlayerStateProps 
 {
@@ -23,16 +25,23 @@ export function SpecsUser({player, inGame, className}:IPlayerStateProps )
     }
     return(
         <div className={"flex items-center px-3 py-1 w-full justify-between"+(className?` ${className}`:'')}>
-            <div className="rounded-full bg-[#D9D9D9] w-[50px] h-[50px]">
-            </div>
-            <div>
-                <h3 className="pl-3 text-[18px]">{player.username}</h3>
-                <span className="pl-3 text-[12px]">{player.score} P</span>
-            </div>
-            {!inGame?<div className="flex flex-col justify-between gap-1 w-fit ml-3">
-                <button className="flex text-[12px] w-full p-1" onClick={()=>{openTutorial()}}>Tutorial</button>
-                <button className="flex text-[12px] w-full p-1" onClick={()=>{logOut(configs.server)}}>LogOut</button>
-            </div>:<></>}
+            <Avatar></Avatar>
+            <Box>
+                <Typography component="h3" fontSize={"1.2rem"}>{player.username}</Typography>
+                <Typography fontSize={".6rem"}>{player.score} P</Typography>
+            </Box>
+            {!inGame? (
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "5px",
+                    }}
+                >
+                    <Button variant="contained" sx={{fontSize: ".6rem", width: "100%"}} onClick={()=>{openTutorial()}}>Tutorial</Button>
+                    <Button variant="outlined" sx={{fontSize: ".6rem", width: "100%"}} onClick={()=>{logOut(configs.server)}}>LogOut</Button>
+                </Box>
+            ) :null}
             {tutorial}
         </div>
     )

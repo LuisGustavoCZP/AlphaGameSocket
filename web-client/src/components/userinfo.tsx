@@ -1,4 +1,12 @@
-import React, { createContext, Dispatch, ReactElement, useContext, useEffect, useState } from "react";
+import React, { 
+    createContext,
+    Dispatch,
+    ReactElement,
+    useContext,
+    useEffect,
+    useState
+} from "react";
+
 import { SpecsUser } from "./specsuser"
 import { Ranking } from "./ranking";
 import { MatchHistoric } from "./match-historic";
