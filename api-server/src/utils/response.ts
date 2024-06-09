@@ -31,6 +31,16 @@ class ResponseHandler{
     res.cookie(cookie.name, cookie.value, cookieOptions);
     return this;
   }
+
+  public clearCookie(res:Response, cookieName:string)
+  {
+    //const options = Object.assign({ maxAge: Number(cookie.expire)*1000 }, )
+    //console.log(options);
+    res.clearCookie(cookieName, cookieOptions);
+    //res.cookie(cookieName, cookie.value, cookieOptions);
+    return this;
+  }
+
 }
 
 export default ResponseHandler;

@@ -15,6 +15,7 @@ CREATE TABLE users (
 	CONSTRAINT "users_pk" PRIMARY KEY ("id")
 );
 CREATE UNIQUE INDEX users_email_index ON "users"("email");
+CREATE UNIQUE INDEX users_username_index ON "users"("username");
 
 
 CREATE TABLE matchs (

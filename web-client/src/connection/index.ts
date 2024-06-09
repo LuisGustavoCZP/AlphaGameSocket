@@ -14,6 +14,12 @@ export class Connection
         this.instance.onmessage = (resp) => this.message(resp);
         this.instance.onopen = () => {this.#onEventOpen();};
         this.instance.onclose = () => {this.#onEventClose();};
+
+        setInterval(() => {
+            if (this.instance.readyState === WebSocket.OPEN) {
+                this.instance.send(JSON.stringify({ type: 'ping' }));
+            }
+        }, 30000);
     }
     
     #onEventOpen () 
